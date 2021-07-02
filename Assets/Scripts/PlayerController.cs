@@ -4,16 +4,26 @@ using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerController : MonoBehaviour
-{    
+{
+    private const float speedToForceConvertShift = 0.5f;
+
     private Rigidbody playerRigidbody;
     private Quaternion targetRotation;
     private Transform cameraTransform;
+    private float playerForce;
     [SerializeField] float playerSpeed;
+    [SerializeField] float rotationSpeed;
+
+    public float PlayerSpeed => playerSpeed;
+    public Vector3 CurrentVelocity => playerRigidbody.velocity;   
 
     private void Awake()
     {
         playerRigidbody = GetComponent<Rigidbody>();
         cameraTransform = Camera.main.transform;
+        
+        // Конвертируем скорость в силу
+        playerForce = (playerSpeed + speedToForceConvertShift) * playerRigidbody.mass * playerRigidbody.drag;
     }
 
     /// <summary>
@@ -22,7 +32,7 @@ public class PlayerController : MonoBehaviour
     /// <param name="movementVector">Целевое направление движения</param>
     public void MovePlayer(Vector3 movementVector)
     {
-        playerRigidbody.AddForce(movementVector * playerSpeed / Time.deltaTime);
+        playerRigidbody.AddForce(movementVector.normalized * playerForce);
     }
 
     /// <summary>
@@ -44,7 +54,7 @@ public class PlayerController : MonoBehaviour
             //targetPointDisplay.position = targetPoint; //курсор в игре
 
             targetRotation = Quaternion.LookRotation(targetPoint - transform.position);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 7f * Time.deltaTime);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.fixedDeltaTime);
         }
     }
 
@@ -72,5 +82,36 @@ public class PlayerController : MonoBehaviour
         float forwardValue = localMove.z;
 
         return new Vector2(turnValue, forwardValue);
+    }
+
+    /// <summary>
+    /// Получить текущее направление поворота: вправо или влево
+    /// </summary>
+    /// <returns>1 - поворот по часовой стрелке, -1 - против, 0 - персонаж не вращается</returns>
+    public int GetTurnDirection()
+    {
+        const float minRotationDifferenceForTurn = 1;
+
+        // Зная текущее значение поворота персонажа и целевое, определяем, в каком направлении он будет поворачиваться
+        float angle1 = transform.rotation.eulerAngles.y;
+        float angle2 = targetRotation.eulerAngles.y;
+        float difference = angle2 - angle1;
+
+        float differenceAbs = Mathf.Abs(difference);
+        // Не будем обрабатывать поворот, если разница между углами очень мала.
+        if (differenceAbs <= minRotationDifferenceForTurn)
+        {
+            return 0;
+        }
+
+        // Если разница положительная, значит целевой поворот больше текущего, и мы поворачиваемся по часовой стрелке,
+        // в противном случае - против часовой.
+        // Однако, если разница между углами больше 180, то нужна корректировка 
+        if (differenceAbs > 180)
+        {
+            difference += difference > 0 ? -360 : 360;
+        }
+
+        return difference > 0 ? 1 : -1;
     }
 }
