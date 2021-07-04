@@ -6,44 +6,44 @@ using System;
 /// <summary>
 /// Контроллер для управления уровнем видимости всех объектов на сцене, способных менять свою прозрачность
 /// </summary>
-public class ObjectsVisibilityController : MonoBehaviour
+public class OpacityController : MonoBehaviour
 {
     /// <summary>
     /// Минимальный уровень видимости объектов
     /// </summary>    
-    private const float MinVisibilityValue = 0;
+    private const float MinOpacityValue = 0;
     /// <summary>
     /// Максимальный уровень видимости объектов
     /// </summary>
-    private const float MaxVisibilityValue = 100;
+    private const float MaxOpacityValue = 100;
     /// <summary>
     /// Шаг изменения прозрачности
     /// </summary>
-    private const float VisibilityChangeStep = 0.5f;
+    private const float OpacityChangeStep = 0.5f;
 
     [Tooltip("Объект, указывающий направление увеличения уровня видимости")]
     [SerializeField]
-    private Transform visibilityIncreaseDirectionTransform = null;
+    private Transform opacityIncreaseDirectionTransform = null;
     [Tooltip("Объект-инициатор изменения уровня видимости")]
     [SerializeField]
-    private Transform visibilityChangeInitiator = null;   
+    private Transform opacityChangeInitiator = null;   
     [Tooltip("Скорость изменения видимости объектов (в процентах на метр движения)")]
     [SerializeField]
-    private float visibilityChangeSpeed = 10;
+    private float opacityChangeSpeed = 10;
 
     /// <summary>
     /// Объекты игры, способные менять уровень своей видимости
     /// </summary>
-    private VisibilityChangingObject[] transparencyChangingObjects = null;
+    private OpacityChangingObject[] opacityChangingObjects = null;
     /// <summary>
     /// Текущий уровень видимости
     /// </summary>
-    private float currentVisibilityValue = MaxVisibilityValue;
+    private float currentOpacityValue = MaxOpacityValue;
 
     /// <summary>
     /// Вектор увеличения уровня видимости
     /// </summary>
-    private Vector3 visibilityIncreaseVector = Vector3.zero;
+    private Vector3 opacityIncreaseVector = Vector3.zero;
     /// <summary>
     /// Текущая позиция объекта-инициатора вдоль вектора увеличения уровня прозрачности
     /// </summary>
@@ -56,10 +56,10 @@ public class ObjectsVisibilityController : MonoBehaviour
 
     private void Awake()
     {
-        transparencyChangingObjects = FindObjectsOfType<VisibilityChangingObject>();
-        visibilityIncreaseVector = visibilityIncreaseDirectionTransform.forward;
+        opacityChangingObjects = FindObjectsOfType<OpacityChangingObject>();
+        opacityIncreaseVector = opacityIncreaseDirectionTransform.forward;
         // Выключаем объект, указывающий вектор увеличения видимости объектов, т.к. в игре он не нужен
-        visibilityIncreaseDirectionTransform.gameObject.SetActive(false);
+        opacityIncreaseDirectionTransform.gameObject.SetActive(false);
     }
 
     private void Start()
@@ -74,25 +74,25 @@ public class ObjectsVisibilityController : MonoBehaviour
         accumulatedPositionDifference += positionDifference;
 
         // При возрастании координаты, прозрачность увеличивается, и наоборот.
-        float newOpacityValue = currentVisibilityValue + accumulatedPositionDifference * visibilityChangeSpeed;
+        float newOpacityValue = currentOpacityValue + accumulatedPositionDifference * opacityChangeSpeed;
 
         // Корректируем, если вышли за допустимые пределы прозрачности.
         // Также в этом случае сбрасываем накопленную разницу координат, чтобы при движении в другом направлении
         // сразу начать менять прозрачность
-        if (newOpacityValue > MaxVisibilityValue)
+        if (newOpacityValue > MaxOpacityValue)
         {
-            newOpacityValue = MaxVisibilityValue;
+            newOpacityValue = MaxOpacityValue;
             accumulatedPositionDifference = 0;
         }
-        else if (newOpacityValue < MinVisibilityValue)
+        else if (newOpacityValue < MinOpacityValue)
         {
-            newOpacityValue = MinVisibilityValue;
+            newOpacityValue = MinOpacityValue;
             accumulatedPositionDifference = 0;
         }
 
-        if (Mathf.Abs(currentVisibilityValue - newOpacityValue) >= VisibilityChangeStep)
+        if (Mathf.Abs(currentOpacityValue - newOpacityValue) >= OpacityChangeStep)
         {
-            currentVisibilityValue = Mathf.Round(newOpacityValue / VisibilityChangeStep) * VisibilityChangeStep;
+            currentOpacityValue = Mathf.Round(newOpacityValue / OpacityChangeStep) * OpacityChangeStep;
             RefreshVisibilityValueForObjects();
             // Сбрасываем накопленную разницу координат, чтобы начать копить по-новой до следующего шага изменения
             accumulatedPositionDifference = 0;
@@ -106,9 +106,9 @@ public class ObjectsVisibilityController : MonoBehaviour
     /// </summary>
     private void RefreshVisibilityValueForObjects()
     {
-        foreach (var item in transparencyChangingObjects)
+        foreach (var item in opacityChangingObjects)
         {
-            item.SetVisibilityValue(currentVisibilityValue);
+            item.SetOpacityValue(currentOpacityValue);
         }
     }
 
@@ -118,6 +118,6 @@ public class ObjectsVisibilityController : MonoBehaviour
     /// <returns></returns>
     private float GetCurrentPositionAlongIncreaseVector()
     {
-        return Vector3.Dot(visibilityChangeInitiator.transform.position, visibilityIncreaseVector);
+        return Vector3.Dot(opacityChangeInitiator.transform.position, opacityIncreaseVector);
     }
 }
