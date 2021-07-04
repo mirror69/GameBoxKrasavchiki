@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8780580470206802208}
   - component: {fileID: 8780580470206802223}
+  - component: {fileID: 5186452680844502073}
   - component: {fileID: 8780580470206802222}
   - component: {fileID: 8780580470206802209}
   - component: {fileID: 8780580470206802220}
@@ -47,11 +48,25 @@ Rigidbody:
   m_Mass: 80
   m_Drag: 6
   m_AngularDrag: 100
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 84
   m_CollisionDetection: 0
+--- !u!136 &5186452680844502073
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8780580470206802211}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.4
+  m_Height: 1.8
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.9, z: 0}
 --- !u!114 &8780580470206802222
 MonoBehaviour:
   m_ObjectHideFlags: 0
