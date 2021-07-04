@@ -5,7 +5,7 @@ using UnityEngine;
 /// <summary>
 /// Объект, способный менять свою прозрачность
 /// </summary>
-public class VisibilityChangingObject : MonoBehaviour
+public class OpacityChangingObject : MonoBehaviour
 {
     /// <summary>
     /// Коллайдеры для включения/отключения в зависимости от уровня видимости
@@ -24,9 +24,9 @@ public class VisibilityChangingObject : MonoBehaviour
     /// Установить уровень видимости объекта
     /// </summary>
     /// <param name="valueInPercents">Уровень видимости в процентах</param>
-    public void SetVisibilityValue(float visibilityValueInPercents)
+    public void SetOpacityValue(float opacityValueInPercents)
     {
-        float alphaValue = visibilityValueInPercents / 100;
+        float alphaValue = opacityValueInPercents / 100;
         foreach (var meshRenderer in meshRenderers)
         {
             foreach (var material in meshRenderer.materials)

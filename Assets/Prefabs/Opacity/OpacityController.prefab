@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3751860918532827660}
   - component: {fileID: 3751860918532827661}
   m_Layer: 0
-  m_Name: VisibilityController
+  m_Name: OpacityController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -44,9 +44,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c0998b33105e5e4ba6167ca9354f845, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  visibilityIncreaseDirectionTransform: {fileID: 3751860919903368988}
-  visibilityChangeInitiator: {fileID: 0}
-  visibilityChangeSpeed: 50
+  opacityIncreaseDirectionTransform: {fileID: 3751860919903368988}
+  opacityChangeInitiator: {fileID: 0}
+  opacityChangeSpeed: 10
 --- !u!1 &3751860919903368989
 GameObject:
   m_ObjectHideFlags: 0
@@ -57,7 +57,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3751860919903368988}
   m_Layer: 0
-  m_Name: TransparencyIncreaseDirection
+  m_Name: OpacityIncreaseDirection
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
