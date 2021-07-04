@@ -24,12 +24,24 @@ public class OpacityController : MonoBehaviour
     [Tooltip("Объект, указывающий направление увеличения уровня видимости")]
     [SerializeField]
     private Transform opacityIncreaseDirectionTransform = null;
+    
     [Tooltip("Объект-инициатор изменения уровня видимости")]
     [SerializeField]
     private Transform opacityChangeInitiator = null;   
+    
     [Tooltip("Скорость изменения видимости объектов (в процентах на метр движения)")]
+    [SerializeField]  
+    private float opacityChangeSpeed = 20;
+    
+    [Tooltip("Значение видимости, при которой объект появляется полностью")]
+    [SerializeField]    
+    [Range(MinOpacityValue, MaxOpacityValue)]
+    private float opacityValueForFullFadeIn = 70;
+    
+    [Tooltip("Значение видимости, при которой объект полностью исчезает")]
     [SerializeField]
-    private float opacityChangeSpeed = 10;
+    [Range(MinOpacityValue, MaxOpacityValue)]
+    private float opacityValueForFullFadeOut = 20;
 
     /// <summary>
     /// Объекты игры, способные менять уровень своей видимости
@@ -38,7 +50,7 @@ public class OpacityController : MonoBehaviour
     /// <summary>
     /// Текущий уровень видимости
     /// </summary>
-    private float currentOpacityValue = MaxOpacityValue;
+    private float currentOpacityValue = 0;
 
     /// <summary>
     /// Вектор увеличения уровня видимости
@@ -49,10 +61,13 @@ public class OpacityController : MonoBehaviour
     /// </summary>
     private float currentPositionAlongIncreaseVector = 0;
     /// <summary>
-    /// Накопленное значение разницы текущей позиции объекта-инициатора и прошлой позиции, при которой 
-    /// уровень видимости был изменен в последний раз
+    /// Последнее применнённое значение видимости для объектов
     /// </summary>
-    private float accumulatedPositionDifference = 0;
+    private float lastAppliedOpacityValue = 0;
+    /// <summary>
+    /// Скорость изменения прозрачности, не зависящая от значений opacityValueForFullFadeIn и opacityValueForFullFadeOut
+    /// </summary>
+    private float opacityFullFadeChangeSpeed = 0;
 
     private void Awake()
     {
@@ -60,44 +75,63 @@ public class OpacityController : MonoBehaviour
         opacityIncreaseVector = opacityIncreaseDirectionTransform.forward;
         // Выключаем объект, указывающий вектор увеличения видимости объектов, т.к. в игре он не нужен
         opacityIncreaseDirectionTransform.gameObject.SetActive(false);
-    }
 
-    private void Start()
-    {
         currentPositionAlongIncreaseVector = GetCurrentPositionAlongIncreaseVector();
+        currentOpacityValue = MaxOpacityValue;
+        lastAppliedOpacityValue = currentOpacityValue;
     }
 
     private void Update()
     {
+        // Преобразуем скорость изменения видимости так, чтобы она не зависела от значений opacityValueForFullFadeIn
+        // и opacityValueForFullFadeOut
+        // Рассчитывается здесь, чтобы можно было регулировать параметры в PlayMode
+        // TODO. Когда будет отлажено, перенести в Awake
+        opacityFullFadeChangeSpeed = opacityChangeSpeed *
+            (opacityValueForFullFadeIn - opacityValueForFullFadeOut) / (MaxOpacityValue - MinOpacityValue);
+
         float newPositionAlongIncreaseVector = GetCurrentPositionAlongIncreaseVector();
         float positionDifference = newPositionAlongIncreaseVector - currentPositionAlongIncreaseVector;
-        accumulatedPositionDifference += positionDifference;
 
         // При возрастании координаты, прозрачность увеличивается, и наоборот.
-        float newOpacityValue = currentOpacityValue + accumulatedPositionDifference * opacityChangeSpeed;
+        float newOpacityValue = currentOpacityValue + positionDifference * opacityFullFadeChangeSpeed;
 
-        // Корректируем, если вышли за допустимые пределы прозрачности.
-        // Также в этом случае сбрасываем накопленную разницу координат, чтобы при движении в другом направлении
-        // сразу начать менять прозрачность
-        if (newOpacityValue > MaxOpacityValue)
+        // Уровень видимости будет меняться в интервале [opacityValueForFullFadeIn, opacityValueForFullFadeOut]
+        // При достижении границ интервала будем устанавливать полную видимость или полную невидимость 
+        // Если начинаем движение в противоположном направлении, сразу начинаем менять прозрачность в этом интервале
+        if (newOpacityValue > currentOpacityValue)
         {
-            newOpacityValue = MaxOpacityValue;
-            accumulatedPositionDifference = 0;
+            if (newOpacityValue < opacityValueForFullFadeOut)
+            {
+                newOpacityValue = opacityValueForFullFadeOut;
+            }
+            else if (newOpacityValue  > opacityValueForFullFadeIn)
+            {
+                newOpacityValue = MaxOpacityValue;
+            }
         }
-        else if (newOpacityValue < MinOpacityValue)
+        else if (newOpacityValue < currentOpacityValue)
         {
-            newOpacityValue = MinOpacityValue;
-            accumulatedPositionDifference = 0;
+            if (newOpacityValue > opacityValueForFullFadeIn)
+            {
+                newOpacityValue = opacityValueForFullFadeIn;
+            }
+            else if (newOpacityValue < opacityValueForFullFadeOut)
+            {
+                newOpacityValue = MinOpacityValue;
+            }
         }
 
-        if (Mathf.Abs(currentOpacityValue - newOpacityValue) >= OpacityChangeStep)
+        currentOpacityValue = newOpacityValue; 
+
+        float roundedOpacityValue = Mathf.Round(currentOpacityValue / OpacityChangeStep) * OpacityChangeStep;
+        if (Mathf.Abs(lastAppliedOpacityValue - roundedOpacityValue) > 0)
         {
-            currentOpacityValue = Mathf.Round(newOpacityValue / OpacityChangeStep) * OpacityChangeStep;
+            currentOpacityValue = roundedOpacityValue;          
             RefreshVisibilityValueForObjects();
-            // Сбрасываем накопленную разницу координат, чтобы начать копить по-новой до следующего шага изменения
-            accumulatedPositionDifference = 0;
+            lastAppliedOpacityValue = currentOpacityValue;
         }
-
+        
         currentPositionAlongIncreaseVector = newPositionAlongIncreaseVector;
     }
 
