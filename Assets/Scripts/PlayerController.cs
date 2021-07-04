@@ -51,8 +51,6 @@ public class PlayerController : MonoBehaviour
         {
             Vector3 targetPoint = ray.GetPoint(hitDistance);
 
-            //targetPointDisplay.position = targetPoint; //курсор в игре
-
             targetRotation = Quaternion.LookRotation(targetPoint - transform.position);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.fixedDeltaTime);
         }

@@ -344,6 +344,53 @@ Transform:
   m_Father: {fileID: 272239598}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!1 &686689494
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 686689495}
+  - component: {fileID: 686689496}
+  m_Layer: 0
+  m_Name: CursorController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &686689495
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 686689494}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 860290803}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &686689496
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 686689494}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb0e198e7c05bbd4d82ccddbb3990222, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  activeCursorState: 0
+  cursors:
+  - {fileID: 2800000, guid: ca58fe40a19bbb24da30a8ed04f16b7c, type: 3}
+  - {fileID: 2800000, guid: 0d354a9c28104d640b12df9fa987f40f, type: 3}
 --- !u!1 &707797312
 GameObject:
   m_ObjectHideFlags: 0
@@ -401,7 +448,8 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 686689495}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -642,7 +690,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a04d42f4f07ccc84f96f5a76087db2b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerSpeed: 0.35
+  playerSpeed: 3
+  rotationSpeed: 7
 --- !u!54 &1690286329
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -651,7 +700,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1690286325}
   serializedVersion: 2
-  m_Mass: 0.6
+  m_Mass: 80
   m_Drag: 6
   m_AngularDrag: 100
   m_UseGravity: 1
