@@ -20,14 +20,14 @@ RenderSettings:
   m_FogDensity: 0.01
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.212, g: 0.227, b: 0.259, a: 1}
-  m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
-  m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
-  m_AmbientIntensity: 1.35
-  m_AmbientMode: 0
-  m_SubtractiveShadowColor: {r: 0.24670699, g: 0.29031357, b: 0.6792453, a: 1}
-  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
-  m_HaloStrength: 0.5
+  m_AmbientSkyColor: {r: 0.9716981, g: 0.9651503, b: 0.9487807, a: 1}
+  m_AmbientEquatorColor: {r: 0.4339623, g: 0.38407838, b: 0.31318974, a: 1}
+  m_AmbientGroundColor: {r: 0.6053756, g: 0.6153131, b: 0.7169812, a: 1}
+  m_AmbientIntensity: 3.29
+  m_AmbientMode: 1
+  m_SubtractiveShadowColor: {r: 0.62695795, g: 0.63189566, b: 0.6886792, a: 1}
+  m_SkyboxMaterial: {fileID: 2100000, guid: 412f5114ffdfb224090e321b3492cdd6, type: 2}
+  m_HaloStrength: 0.463
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
   m_HaloTexture: {fileID: 0}
@@ -35,10 +35,10 @@ RenderSettings:
   m_DefaultReflectionMode: 0
   m_DefaultReflectionResolution: 128
   m_ReflectionBounces: 1
-  m_ReflectionIntensity: 1
+  m_ReflectionIntensity: 0.661
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.3731193, g: 0.38073996, b: 0.35872698, a: 1}
+  m_IndirectSpecularColor: {r: 0.28143817, g: 0.1571145, b: 0.05146665, a: 0.661}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -402,9 +402,11 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 963194228}
+  - {fileID: 1369825385}
   - {fileID: 350245961}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &350245961 stripped
 Transform:
@@ -784,7 +786,7 @@ Transform:
   m_Children:
   - {fileID: 1216187391}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &594391961
 PrefabInstance:
@@ -1278,7 +1280,7 @@ Transform:
   m_Children:
   - {fileID: 392517266}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &963194225
 GameObject:
@@ -1358,11 +1360,11 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: 0, y: 0.8683287, z: -0.49598917, w: 0}
+  m_LocalRotation: {x: -0, y: 0.8683287, z: -0.49598917, w: 0}
   m_LocalPosition: {x: -0.53, y: 8, z: 0.8900001}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 342788166}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 70, y: -177.7, z: 3.67}
 --- !u!114 &963194229
@@ -1943,12 +1945,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1369825383}
-  m_LocalRotation: {x: 0, y: 0.8683287, z: -0.49598917, w: 0}
+  m_LocalRotation: {x: -0, y: 0.8683287, z: -0.49598917, w: 0}
   m_LocalPosition: {x: -0.53, y: 8, z: 0.8900001}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 251622915}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 342788166}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 59.47, y: 180, z: 0}
 --- !u!114 &1369825386
@@ -2639,7 +2641,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3751860918532827660, guid: 243e19925c5c6c14cb159eb4becc5539, type: 3}
       propertyPath: m_RootOrder
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3751860918532827660, guid: 243e19925c5c6c14cb159eb4becc5539, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2786,7 +2788,7 @@ Transform:
   m_Children:
   - {fileID: 857286885}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1804938466
 PrefabInstance:
@@ -3192,7 +3194,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2016663870}
   m_Layer: 0
-  m_Name: Housing
+  m_Name: Ship housing
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
