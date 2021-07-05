@@ -3,38 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Материал, изменяющий уровень своей видимости
-/// </summary>
-public class OpacityChangingMaterial
-{
-    /// <summary>
-    /// Материал, у которого может изменяться видимость
-    /// </summary>
-    public Material Material { get; private set; }
-    /// <summary>
-    /// Максимальное значение альфа-канала, установленное для данного материала
-    /// </summary>
-    public float MaxAlphaValue { get; private set; }
-
-    public OpacityChangingMaterial(Material material)
-    {
-        Material = material;
-        MaxAlphaValue = material.color.a;
-    }
-
-    /// <summary>
-    /// Задать уровень видимости материала
-    /// </summary>
-    /// <param name="opacityValueInPercents">Уровень видимости в процентах</param>
-    public void SetOpacityValue(float opacityValueInPercents)
-    {
-        Color newColor = Material.color;
-        newColor.a = opacityValueInPercents * 0.01f * MaxAlphaValue;
-        Material.color = newColor;
-    }
-}
-
-/// <summary>
 /// Объект, способный менять свою прозрачность
 /// </summary>
 public class OpacityChangingObject : MonoBehaviour
@@ -76,9 +44,10 @@ public class OpacityChangingObject : MonoBehaviour
         {
             foreach (var material in meshRenderer.materials)
             {
+                OpacityChangingMaterial opacityChangingMaterial = new OpacityChangingMaterial(material);
+                opacityChangingMaterials.Add(opacityChangingMaterial);
                 // Меняем рендерер материала таким образом, чтобы он мог менять прозрачность
-                material.ToFadeMode();
-                opacityChangingMaterials.Add(new OpacityChangingMaterial(material));
+                opacityChangingMaterial.SetFadeMode();
             }
         }
     }
