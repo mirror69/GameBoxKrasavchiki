@@ -20,6 +20,10 @@ public class OpacityController : MonoBehaviour
     /// Шаг изменения прозрачности
     /// </summary>
     private const float OpacityChangeStep = 0.5f;
+    /// <summary>
+    /// Минимальное смешение персонажа для того, чтобы начала меняться прозрачность
+    /// </summary>
+    private const float MinPositionDifferenceToChangeOpacity = 1f;
 
     [Tooltip("Объект, указывающий направление увеличения уровня видимости")]
     [SerializeField]
@@ -68,7 +72,7 @@ public class OpacityController : MonoBehaviour
     /// Скорость изменения прозрачности, не зависящая от значений opacityValueForFullFadeIn и opacityValueForFullFadeOut
     /// </summary>
     private float opacityFullFadeChangeSpeed = 0;
-
+    private float accumulatedPositionDifference = 0;
     private void Awake()
     {
         opacityChangingObjects = FindObjectsOfType<OpacityChangingObject>();
@@ -79,19 +83,28 @@ public class OpacityController : MonoBehaviour
         currentPositionAlongIncreaseVector = GetCurrentPositionAlongIncreaseVector();
         currentOpacityValue = MaxOpacityValue;
         lastAppliedOpacityValue = currentOpacityValue;
+        accumulatedPositionDifference = 0;
     }
 
     private void Update()
     {
+        float newPositionAlongIncreaseVector = GetCurrentPositionAlongIncreaseVector();
+        float positionDifference = newPositionAlongIncreaseVector - currentPositionAlongIncreaseVector;
+
+        // Меняем прозрачность только в том случае, если персонаж достаточно сдвинулся со своего места
+        accumulatedPositionDifference += positionDifference;
+        if (Mathf.Abs(accumulatedPositionDifference) < MinPositionDifferenceToChangeOpacity)
+        {
+            return;
+        }
+        accumulatedPositionDifference = 0;
+
         // Преобразуем скорость изменения видимости так, чтобы она не зависела от значений opacityValueForFullFadeIn
         // и opacityValueForFullFadeOut
         // Рассчитывается здесь, чтобы можно было регулировать параметры в PlayMode
         // TODO. Когда будет отлажено, перенести в Awake
         opacityFullFadeChangeSpeed = opacityChangeSpeed *
             (opacityValueForFullFadeIn - opacityValueForFullFadeOut) / (MaxOpacityValue - MinOpacityValue);
-
-        float newPositionAlongIncreaseVector = GetCurrentPositionAlongIncreaseVector();
-        float positionDifference = newPositionAlongIncreaseVector - currentPositionAlongIncreaseVector;
 
         // При возрастании координаты, прозрачность увеличивается, и наоборот.
         float newOpacityValue = currentOpacityValue + positionDifference * opacityFullFadeChangeSpeed;
@@ -122,12 +135,12 @@ public class OpacityController : MonoBehaviour
             }
         }
 
-        currentOpacityValue = newOpacityValue; 
-
-        float roundedOpacityValue = Mathf.Round(currentOpacityValue / OpacityChangeStep) * OpacityChangeStep;
-        if (Mathf.Abs(lastAppliedOpacityValue - roundedOpacityValue) > 0)
+        currentOpacityValue = newOpacityValue;
+        // Для изменения прозрачности разница между текущим и новым уровнем прозрачности 
+        // должна быть больше установленного шага
+        if (Mathf.Abs(lastAppliedOpacityValue - currentOpacityValue) >= OpacityChangeStep)
         {
-            currentOpacityValue = roundedOpacityValue;          
+            currentOpacityValue = Mathf.Round(currentOpacityValue / OpacityChangeStep) * OpacityChangeStep;
             RefreshVisibilityValueForObjects();
             lastAppliedOpacityValue = currentOpacityValue;
         }
