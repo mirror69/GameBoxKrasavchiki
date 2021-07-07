@@ -1,0 +1,76 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Dissolve_MetallicDirection
+  m_Shader: {fileID: -6465566751694194690, guid: 4646cfe8b2b909e468b54c795b40f39c, type: 3}
+  m_ShaderKeywords: BOOLEAN_USE_WROLDSPACE_ON BOOLEAN_WORLDORIGIN_ON
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap:
+    MotionVector: User
+  disabledShaderPasses:
+  - MOTIONVECTORS
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BaseMap:
+        m_Texture: {fileID: 2800000, guid: f9d30c5fa1f9344f9a86be5a23fe0dfb, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
+        m_Texture: {fileID: 2800000, guid: 163f9b0327fbf4fa28bd5d77b6857c06, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NormalMap:
+        m_Texture: {fileID: 2800000, guid: 285d9b169f94a44e2bf2c2e4f53bfbe1, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _R_Metallic_G_Occulsion_A_Smoothness:
+        m_Texture: {fileID: 2800000, guid: 0486f80cd7abe4c99a6be8ee00cfb09b, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - BOOLEAN_DIRECTION_FROM_EULERANGLE: 0
+    - BOOLEAN_USE_WROLDSPACE: 1
+    - BOOLEAN_WORLDORIGIN: 1
+    - _DierctionEdgeWidthScale: 10
+    - _Dissolve: 0
+    - _EdgeColorIntensity: 1
+    - _EdgeWidth: 0.599
+    - _Metallic: 0.28
+    - _NoiseScale: 50
+    - _NormalScale: 1
+    - _OcclusionStrength: 1
+    - _Smoothness: 0.932
+    m_Colors:
+    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
+    - _DissolveDirection: {r: 0, g: -1, b: 0, a: 0}
+    - _DissolveOffest: {r: 0, g: -1.13, b: 0, a: 0}
+    - _DissolveOffset: {r: 0, g: 20, b: 0, a: 0}
+    - _EdgeColor: {r: 0.35493988, g: 0.35493988, b: 67.79352, a: 0}
+    - _EmissionColor: {r: 1, g: 1, b: 1, a: 0}
+    - _NoiseUVSpeed: {r: 7, g: 1, b: 0, a: 0}
+    - _Offest: {r: 0, g: 0, b: 0, a: 0}
+    - _Offset: {r: 0, g: 0, b: 0, a: 0}
+    - _Tiling: {r: 1, g: 1, b: 0, a: 0}
+  m_BuildTextureStacks: []

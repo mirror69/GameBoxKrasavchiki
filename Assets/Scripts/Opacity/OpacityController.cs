@@ -23,7 +23,7 @@ public class OpacityController : MonoBehaviour
     /// <summary>
     /// Минимальное смешение персонажа для того, чтобы начала меняться прозрачность
     /// </summary>
-    private const float MinPositionDifferenceToChangeOpacity = 1f;
+    private const float MinPositionDifferenceToChangeOpacity = 0.5f;
 
     [Tooltip("Объект, указывающий направление увеличения уровня видимости")]
     [SerializeField]
@@ -46,6 +46,10 @@ public class OpacityController : MonoBehaviour
     [SerializeField]
     [Range(MinOpacityValue, MaxOpacityValue)]
     private float opacityValueForFullFadeOut = 20;
+
+    [Tooltip("Стратегия изменения видимости")]
+    [SerializeField]
+    private OpacityChangingStrategy opacityChangingStrategy = null;
 
     /// <summary>
     /// Объекты игры, способные менять уровень своей видимости
@@ -72,10 +76,18 @@ public class OpacityController : MonoBehaviour
     /// Скорость изменения прозрачности, не зависящая от значений opacityValueForFullFadeIn и opacityValueForFullFadeOut
     /// </summary>
     private float opacityFullFadeChangeSpeed = 0;
+    /// <summary>
+    /// Накопленное значение изменения позиции
+    /// </summary>
     private float accumulatedPositionDifference = 0;
+
     private void Awake()
     {
         opacityChangingObjects = FindObjectsOfType<OpacityChangingObject>();
+        foreach (var item in opacityChangingObjects)
+        {
+            item.Initialize(opacityChangingStrategy);
+        }
         opacityIncreaseVector = opacityIncreaseDirectionTransform.forward;
         // Выключаем объект, указывающий вектор увеличения видимости объектов, т.к. в игре он не нужен
         opacityIncreaseDirectionTransform.gameObject.SetActive(false);

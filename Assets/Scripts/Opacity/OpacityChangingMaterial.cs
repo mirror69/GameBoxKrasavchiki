@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+
 /// <summary>
 /// Материал, изменяющий уровень своей видимости
 /// </summary>
@@ -8,15 +9,13 @@ public class OpacityChangingMaterial
     /// Материал, у которого может изменяться видимость
     /// </summary>
     public Material Material { get; private set; }
-    /// <summary>
-    /// Максимальное значение альфа-канала, установленное для данного материала
-    /// </summary>
-    public float MaxAlphaValue { get; private set; }
+    public OpacityChangingStrategy OpacityChangingParameters { get; private set; }
 
-    public OpacityChangingMaterial(Material material)
+    public OpacityChangingMaterial(Material material, 
+        OpacityChangingStrategy opacityChangingParameters)
     {
         Material = material;
-        MaxAlphaValue = material.color.a;
+        OpacityChangingParameters = opacityChangingParameters;
     }
 
     /// <summary>
@@ -25,9 +24,8 @@ public class OpacityChangingMaterial
     /// <param name="opacityValueInPercents">Уровень видимости в процентах</param>
     public void SetOpacityValue(float opacityValueInPercents)
     {
-        Color newColor = Material.color;
-        newColor.a = opacityValueInPercents * 0.01f * MaxAlphaValue;
-        Material.color = newColor;
+        OpacityChangingParameters.SetOpacity(Material, opacityValueInPercents * 0.01f);
+        //Material.SetOpacity(opacityValueInPercents * 0.01f);
     }
 
     /// <summary>
@@ -35,7 +33,7 @@ public class OpacityChangingMaterial
     /// </summary>
     public void SetFadeMode()
     {
-        Material.ToFadeMode();
+        OpacityChangingParameters.SetFadeMode(Material);
     }
 
     /// <summary>
@@ -43,6 +41,6 @@ public class OpacityChangingMaterial
     /// </summary>
     public void SetOpaqueMode()
     {
-        Material.ToOpaqueMode();
+        OpacityChangingParameters.SetOpaqueMode(Material);
     }
 }
