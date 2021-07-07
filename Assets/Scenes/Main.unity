@@ -253,6 +253,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1768853545}
     m_Modifications:
+    - target: {fileID: 7736351175688839807, guid: e75fb531ad02c490d92fd5edf0d0ae9a, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 3cfee0d0258437e4daf4a1fc77d081e5, type: 2}
     - target: {fileID: 8096898287790212010, guid: e75fb531ad02c490d92fd5edf0d0ae9a, type: 3}
       propertyPath: m_Name
       value: OutWall_NoGlass_With_Colonna (8)
@@ -320,6 +324,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1768853545}
     m_Modifications:
+    - target: {fileID: 2387055628823089740, guid: 94273405184a24f4ea4150fec0126304, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 3cfee0d0258437e4daf4a1fc77d081e5, type: 2}
     - target: {fileID: 4702621546926790797, guid: 94273405184a24f4ea4150fec0126304, type: 3}
       propertyPath: m_Name
       value: OutWall_NoGlass_and_Colonna (2)
@@ -665,7 +673,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 9e759c7f494a04279ad4abae40e03b25, type: 3}
       propertyPath: m_Materials.Array.data[1]
       value: 
-      objectReference: {fileID: 2100000, guid: b92b0b61dcec44bbbb766d951b1fb12c, type: 2}
+      objectReference: {fileID: 2100000, guid: e335cafed61e35144a1d786fc9c90365, type: 2}
     - target: {fileID: 919132149155446097, guid: 9e759c7f494a04279ad4abae40e03b25, type: 3}
       propertyPath: m_Name
       value: OutWall_NoColonna (3)
@@ -702,6 +710,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1768853545}
     m_Modifications:
+    - target: {fileID: 2387055628823089740, guid: 94273405184a24f4ea4150fec0126304, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 3cfee0d0258437e4daf4a1fc77d081e5, type: 2}
     - target: {fileID: 4702621546926790797, guid: 94273405184a24f4ea4150fec0126304, type: 3}
       propertyPath: m_Name
       value: OutWall_NoGlass_and_Colonna (5)
@@ -795,6 +807,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1768853545}
     m_Modifications:
+    - target: {fileID: 2387055628823089740, guid: 94273405184a24f4ea4150fec0126304, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 3cfee0d0258437e4daf4a1fc77d081e5, type: 2}
     - target: {fileID: 4702621546926790797, guid: 94273405184a24f4ea4150fec0126304, type: 3}
       propertyPath: m_Name
       value: OutWall_NoGlass_and_Colonna (10)
@@ -924,6 +940,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1768853545}
     m_Modifications:
+    - target: {fileID: 2387055628823089740, guid: 94273405184a24f4ea4150fec0126304, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 3cfee0d0258437e4daf4a1fc77d081e5, type: 2}
     - target: {fileID: 4702621546926790797, guid: 94273405184a24f4ea4150fec0126304, type: 3}
       propertyPath: m_Name
       value: OutWall_NoGlass_and_Colonna (9)
@@ -1034,6 +1054,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6609813889485414505, guid: 75226e2510d894ee0a8164e892456b09, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: e335cafed61e35144a1d786fc9c90365, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 75226e2510d894ee0a8164e892456b09, type: 3}
 --- !u!4 &849074220 stripped
@@ -1216,7 +1240,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 9e759c7f494a04279ad4abae40e03b25, type: 3}
       propertyPath: m_Materials.Array.data[1]
       value: 
-      objectReference: {fileID: 2100000, guid: b92b0b61dcec44bbbb766d951b1fb12c, type: 2}
+      objectReference: {fileID: 2100000, guid: e335cafed61e35144a1d786fc9c90365, type: 2}
     - target: {fileID: 919132149155446097, guid: 9e759c7f494a04279ad4abae40e03b25, type: 3}
       propertyPath: m_Name
       value: OutWall_NoColonna (6)
@@ -1481,6 +1505,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1768853545}
     m_Modifications:
+    - target: {fileID: 7736351175688839807, guid: e75fb531ad02c490d92fd5edf0d0ae9a, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 3cfee0d0258437e4daf4a1fc77d081e5, type: 2}
     - target: {fileID: 8096898287790212010, guid: e75fb531ad02c490d92fd5edf0d0ae9a, type: 3}
       propertyPath: m_Name
       value: OutWall_NoGlass_With_Colonna (3)
@@ -1543,6 +1571,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1768853545}
     m_Modifications:
+    - target: {fileID: 7736351175688839807, guid: e75fb531ad02c490d92fd5edf0d0ae9a, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 3cfee0d0258437e4daf4a1fc77d081e5, type: 2}
     - target: {fileID: 8096898287790212010, guid: e75fb531ad02c490d92fd5edf0d0ae9a, type: 3}
       propertyPath: m_Name
       value: OutWall_NoGlass_With_Colonna (9)
@@ -1605,6 +1637,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1768853545}
     m_Modifications:
+    - target: {fileID: 2387055628823089740, guid: 94273405184a24f4ea4150fec0126304, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 3cfee0d0258437e4daf4a1fc77d081e5, type: 2}
     - target: {fileID: 4702621546926790797, guid: 94273405184a24f4ea4150fec0126304, type: 3}
       propertyPath: m_Name
       value: OutWall_NoGlass_and_Colonna (7)
@@ -1758,6 +1794,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1768853545}
     m_Modifications:
+    - target: {fileID: 2387055628823089740, guid: 94273405184a24f4ea4150fec0126304, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 3cfee0d0258437e4daf4a1fc77d081e5, type: 2}
     - target: {fileID: 4702621546926790797, guid: 94273405184a24f4ea4150fec0126304, type: 3}
       propertyPath: m_Name
       value: OutWall_NoGlass_and_Colonna (4)
@@ -1820,6 +1860,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1768853545}
     m_Modifications:
+    - target: {fileID: 7736351175688839807, guid: e75fb531ad02c490d92fd5edf0d0ae9a, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 3cfee0d0258437e4daf4a1fc77d081e5, type: 2}
     - target: {fileID: 8096898287790212010, guid: e75fb531ad02c490d92fd5edf0d0ae9a, type: 3}
       propertyPath: m_Name
       value: OutWall_NoGlass_With_Colonna (2)
@@ -1970,6 +2014,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1768853545}
     m_Modifications:
+    - target: {fileID: 2387055628823089740, guid: 94273405184a24f4ea4150fec0126304, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 3cfee0d0258437e4daf4a1fc77d081e5, type: 2}
     - target: {fileID: 4702621546926790797, guid: 94273405184a24f4ea4150fec0126304, type: 3}
       propertyPath: m_Name
       value: OutWall_NoGlass_and_Colonna (8)
@@ -2037,6 +2085,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1768853545}
     m_Modifications:
+    - target: {fileID: 7736351175688839807, guid: e75fb531ad02c490d92fd5edf0d0ae9a, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 3cfee0d0258437e4daf4a1fc77d081e5, type: 2}
     - target: {fileID: 8096898287790212010, guid: e75fb531ad02c490d92fd5edf0d0ae9a, type: 3}
       propertyPath: m_Name
       value: OutWall_NoGlass_With_Colonna (6)
@@ -2158,7 +2210,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 9e759c7f494a04279ad4abae40e03b25, type: 3}
       propertyPath: m_Materials.Array.data[1]
       value: 
-      objectReference: {fileID: 2100000, guid: b92b0b61dcec44bbbb766d951b1fb12c, type: 2}
+      objectReference: {fileID: 2100000, guid: e335cafed61e35144a1d786fc9c90365, type: 2}
     - target: {fileID: 919132149155446097, guid: 9e759c7f494a04279ad4abae40e03b25, type: 3}
       propertyPath: m_Name
       value: OutWall_NoColonna (2)
@@ -2195,6 +2247,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1768853545}
     m_Modifications:
+    - target: {fileID: 7736351175688839807, guid: e75fb531ad02c490d92fd5edf0d0ae9a, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 3cfee0d0258437e4daf4a1fc77d081e5, type: 2}
     - target: {fileID: 8096898287790212010, guid: e75fb531ad02c490d92fd5edf0d0ae9a, type: 3}
       propertyPath: m_Name
       value: OutWall_NoGlass_With_Colonna (7)
@@ -2335,6 +2391,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1768853545}
     m_Modifications:
+    - target: {fileID: 2387055628823089740, guid: 94273405184a24f4ea4150fec0126304, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 3cfee0d0258437e4daf4a1fc77d081e5, type: 2}
     - target: {fileID: 4702621546926790797, guid: 94273405184a24f4ea4150fec0126304, type: 3}
       propertyPath: m_Name
       value: OutWall_NoGlass_and_Colonna (3)
@@ -2397,6 +2457,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1768853545}
     m_Modifications:
+    - target: {fileID: 7736351175688839807, guid: e75fb531ad02c490d92fd5edf0d0ae9a, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 3cfee0d0258437e4daf4a1fc77d081e5, type: 2}
     - target: {fileID: 8096898287790212010, guid: e75fb531ad02c490d92fd5edf0d0ae9a, type: 3}
       propertyPath: m_Name
       value: OutWall_NoGlass_With_Colonna (4)
@@ -2509,6 +2573,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1768853545}
     m_Modifications:
+    - target: {fileID: 2387055628823089740, guid: 94273405184a24f4ea4150fec0126304, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 3cfee0d0258437e4daf4a1fc77d081e5, type: 2}
     - target: {fileID: 4702621546926790797, guid: 94273405184a24f4ea4150fec0126304, type: 3}
       propertyPath: m_Name
       value: OutWall_NoGlass_and_Colonna (6)
@@ -2625,7 +2693,11 @@ PrefabInstance:
       objectReference: {fileID: 392517266}
     - target: {fileID: 3751860918532827661, guid: 243e19925c5c6c14cb159eb4becc5539, type: 3}
       propertyPath: opacityValueForFullFadeIn
-      value: 80
+      value: 99
+      objectReference: {fileID: 0}
+    - target: {fileID: 3751860918532827661, guid: 243e19925c5c6c14cb159eb4becc5539, type: 3}
+      propertyPath: opacityValueForFullFadeOut
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3751860918532827662, guid: 243e19925c5c6c14cb159eb4becc5539, type: 3}
       propertyPath: m_Name
@@ -2640,6 +2712,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1768853545}
     m_Modifications:
+    - target: {fileID: 7736351175688839807, guid: e75fb531ad02c490d92fd5edf0d0ae9a, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 3cfee0d0258437e4daf4a1fc77d081e5, type: 2}
     - target: {fileID: 8096898287790212010, guid: e75fb531ad02c490d92fd5edf0d0ae9a, type: 3}
       propertyPath: m_Name
       value: OutWall_NoGlass_With_Colonna (5)
@@ -2815,6 +2891,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1768853545}
     m_Modifications:
+    - target: {fileID: 7736351175688839807, guid: e75fb531ad02c490d92fd5edf0d0ae9a, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 3cfee0d0258437e4daf4a1fc77d081e5, type: 2}
     - target: {fileID: 8096898287790212010, guid: e75fb531ad02c490d92fd5edf0d0ae9a, type: 3}
       propertyPath: m_Name
       value: OutWall_NoGlass_With_Colonna (1)
@@ -2936,7 +3016,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 9e759c7f494a04279ad4abae40e03b25, type: 3}
       propertyPath: m_Materials.Array.data[1]
       value: 
-      objectReference: {fileID: 2100000, guid: b92b0b61dcec44bbbb766d951b1fb12c, type: 2}
+      objectReference: {fileID: 2100000, guid: e335cafed61e35144a1d786fc9c90365, type: 2}
     - target: {fileID: 919132149155446097, guid: 9e759c7f494a04279ad4abae40e03b25, type: 3}
       propertyPath: m_Name
       value: OutWall_NoColonna
@@ -3009,7 +3089,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 9e759c7f494a04279ad4abae40e03b25, type: 3}
       propertyPath: m_Materials.Array.data[1]
       value: 
-      objectReference: {fileID: 2100000, guid: b92b0b61dcec44bbbb766d951b1fb12c, type: 2}
+      objectReference: {fileID: 2100000, guid: e335cafed61e35144a1d786fc9c90365, type: 2}
     - target: {fileID: 919132149155446097, guid: 9e759c7f494a04279ad4abae40e03b25, type: 3}
       propertyPath: m_Name
       value: OutWall_NoColonna (5)
@@ -3069,6 +3149,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1768853545}
     m_Modifications:
+    - target: {fileID: 7736351175688839807, guid: e75fb531ad02c490d92fd5edf0d0ae9a, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 3cfee0d0258437e4daf4a1fc77d081e5, type: 2}
     - target: {fileID: 8096898287790212010, guid: e75fb531ad02c490d92fd5edf0d0ae9a, type: 3}
       propertyPath: m_Name
       value: OutWall_NoGlass_With_Colonna (10)
@@ -3183,6 +3267,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6609813889485414505, guid: 75226e2510d894ee0a8164e892456b09, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: e335cafed61e35144a1d786fc9c90365, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 75226e2510d894ee0a8164e892456b09, type: 3}
 --- !u!1 &2016663869
@@ -3297,7 +3385,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 9e759c7f494a04279ad4abae40e03b25, type: 3}
       propertyPath: m_Materials.Array.data[1]
       value: 
-      objectReference: {fileID: 2100000, guid: b92b0b61dcec44bbbb766d951b1fb12c, type: 2}
+      objectReference: {fileID: 2100000, guid: e335cafed61e35144a1d786fc9c90365, type: 2}
     - target: {fileID: 919132149155446097, guid: 9e759c7f494a04279ad4abae40e03b25, type: 3}
       propertyPath: m_Name
       value: OutWall_NoColonna (4)
@@ -3382,6 +3470,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6609813889485414505, guid: 75226e2510d894ee0a8164e892456b09, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: e335cafed61e35144a1d786fc9c90365, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 75226e2510d894ee0a8164e892456b09, type: 3}
 --- !u!1001 &7921262403713183944
@@ -3391,6 +3483,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1768853545}
     m_Modifications:
+    - target: {fileID: 2387055628823089740, guid: 94273405184a24f4ea4150fec0126304, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 3cfee0d0258437e4daf4a1fc77d081e5, type: 2}
     - target: {fileID: 4702621546926790797, guid: 94273405184a24f4ea4150fec0126304, type: 3}
       propertyPath: m_Name
       value: OutWall_NoGlass_and_Colonna

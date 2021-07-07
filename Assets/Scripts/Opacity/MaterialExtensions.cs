@@ -4,6 +4,10 @@ using UnityEngine;
 
 public static class MaterialExtensions
 {
+    //private const float MinOffset = -1.13f;
+    //private const float MaxOffset = 1.28f;
+    private const float HighestDissolveOffset = float.MaxValue;
+
     public static void SetZWriteEnabled(this Material material, bool enabled)
     {
         if (material.HasProperty("_ZWrite"))
@@ -11,6 +15,40 @@ public static class MaterialExtensions
             material.SetInt("_ZWrite", enabled ? 1 : 0);
         }
     }
+
+    public static void SetOpacity(this Material material, float value)
+    {
+        if (material.HasProperty("_Opacity"))
+        {
+            material.SetFloat("_Opacity", value);
+        }
+        else if (material.HasProperty("_BaseColor"))
+        {
+            Color color = material.GetColor("_BaseColor");
+            color.a = value;
+            material.SetColor("_BaseColor", color);
+        }
+        else if (material.HasProperty("_Dissolve"))
+        {
+            material.SetFloat("_Dissolve", 1 - value);
+        }
+    }
+    public static void SetDirectionDissolve(this Material material, float value, float minOffset,
+        float maxOffset)
+    {
+        if (material.HasProperty("_DissolveOffset"))
+        {
+            Vector4 vector = Vector4.zero;
+            vector.y = value >= 1 ? HighestDissolveOffset : minOffset + (maxOffset - minOffset) * value;
+            //if (value >= 1)
+            //{
+            //    vector.y = MinOffset + (MaxOffset - MinOffset) * value;
+            //}
+            //Vector4 vector = new Vector4(0, MinOffset + (MaxOffset - MinOffset) * value, 0);
+            material.SetVector("_DissolveOffset", vector);
+        }
+    }
+
 
     public static void ToOpaqueMode(this Material material)
     {

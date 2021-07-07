@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -19,6 +20,15 @@ public class OpacityChangingObject : MonoBehaviour
     /// Триггеры для проверки, находится ли персонаж внутри объекта или нет
     /// </summary>
     private StayInsideTrigger[] stayInsideTriggers;
+    /// <summary>
+    /// Параметры изменения видимости
+    /// </summary>
+    private OpacityChangingStrategy opacityChangingStrategy;
+
+    public void Initialize(OpacityChangingStrategy opacityChangingStrategy)
+    {
+        this.opacityChangingStrategy = opacityChangingStrategy;
+    }
 
     /// <summary>
     /// Установить уровень видимости объекта
@@ -30,12 +40,17 @@ public class OpacityChangingObject : MonoBehaviour
         {
             item.SetOpacityValue(opacityValueInPercents);
         }
+
+        SetEnableColliders(opacityValueInPercents > 0);
     }
 
     private void Awake()
     {
-        colliders = gameObject.GetComponentsInChildren<Collider>();
-        
+        colliders = gameObject.GetComponentsInChildren<Collider>();      
+    }
+
+    private void Start()
+    {
         // Добавляем в список все материалы объекта и дочерних объектов для последующего изменения
         // их прозрачности
         Renderer[] meshRenderers = gameObject.GetComponentsInChildren<Renderer>();
@@ -44,14 +59,14 @@ public class OpacityChangingObject : MonoBehaviour
         {
             foreach (var material in meshRenderer.materials)
             {
-                OpacityChangingMaterial opacityChangingMaterial = new OpacityChangingMaterial(material);
+                OpacityChangingMaterial opacityChangingMaterial =
+                    new OpacityChangingMaterial(material, opacityChangingStrategy);
                 opacityChangingMaterials.Add(opacityChangingMaterial);
                 // Меняем рендерер материала таким образом, чтобы он мог менять прозрачность
                 opacityChangingMaterial.SetFadeMode();
             }
         }
     }
-
     /// <summary>
     /// Включить/выключить коллайдеры
     /// </summary>
