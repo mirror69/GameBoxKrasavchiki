@@ -9,7 +9,8 @@ public class PlayerInput : MonoBehaviour
     private Vector3 rotateDirection;
     private float horizontalInput;
     private float verticalInput;
-    private PlayerController playerController;    
+    private PlayerController playerController;
+    
 
     private void Awake()
     {
@@ -21,6 +22,7 @@ public class PlayerInput : MonoBehaviour
         horizontalInput = Input.GetAxis("Horizontal");
         verticalInput = Input.GetAxis("Vertical");
         rotateDirection = Input.mousePosition;
+        if(Input.GetButtonDown("Fire1")) playerController.PlayerShoot();
     }
 
     private void FixedUpdate()
@@ -29,5 +31,6 @@ public class PlayerInput : MonoBehaviour
 
         playerController.MovePlayer(moveDirection);
         playerController.RotatePlayer(rotateDirection);
+
     }
 }
