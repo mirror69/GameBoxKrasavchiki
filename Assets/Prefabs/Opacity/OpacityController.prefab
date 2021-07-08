@@ -351,6 +351,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minDirectionDissolveOffset: 0.15
   maxDirectionDissolveOffset: 2.3
+  defaultDissolveEdgeColor: {r: 1.7568628, g: 0.03137255, b: 0.03137255, a: 0}
+  fullDissolvedEdgeColor: {r: 0.43837067, g: 0.8679245, b: 0, a: 0}
 --- !u!1 &7938774742661198985
 GameObject:
   m_ObjectHideFlags: 0
