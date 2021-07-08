@@ -2,12 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Расширение функционала материалов
+/// </summary>
 public static class MaterialExtensions
 {
-    //private const float MinOffset = -1.13f;
-    //private const float MaxOffset = 1.28f;
-    private const float HighestDissolveOffset = float.MaxValue;
-
     public static void SetZWriteEnabled(this Material material, bool enabled)
     {
         if (material.HasProperty("_ZWrite"))
@@ -33,22 +32,21 @@ public static class MaterialExtensions
             material.SetFloat("_Dissolve", 1 - value);
         }
     }
-    public static void SetDirectionDissolve(this Material material, float value, float minOffset,
-        float maxOffset)
+
+    public static void SetDirectionDissolve(this Material material, float value, Color dissolveEdgeColor)
     {
         if (material.HasProperty("_DissolveOffset"))
         {
             Vector4 vector = Vector4.zero;
-            vector.y = value >= 1 ? HighestDissolveOffset : minOffset + (maxOffset - minOffset) * value;
-            //if (value >= 1)
-            //{
-            //    vector.y = MinOffset + (MaxOffset - MinOffset) * value;
-            //}
-            //Vector4 vector = new Vector4(0, MinOffset + (MaxOffset - MinOffset) * value, 0);
+            vector.y = value;
             material.SetVector("_DissolveOffset", vector);
+
+            if (material.GetColor("_EdgeColor") != dissolveEdgeColor)
+            {
+                material.SetColor("_EdgeColor", dissolveEdgeColor);
+            }
         }
     }
-
 
     public static void ToOpaqueMode(this Material material)
     {

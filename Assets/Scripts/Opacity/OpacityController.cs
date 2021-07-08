@@ -11,11 +11,11 @@ public class OpacityController : MonoBehaviour
     /// <summary>
     /// ћинимальный уровень видимости объектов
     /// </summary>    
-    private const float MinOpacityValue = 0;
+    public const float MinOpacityValue = 0;
     /// <summary>
     /// ћаксимальный уровень видимости объектов
     /// </summary>
-    private const float MaxOpacityValue = 100;
+    public const float MaxOpacityValue = 100;
     /// <summary>
     /// Ўаг изменени€ прозрачности
     /// </summary>
@@ -23,7 +23,7 @@ public class OpacityController : MonoBehaviour
     /// <summary>
     /// ћинимальное смешение персонажа дл€ того, чтобы начала мен€тьс€ прозрачность
     /// </summary>
-    private const float MinPositionDifferenceToChangeOpacity = 0.5f;
+    private const float MinPositionDifferenceToChangeOpacity = 0.1f;
 
     [Tooltip("ќбъект, указывающий направление увеличени€ уровн€ видимости")]
     [SerializeField]
@@ -81,6 +81,22 @@ public class OpacityController : MonoBehaviour
     /// </summary>
     private float accumulatedPositionDifference = 0;
 
+    public float OpacityValue => lastAppliedOpacityValue;
+
+    /// <summary>
+    /// —обытие, вызываемое при изменении значени€ видимости
+    /// </summary>
+    private event Action OpacityChanged;
+
+    public void RegisterOpacityChangedListener(Action listener)
+    {
+        OpacityChanged += listener;
+    }
+    public void UnregisterOpacityChangedListener(Action listener)
+    {
+        OpacityChanged -= listener;
+    }
+
     private void Awake()
     {
         opacityChangingObjects = FindObjectsOfType<OpacityChangingObject>();
@@ -95,20 +111,35 @@ public class OpacityController : MonoBehaviour
         currentPositionAlongIncreaseVector = GetCurrentPositionAlongIncreaseVector();
         currentOpacityValue = MaxOpacityValue;
         lastAppliedOpacityValue = currentOpacityValue;
-        accumulatedPositionDifference = 0;
     }
 
     private void Update()
     {
         float newPositionAlongIncreaseVector = GetCurrentPositionAlongIncreaseVector();
         float positionDifference = newPositionAlongIncreaseVector - currentPositionAlongIncreaseVector;
-
-        // ћен€ем прозрачность только в том случае, если персонаж достаточно сдвинулс€ со своего места
+        currentPositionAlongIncreaseVector = newPositionAlongIncreaseVector;
+        
         accumulatedPositionDifference += positionDifference;
-        if (Mathf.Abs(accumulatedPositionDifference) < MinPositionDifferenceToChangeOpacity)
+
+        // ≈сли достигли максимального значени€ видимости и продолжаем двигатьс€ в направлении увеличени€ видимости
+        // (и наоборот), то сбрасываем накопленное значение разницы позиций, чтобы начать мен€ть
+        // значение видимости именно в момент начала движени€ в противоположном направлении
+        if (accumulatedPositionDifference > 0 && lastAppliedOpacityValue >= MaxOpacityValue
+            || accumulatedPositionDifference < 0 && lastAppliedOpacityValue <= MinOpacityValue)
+        {
+            accumulatedPositionDifference = 0;            
+            return;
+        }
+    
+        // ≈сли текущее значение видимости = минимальному или максимальному,
+        // видимость начинает мен€тьс€ не сразу, а при определенном накопленном количестве движени€
+        if ((lastAppliedOpacityValue >= MaxOpacityValue
+            || lastAppliedOpacityValue <= MinOpacityValue)
+            && Mathf.Abs(accumulatedPositionDifference) < MinPositionDifferenceToChangeOpacity)
         {
             return;
         }
+
         accumulatedPositionDifference = 0;
 
         // ѕреобразуем скорость изменени€ видимости так, чтобы она не зависела от значений opacityValueForFullFadeIn
@@ -153,10 +184,10 @@ public class OpacityController : MonoBehaviour
         if (Mathf.Abs(lastAppliedOpacityValue - currentOpacityValue) >= OpacityChangeStep)
         {
             currentOpacityValue = Mathf.Round(currentOpacityValue / OpacityChangeStep) * OpacityChangeStep;
-            RefreshVisibilityValueForObjects();
             lastAppliedOpacityValue = currentOpacityValue;
+            RefreshVisibilityValueForObjects();           
         }
-        
+
         currentPositionAlongIncreaseVector = newPositionAlongIncreaseVector;
     }
 
@@ -165,6 +196,7 @@ public class OpacityController : MonoBehaviour
     /// </summary>
     private void RefreshVisibilityValueForObjects()
     {
+        OpacityChanged?.Invoke();
         foreach (var item in opacityChangingObjects)
         {
             item.SetOpacityValue(currentOpacityValue);
