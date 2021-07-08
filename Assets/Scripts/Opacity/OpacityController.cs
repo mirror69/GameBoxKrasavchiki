@@ -20,10 +20,11 @@ public class OpacityController : MonoBehaviour
     /// Шаг изменения прозрачности
     /// </summary>
     private const float OpacityChangeStep = 0.5f;
+
     /// <summary>
     /// Минимальное смешение персонажа для того, чтобы начала меняться прозрачность
     /// </summary>
-    private const float MinPositionDifferenceToChangeOpacity = 0.5f;
+    private const float MinPositionDifferenceToChangeOpacity = 0.1f;
 
     [Tooltip("Объект, указывающий направление увеличения уровня видимости")]
     [SerializeField]
@@ -95,20 +96,35 @@ public class OpacityController : MonoBehaviour
         currentPositionAlongIncreaseVector = GetCurrentPositionAlongIncreaseVector();
         currentOpacityValue = MaxOpacityValue;
         lastAppliedOpacityValue = currentOpacityValue;
-        accumulatedPositionDifference = 0;
     }
 
     private void Update()
     {
         float newPositionAlongIncreaseVector = GetCurrentPositionAlongIncreaseVector();
         float positionDifference = newPositionAlongIncreaseVector - currentPositionAlongIncreaseVector;
-
-        // Меняем прозрачность только в том случае, если персонаж достаточно сдвинулся со своего места
+        currentPositionAlongIncreaseVector = newPositionAlongIncreaseVector;
+        
         accumulatedPositionDifference += positionDifference;
-        if (Mathf.Abs(accumulatedPositionDifference) < MinPositionDifferenceToChangeOpacity)
+
+        // Если достигли максимального значения видимости и продолжаем двигаться в направлении увеличения видимости
+        // (и наоборот), то сбрасываем накопленное значение разницы позиций, чтобы начать менять
+        // значение видимости именно в момент начала движения в противоположном направлении
+        if (accumulatedPositionDifference > 0 && lastAppliedOpacityValue >= MaxOpacityValue
+            || accumulatedPositionDifference < 0 && lastAppliedOpacityValue <= MinOpacityValue)
+        {
+            accumulatedPositionDifference = 0;            
+            return;
+        }
+    
+        // Если текущее значение видимости = минимальному или максимальному,
+        // видимость начинает меняться не сразу, а при определенном накопленном количестве движения
+        if ((lastAppliedOpacityValue >= MaxOpacityValue
+            || lastAppliedOpacityValue <= MinOpacityValue)
+            && Mathf.Abs(accumulatedPositionDifference) < MinPositionDifferenceToChangeOpacity)
         {
             return;
         }
+
         accumulatedPositionDifference = 0;
 
         // Преобразуем скорость изменения видимости так, чтобы она не зависела от значений opacityValueForFullFadeIn
