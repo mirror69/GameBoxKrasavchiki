@@ -11,16 +11,15 @@ public class OpacityController : MonoBehaviour
     /// <summary>
     /// Минимальный уровень видимости объектов
     /// </summary>    
-    private const float MinOpacityValue = 0;
+    public const float MinOpacityValue = 0;
     /// <summary>
     /// Максимальный уровень видимости объектов
     /// </summary>
-    private const float MaxOpacityValue = 100;
+    public const float MaxOpacityValue = 100;
     /// <summary>
     /// Шаг изменения прозрачности
     /// </summary>
     private const float OpacityChangeStep = 0.5f;
-
     /// <summary>
     /// Минимальное смешение персонажа для того, чтобы начала меняться прозрачность
     /// </summary>
@@ -81,6 +80,22 @@ public class OpacityController : MonoBehaviour
     /// Накопленное значение изменения позиции
     /// </summary>
     private float accumulatedPositionDifference = 0;
+
+    public float OpacityValue => lastAppliedOpacityValue;
+
+    /// <summary>
+    /// Событие, вызываемое при изменении значения видимости
+    /// </summary>
+    private event Action OpacityChanged;
+
+    public void RegisterOpacityChangedListener(Action listener)
+    {
+        OpacityChanged += listener;
+    }
+    public void UnregisterOpacityChangedListener(Action listener)
+    {
+        OpacityChanged -= listener;
+    }
 
     private void Awake()
     {
@@ -169,10 +184,10 @@ public class OpacityController : MonoBehaviour
         if (Mathf.Abs(lastAppliedOpacityValue - currentOpacityValue) >= OpacityChangeStep)
         {
             currentOpacityValue = Mathf.Round(currentOpacityValue / OpacityChangeStep) * OpacityChangeStep;
-            RefreshVisibilityValueForObjects();
             lastAppliedOpacityValue = currentOpacityValue;
+            RefreshVisibilityValueForObjects();           
         }
-        
+
         currentPositionAlongIncreaseVector = newPositionAlongIncreaseVector;
     }
 
@@ -181,6 +196,7 @@ public class OpacityController : MonoBehaviour
     /// </summary>
     private void RefreshVisibilityValueForObjects()
     {
+        OpacityChanged?.Invoke();
         foreach (var item in opacityChangingObjects)
         {
             item.SetOpacityValue(currentOpacityValue);
