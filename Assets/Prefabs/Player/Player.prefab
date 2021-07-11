@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 8780580470206802222}
   - component: {fileID: 8780580470206802209}
   - component: {fileID: 8780580470206802220}
+  - component: {fileID: 7379927324590040370}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -108,6 +109,21 @@ MonoBehaviour:
   animator: {fileID: 7605253801909245575}
   player: {fileID: 8780580470206802222}
   MaxVelocityForMovementBlendTree: 20
+--- !u!114 &7379927324590040370
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8780580470206802211}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8db626624b19ce4d8fd9dd0ebf66cbc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  poolCount: 3
+  bulletPrefab: {fileID: 0}
+  bulletContainer: {fileID: 0}
 --- !u!1 &8780580472126713887
 GameObject:
   m_ObjectHideFlags: 0

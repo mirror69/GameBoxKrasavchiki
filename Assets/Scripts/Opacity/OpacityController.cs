@@ -54,7 +54,7 @@ public class OpacityController : MonoBehaviour
     /// <summary>
     /// Объекты игры, способные менять уровень своей видимости
     /// </summary>
-    private OpacityChangingObject[] opacityChangingObjects = null;
+    private AnimatedObstacle[] opacityChangingObjects = null;
     /// <summary>
     /// Текущий уровень видимости
     /// </summary>
@@ -99,11 +99,8 @@ public class OpacityController : MonoBehaviour
 
     private void Awake()
     {
-        opacityChangingObjects = FindObjectsOfType<OpacityChangingObject>();
-        foreach (var item in opacityChangingObjects)
-        {
-            item.Initialize(opacityChangingStrategy);
-        }
+        opacityChangingObjects = FindObjectsOfType<AnimatedObstacle>();
+
         opacityIncreaseVector = opacityIncreaseDirectionTransform.forward;
         // Выключаем объект, указывающий вектор увеличения видимости объектов, т.к. в игре он не нужен
         opacityIncreaseDirectionTransform.gameObject.SetActive(false);
