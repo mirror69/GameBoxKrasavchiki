@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
 {
     private const float speedToForceConvertShift = 0.5f;
 
+    private Collider playerCollider;
     private Rigidbody playerRigidbody;
     private Quaternion targetRotation;
     private Transform cameraTransform;
@@ -17,14 +18,19 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float rotationSpeed;
 
     public float PlayerSpeed => playerSpeed;
-    public Vector3 CurrentVelocity => playerRigidbody.velocity;   
+    public Vector3 CurrentVelocity => playerRigidbody.velocity;
+    public Vector3 Center => playerCollider.bounds.center;
+    public Bounds Bounds => playerCollider.bounds;
+    public Vector3 HeadPosition => Center + (Bounds.extents.y - 0.2f) * transform.up;
+    public Collider Collider => playerCollider;
 
     private void Awake()
     {
         playerRigidbody = GetComponent<Rigidbody>();
         cameraTransform = Camera.main.transform;
         shooting = GetComponent<Shooting>();
-        
+        playerCollider = GetComponent<Collider>();
+
         // Конвертируем скорость в силу
         playerForce = (playerSpeed + speedToForceConvertShift) * playerRigidbody.mass * playerRigidbody.drag;
     }
