@@ -173,11 +173,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c0998b33105e5e4ba6167ca9354f845, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  opacityIncreaseDirectionTransform: {fileID: 3751860919903368988}
-  opacityChangeInitiator: {fileID: 0}
-  opacityChangeSpeed: 10
-  opacityValueForFullFadeIn: 70
-  opacityValueForFullFadeOut: 20
+  increaseVector: {fileID: 3751860919903368988}
+  changeInitiator: {fileID: 0}
+  changeSpeed: 45
+  fullFadeInValue: 99
+  fullFadeOutValue: 1
+  fullOpaqueValue: 99
   opacityChangingStrategy: {fileID: 1294347593366393546}
 --- !u!1 &3751860919903368989
 GameObject:
@@ -189,7 +190,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3751860919903368988}
   m_Layer: 0
-  m_Name: OpacityIncreaseDirection
+  m_Name: OpacityIncreaseVector
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
