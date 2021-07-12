@@ -19,7 +19,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float playerSpeed;
     [SerializeField] float rotationSpeed;
     [SerializeField] Transform pistolPosition;
-    public Transform testPoint;
+    
 
     public float PlayerSpeed => playerSpeed;
     public Vector3 CurrentVelocity => playerRigidbody.velocity;
@@ -54,28 +54,20 @@ public class PlayerController : MonoBehaviour
     /// <param name="mousePosition">Вектор, в сторону которого поворачивает плеер</param>
     public void RotatePlayer(Vector3 mousePosition)
     {
-        Plane playerPlane = new Plane(Vector3.up, transform.position);
+        Plane playerPlane = new Plane(Vector3.up, transform.position + new Vector3(0, pistolPosition.position.y , 0));
 
         Ray ray = Camera.main.ScreenPointToRay(mousePosition);
 
         float hitDistance;
 
-        /////
-        ///
-        testPoint.position = targetBulletPoint;
-        ///
-        /////
-
         if (playerPlane.Raycast(ray, out hitDistance))
         {
             targetBulletPoint = ray.GetPoint(hitDistance);
 
-            targetRotation = Quaternion.LookRotation(targetBulletPoint - transform.position);
+            targetRotation = Quaternion.LookRotation(targetBulletPoint - transform.position - new Vector3(0, pistolPosition.position.y, 0));
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.fixedDeltaTime);
         }
     }
-
-    
 
     /// <summary>
     /// Получить текущее направление поворота: вправо или влево

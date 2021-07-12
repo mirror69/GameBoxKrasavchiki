@@ -32,6 +32,7 @@ public class PlayerInput : MonoBehaviour
         verticalInput = Input.GetAxis("Vertical");
         rotateDirection = Input.mousePosition;
         
+        
         if(Input.GetButtonDown("Fire1"))
         {
             isPushingButton = true;
