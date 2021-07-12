@@ -18,9 +18,10 @@ public class Shooting : MonoBehaviour
         this.bulletPool = new BulletPool(bulletPrefab, poolCount, bulletContainer);
     }
 
-    public void Shoot(Vector3 startDirection, Quaternion startRotation, Vector3 startVelocity)
+    public void Shoot(Vector3 startDirection, Quaternion startRotation, Vector3 startVelocity, Vector3 targetBulletPoint, int damageMultiplier)
     {
-        bulletPool.EmitBullet(startDirection, startRotation, startVelocity);
+        bulletPool.EmitBullet(startDirection, startRotation, 
+            startVelocity, targetBulletPoint, damageMultiplier);
     }
 
 }
