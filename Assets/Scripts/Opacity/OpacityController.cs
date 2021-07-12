@@ -27,25 +27,30 @@ public class OpacityController : MonoBehaviour
 
     [Tooltip("Объект, указывающий направление увеличения уровня видимости")]
     [SerializeField]
-    private Transform opacityIncreaseDirectionTransform = null;
+    private Transform increaseVector = null;
     
     [Tooltip("Объект-инициатор изменения уровня видимости")]
     [SerializeField]
-    private Transform opacityChangeInitiator = null;   
+    private Transform changeInitiator = null;   
     
     [Tooltip("Скорость изменения видимости объектов (в процентах на метр движения)")]
     [SerializeField]  
-    private float opacityChangeSpeed = 20;
+    private float changeSpeed = 45;
     
     [Tooltip("Значение видимости, при которой объект появляется полностью")]
     [SerializeField]    
     [Range(MinOpacityValue, MaxOpacityValue)]
-    private float opacityValueForFullFadeIn = 70;
+    private float fullFadeInValue = 99;
     
     [Tooltip("Значение видимости, при которой объект полностью исчезает")]
     [SerializeField]
     [Range(MinOpacityValue, MaxOpacityValue)]
-    private float opacityValueForFullFadeOut = 20;
+    private float fullFadeOutValue = 1;
+
+    [Tooltip("Значение видимости, выше которого объект считается полностью непрозрачным")]
+    [SerializeField]
+    [Range(MinOpacityValue, MaxOpacityValue)]
+    private float fullOpaqueValue = 99;
 
     [Tooltip("Стратегия изменения видимости")]
     [SerializeField]
@@ -100,10 +105,15 @@ public class OpacityController : MonoBehaviour
     private void Awake()
     {
         opacityChangingObjects = FindObjectsOfType<AnimatedObstacle>();
+        OpacityChangingParameters opacityChangingParameters = new OpacityChangingParameters(fullOpaqueValue);
+        foreach (var item in opacityChangingObjects)
+        {
+            item.Initialize(opacityChangingParameters);
+        }
 
-        opacityIncreaseVector = opacityIncreaseDirectionTransform.forward;
+        opacityIncreaseVector = increaseVector.forward;
         // Выключаем объект, указывающий вектор увеличения видимости объектов, т.к. в игре он не нужен
-        opacityIncreaseDirectionTransform.gameObject.SetActive(false);
+        increaseVector.gameObject.SetActive(false);
 
         currentPositionAlongIncreaseVector = GetCurrentPositionAlongIncreaseVector();
         currentOpacityValue = MaxOpacityValue;
@@ -143,8 +153,8 @@ public class OpacityController : MonoBehaviour
         // и opacityValueForFullFadeOut
         // Рассчитывается здесь, чтобы можно было регулировать параметры в PlayMode
         // TODO. Когда будет отлажено, перенести в Awake
-        opacityFullFadeChangeSpeed = opacityChangeSpeed *
-            (opacityValueForFullFadeIn - opacityValueForFullFadeOut) / (MaxOpacityValue - MinOpacityValue);
+        opacityFullFadeChangeSpeed = changeSpeed *
+            (fullFadeInValue - fullFadeOutValue) / (MaxOpacityValue - MinOpacityValue);
 
         // При возрастании координаты, прозрачность увеличивается, и наоборот.
         float newOpacityValue = currentOpacityValue + positionDifference * opacityFullFadeChangeSpeed;
@@ -154,22 +164,22 @@ public class OpacityController : MonoBehaviour
         // Если начинаем движение в противоположном направлении, сразу начинаем менять прозрачность в этом интервале
         if (newOpacityValue > currentOpacityValue)
         {
-            if (newOpacityValue < opacityValueForFullFadeOut)
+            if (newOpacityValue < fullFadeOutValue)
             {
-                newOpacityValue = opacityValueForFullFadeOut;
+                newOpacityValue = fullFadeOutValue;
             }
-            else if (newOpacityValue  > opacityValueForFullFadeIn)
+            else if (newOpacityValue  > fullFadeInValue)
             {
                 newOpacityValue = MaxOpacityValue;
             }
         }
         else if (newOpacityValue < currentOpacityValue)
         {
-            if (newOpacityValue > opacityValueForFullFadeIn)
+            if (newOpacityValue > fullFadeInValue)
             {
-                newOpacityValue = opacityValueForFullFadeIn;
+                newOpacityValue = fullFadeInValue;
             }
-            else if (newOpacityValue < opacityValueForFullFadeOut)
+            else if (newOpacityValue < fullFadeOutValue)
             {
                 newOpacityValue = MinOpacityValue;
             }
@@ -206,6 +216,6 @@ public class OpacityController : MonoBehaviour
     /// <returns></returns>
     private float GetCurrentPositionAlongIncreaseVector()
     {
-        return Vector3.Dot(opacityChangeInitiator.transform.position, opacityIncreaseVector);
+        return Vector3.Dot(changeInitiator.transform.position, opacityIncreaseVector);
     }
 }
