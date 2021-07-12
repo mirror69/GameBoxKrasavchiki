@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,8 +15,11 @@ public class PlayerController : MonoBehaviour
     private Transform cameraTransform;
     private float playerForce;
     private Shooting shooting;
+    private Vector3 targetBulletPoint;
     [SerializeField] float playerSpeed;
     [SerializeField] float rotationSpeed;
+    [SerializeField] Transform pistolPosition;
+    public Transform testPoint;
 
     public float PlayerSpeed => playerSpeed;
     public Vector3 CurrentVelocity => playerRigidbody.velocity;
@@ -56,40 +60,22 @@ public class PlayerController : MonoBehaviour
 
         float hitDistance;
 
+        /////
+        ///
+        testPoint.position = targetBulletPoint;
+        ///
+        /////
+
         if (playerPlane.Raycast(ray, out hitDistance))
         {
-            Vector3 targetPoint = ray.GetPoint(hitDistance);
+            targetBulletPoint = ray.GetPoint(hitDistance);
 
-            targetRotation = Quaternion.LookRotation(targetPoint - transform.position);
+            targetRotation = Quaternion.LookRotation(targetBulletPoint - transform.position);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.fixedDeltaTime);
         }
     }
 
-    /// <summary>
-    /// Конвертор движения игрока с учетом поворота плеера, предоставляет данные для аниматора относительно текущего поворота плеера, а не глобальных координат
-    /// </summary>
-    /// <param name="horizontalInput"></param>
-    /// <param name="verticalInput"></param>
-    /// <returns>Vector2, где первый член это боковое движение, а второй - движение вперед/назад</returns>
-    //public Vector2 AnimatorSourceData(float horizontalInput, float verticalInput)
-    //{
-    //    Vector3 move;
-    //    if (cameraTransform != null)
-    //    {
-    //        Vector3 cameraForward = Vector3.Scale(cameraTransform.up, new Vector3(1, 0, 1)).normalized;
-    //        move = verticalInput * cameraForward + horizontalInput * cameraTransform.right;
-    //    }
-    //    else move = verticalInput * Vector3.forward + horizontalInput * Vector3.right;
-
-    //    if (move.magnitude > 1) move.Normalize();
-
-    //    Vector3 localMove = transform.InverseTransformDirection(move);
-
-    //    float turnValue = localMove.x;
-    //    float forwardValue = localMove.z;
-
-    //    return new Vector2(turnValue, forwardValue);
-    //}
+    
 
     /// <summary>
     /// Получить текущее направление поворота: вправо или влево
@@ -122,8 +108,18 @@ public class PlayerController : MonoBehaviour
         return difference > 0 ? 1 : -1;
     }
 
-    public void PlayerShoot()
+    public void PlayerShoot(float buttonPressedTime)
     {
-        shooting.Shoot(transform.position, transform.rotation, playerRigidbody.velocity);
+        shooting.Shoot(pistolPosition.transform.position, 
+                        transform.rotation, 
+                        playerRigidbody.velocity, 
+                        targetBulletPoint,
+                        DamageMultiplier(buttonPressedTime));
+    }
+
+    private int DamageMultiplier(float buttonPressedTime)
+    {
+        if (buttonPressedTime < 1) return 1;
+        else return (int)Math.Floor(buttonPressedTime);
     }
 }
