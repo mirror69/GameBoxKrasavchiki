@@ -18,10 +18,15 @@ public class Bullet : MonoBehaviour
     /// Начальная точка пули
     /// </summary>
     private Vector3 startPosition;
+    /// <summary>
+    /// Масштаб по умолчанию из префаба
+    /// </summary>
+    private Vector3 startScale;
 
     private void Awake()
     {
         bulletRigidbody = GetComponent<Rigidbody>();
+        startScale = transform.localScale;
     }
 
     /// <summary>
@@ -37,7 +42,7 @@ public class Bullet : MonoBehaviour
         transform.rotation = rotation;
         bulletRigidbody.velocity = velocity;
         this.bulletLiveMaxDistance = (startPosition - new Vector3(0, startPosition.y, 0)- targetBulletPoint).magnitude;
-        transform.localScale = transform.localScale * damageMultiplier;
+        transform.localScale = startScale * damageMultiplier;
     }
 
     /// <summary>
@@ -66,9 +71,4 @@ public class Bullet : MonoBehaviour
     {        
         this.gameObject.SetActive(false);
     }
-
-    //private void OnDisable()
-    //{
-    //    if (disableAfterTime != null) StopCoroutine(disableAfterTime);
-    //}
 }

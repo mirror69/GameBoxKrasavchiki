@@ -11,7 +11,9 @@ public class Shooting : MonoBehaviour
     [SerializeField] private int poolCount = 3; //размер пула пуль    
     [SerializeField] private Bullet bulletPrefab; //через инспектор загружаем тип пули со своим поведением
     [SerializeField] private Transform bulletContainer;
+    [SerializeField] private bool isInheritingSourceVelocity = false;
     private BulletPool bulletPool;
+
 
     private void Start()
     {
@@ -20,6 +22,8 @@ public class Shooting : MonoBehaviour
 
     public void Shoot(Vector3 startDirection, Quaternion startRotation, Vector3 startVelocity, Vector3 targetBulletPoint, int damageMultiplier)
     {
+        if (!isInheritingSourceVelocity) startVelocity = Vector3.zero;
+
         bulletPool.EmitBullet(startDirection, startRotation, 
             startVelocity, targetBulletPoint, damageMultiplier);
     }
