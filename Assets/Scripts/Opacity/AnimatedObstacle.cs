@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AnimatedObstacle : MonoBehaviour
 {
-    const float collidersPutDownShiftForTransparency = 0.5f;
+    const float collidersPutDownShiftForTransparency = 0.8f;
     
 
     private Animation obstacleAnimation;

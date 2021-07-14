@@ -8,12 +8,18 @@ using UnityEngine;
 /// </summary>
 public class FieldOfView : MonoBehaviour
 {
+    /// <summary>
+    /// Состояние обнаружения цели
+    /// </summary>
     public enum TargetDetectingState
     {        
         Detected,
         NotDetected
     }
 
+    /// <summary>
+    /// Задержка проверки в секундах (чтобы не каждый кадр проверять) 
+    /// </summary>
     const float checkTargetInFovDelay = 0.1f;
 
     [SerializeField]
@@ -59,9 +65,26 @@ public class FieldOfView : MonoBehaviour
 
     private void Start()
     {
+        if (FieldOfViewManager.Instance != null)
+        {
+            FieldOfViewManager.Instance.AddFieldOfView(this);
+        }
+        
         StartSearching();
     }
 
+    private void OnDestroy()
+    {
+        if (FieldOfViewManager.Instance != null)
+        {
+            FieldOfViewManager.Instance.RemoveFieldOfView(this);
+        }
+    }
+
+    /// <summary>
+    /// Поиск цели
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator TargetSearching()
     {
         while (true)
@@ -88,11 +111,18 @@ public class FieldOfView : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Начать поиск цели
+    /// </summary>
     private void StartSearching()
     {
         StartCoroutine(TargetSearching());
     }
 
+    /// <summary>
+    /// Установить состояние обнаружения цели
+    /// </summary>
+    /// <param name="state"></param>
     private void SetTargetDetectingState(TargetDetectingState state)
     {
         targetDetectingState = state;
@@ -106,6 +136,10 @@ public class FieldOfView : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Проверить, находится ли цель в пределах видимости
+    /// </summary>
+    /// <returns></returns>
     private bool CheckTargetInFov()
     {
         // Значения задаются здесь для лёгкой настройки из инспектора в PlayMode 
@@ -132,15 +166,9 @@ public class FieldOfView : MonoBehaviour
         {
             return false;
         }
-        
-        bool targetInFOV = false;
-        if (Physics.Raycast(pointOfSightPosition, vectorToTarget, out RaycastHit hitInfo, distance))
-        {
-            if (hitInfo.collider == target.Collider)
-            {
-                targetInFOV = true;
-            }
-        }
-        return targetInFOV;
+
+        // Если не столкнулись с каким-либо препятствием, то цель в пределах видимости
+        return !Physics.Raycast(pointOfSightPosition, vectorToTarget, out RaycastHit hitInfo, distance,
+            FieldOfViewManager.Instance.ObstacleLayers);
     }
 }

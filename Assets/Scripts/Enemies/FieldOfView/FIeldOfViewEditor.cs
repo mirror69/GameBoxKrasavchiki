@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
@@ -10,23 +11,15 @@ public class FieldOfViewEditor : Editor
     private void OnSceneGUI()
     {
         FieldOfView fov = target as FieldOfView;
-        Handles.color = Color.white;
 
         Vector3 sightCenter = fov.PointOfSight.transform.position;
-
         float fovRotation = fov.PointOfSight.transform.eulerAngles.y;
-        VisualizeFOV(sightCenter, fovRotation, fov.Angle, fov.Distance);
 
-        Vector3 fovEdgeVector1 = GetFovEdgeVector(fovRotation, -fov.Angle / 2);
-        Vector3 fovEdgeVector2 = GetFovEdgeVector(fovRotation, fov.Angle / 2);
+        // Визуализируем поле зрения
+        VisualizeInsideFOV(sightCenter, fovRotation, fov.Angle, fov.Distance);
+        VisualizeOutsideFOV(sightCenter, fovRotation, fov.Angle, fov.Distance);
 
-        Handles.color = Color.yellow;
-
-        Handles.DrawWireArc(sightCenter, Vector3.up, fovEdgeVector1, fov.Angle, fov.Distance);
-      
-        Handles.DrawLine(sightCenter, sightCenter + fovEdgeVector1 * fov.Distance);
-        Handles.DrawLine(sightCenter, sightCenter + fovEdgeVector2 * fov.Distance);
-
+        // Если цель в поле зрения, нарисуем красный отрезок до цели 
         if (fov.DetectingState == FieldOfView.TargetDetectingState.Detected)
         {
             Handles.color = Color.red;
@@ -34,22 +27,40 @@ public class FieldOfViewEditor : Editor
         }
     }
 
-    private Vector3 GetFovEdgeVector(float forwardVectorAngle, float shiftAngle)
+    /// <summary>
+    /// Визуализировать внутреннюю часть поля зрения
+    /// </summary>
+    /// <param name="fovCenter"></param>
+    /// <param name="fovRotation"></param>
+    /// <param name="fowAngle"></param>
+    /// <param name="fowDistance"></param>
+    private void VisualizeInsideFOV(Vector3 fovCenter, float fovRotation, float fowAngle, float fowDistance)
     {
-        float vectorAngleInRad = (forwardVectorAngle + shiftAngle) * Mathf.Deg2Rad;
-        return new Vector3(Mathf.Sin(vectorAngleInRad), 0, Mathf.Cos(vectorAngleInRad));
+        List<Vector3> fovLines = FieldOfViewVisualizer.GetFovVectors(fovCenter, fovRotation, fowAngle);
+        Handles.color = Color.green;
+        foreach (var item in fovLines)
+        {
+            Handles.DrawLine(fovCenter, fovCenter + item * fowDistance);
+        }
     }
 
-    private void VisualizeFOV(Vector3 fovCenter, float fovRotation, float fowAngle, float fowDistance)
+    /// <summary>
+    /// Визуализировать внешнюю часть поля зрения
+    /// </summary>
+    /// <param name="fovCenter"></param>
+    /// <param name="fovRotation"></param>
+    /// <param name="fowAngle"></param>
+    /// <param name="fowDistance"></param>
+    private void VisualizeOutsideFOV(Vector3 fovCenter, float fovRotation, float fowAngle, float fowDistance)
     {
-        const float linesStepByDegree = 10f;
-        float currentAngle = -fowAngle / 2;
-        Handles.color = Color.green;
-        while (currentAngle < fowAngle / 2)
-        {
-            Vector3 fovEdgeVector = GetFovEdgeVector(fovRotation, currentAngle);
-            Handles.DrawLine(fovCenter, fovCenter + fovEdgeVector * fowDistance);
-            currentAngle += linesStepByDegree;
-        }
+        Vector3 fovEdgeVector1 = FieldOfViewVisualizer.GetFovVector(fovRotation, -fowAngle / 2);
+        Vector3 fovEdgeVector2 = FieldOfViewVisualizer.GetFovVector(fovRotation, fowAngle / 2);
+
+        Handles.color = Color.yellow;
+
+        Handles.DrawWireArc(fovCenter, Vector3.up, fovEdgeVector1, fowAngle, fowDistance);
+
+        Handles.DrawLine(fovCenter, fovCenter + fovEdgeVector1 * fowDistance);
+        Handles.DrawLine(fovCenter, fovCenter + fovEdgeVector2 * fowDistance);
     }
 }

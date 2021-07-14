@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 8780580470206802209}
   - component: {fileID: 8780580470206802220}
   - component: {fileID: 7379927324590040370}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -82,6 +82,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerSpeed: 3
   rotationSpeed: 7
+  pistolPosition: {fileID: 0}
 --- !u!114 &8780580470206802209
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -94,6 +95,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81d7cf0ece6650842a1d6b2d95459400, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  movingStoppedTime: 0
+  shootingCullDownTime: 0
 --- !u!114 &8780580470206802220
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -124,6 +127,7 @@ MonoBehaviour:
   poolCount: 3
   bulletPrefab: {fileID: 0}
   bulletContainer: {fileID: 0}
+  isInheritingSourceVelocity: 0
 --- !u!1 &8780580472126713887
 GameObject:
   m_ObjectHideFlags: 0
