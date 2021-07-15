@@ -54,13 +54,13 @@ public class PlayerController : MonoBehaviour
     /// <param name="mousePosition">¬ектор, в сторону которого поворачивает плеер</param>
     public void RotatePlayer(Vector3 mousePosition)
     {
-        Plane playerPlane = new Plane(Vector3.up, transform.position + new Vector3(0, pistolPosition.position.y , 0));
-
+        Plane playerMovingPlane = new Plane(Vector3.up, transform.position + new Vector3(0, pistolPosition.position.y , 0));
+        
         Ray ray = Camera.main.ScreenPointToRay(mousePosition);
 
         float hitDistance;
 
-        if (playerPlane.Raycast(ray, out hitDistance))
+        if (playerMovingPlane.Raycast(ray, out hitDistance))
         {
             targetBulletPoint = ray.GetPoint(hitDistance);
 
