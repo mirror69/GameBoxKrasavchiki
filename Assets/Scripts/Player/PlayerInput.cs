@@ -5,6 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(PlayerController))]
 public class PlayerInput : MonoBehaviour
 {
+    public float fireButtonPressedTimer;
     [SerializeField, Range(0, 1)] private float movingStoppedTime;
     [SerializeField, Range(0, 1)] private float shootingCullDownTime;
     private Vector3 moveDirection;
@@ -31,9 +32,12 @@ public class PlayerInput : MonoBehaviour
         horizontalInput = Input.GetAxis("Horizontal");
         verticalInput = Input.GetAxis("Vertical");
         rotateDirection = Input.mousePosition;
-        
-        
-        if(Input.GetButtonDown("Fire1"))
+
+        if (isPushingButton) fireButtonPressedTimer = Time.time - buttonPressedStartTime;
+        else fireButtonPressedTimer = 0;
+
+
+        if (Input.GetButtonDown("Fire1"))
         {
             isPushingButton = true;
             buttonPressedStartTime = Time.time;
@@ -45,7 +49,7 @@ public class PlayerInput : MonoBehaviour
             isPushingButton = false;
         }
 
-        if ((Time.time - buttonPressedStartTime > 5) && isPushingButton)
+        if ((fireButtonPressedTimer > 5) && isPushingButton)
         {
             isPushingButton = false;
             Fire();
@@ -57,7 +61,7 @@ public class PlayerInput : MonoBehaviour
         canMoving = false;
         if (canShooting)
         {
-            playerController.PlayerShoot(Time.time - buttonPressedStartTime);
+            playerController.PlayerShoot(fireButtonPressedTimer);
             
             StartCoroutine(CullDownWaiting());
             StartCoroutine(MovingStopper());
