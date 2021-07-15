@@ -41,6 +41,7 @@ GameObject:
   - component: {fileID: 8274951235803146173}
   - component: {fileID: 36433309}
   - component: {fileID: 1612804488326056179}
+  - component: {fileID: 2386200346733146053}
   m_Layer: 6
   m_Name: EnemyGhost
   m_TagString: Untagged
@@ -76,9 +77,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pointOfSight: {fileID: 1912282934}
-  angle: 90
-  distance: 5
-  detectionDelay: 1
+  angle: 140
+  distance: 21
+  detectionDelay: 1.5
   target: {fileID: 0}
 --- !u!136 &1612804488326056179
 CapsuleCollider:
@@ -94,6 +95,19 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &2386200346733146053
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1475970923398128290}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b30369219c995747adc931abbe15850, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startHealth: 100
 --- !u!1001 &7287279084645372714
 PrefabInstance:
   m_ObjectHideFlags: 0

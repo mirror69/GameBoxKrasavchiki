@@ -8,7 +8,8 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class Bullet : MonoBehaviour
 {
-    [SerializeField] private float bulletStartForce;    
+    [SerializeField] private float bulletStartForce;
+    [SerializeField] private float damageValue;
     private Rigidbody bulletRigidbody;
     /// <summary>
     /// Расстояние на которое отлетает пуля
@@ -43,12 +44,13 @@ public class Bullet : MonoBehaviour
         bulletRigidbody.velocity = velocity;
         this.bulletLiveMaxDistance = (startPosition - new Vector3(0, startPosition.y, 0)- targetBulletPoint).magnitude;
         transform.localScale = startScale * damageMultiplier;
+        damageValue *= damageMultiplier;
     }
 
     /// <summary>
     /// Придание движения пули
     /// </summary>
-    public void Fire()
+    public void BulletMoving()
     {        
         bulletRigidbody.AddForce(transform.forward * bulletStartForce, ForceMode.Impulse);
     }
@@ -56,6 +58,18 @@ public class Bullet : MonoBehaviour
     private void Update()
     {
         BulletDistanceCounter();
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        IDamageable damageableObject;
+        if (other.TryGetComponent<IDamageable>(out damageableObject))
+        {
+            damageableObject.ReceiveDamage(damageValue);
+            DisableBullet();
+        }
+
+        if (other.gameObject.layer == 10) DisableBullet(); //Layer 10 = Walls            
     }
 
     private void BulletDistanceCounter()

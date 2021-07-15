@@ -10,14 +10,14 @@ public class Shooting : MonoBehaviour
 {
     [SerializeField] private int poolCount = 3; //размер пула пуль    
     [SerializeField] private Bullet bulletPrefab; //через инспектор загружаем тип пули со своим поведением
-    [SerializeField] private Transform bulletContainer;
+    [SerializeField] private Transform bulletsContainer;
     [SerializeField] private bool isInheritingSourceVelocity = false;
     private BulletPool bulletPool;
 
 
     private void Start()
     {
-        this.bulletPool = new BulletPool(bulletPrefab, poolCount, bulletContainer);
+        this.bulletPool = new BulletPool(bulletPrefab, poolCount, bulletsContainer);
     }
 
     public void Shoot(Vector3 startDirection, Quaternion startRotation, Vector3 startVelocity, Vector3 targetBulletPoint, int damageMultiplier)

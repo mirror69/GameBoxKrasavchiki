@@ -90,11 +90,11 @@ public class BulletPool
         if (this.HasFreeElement(out Bullet element))
         {
             element.SetBulletParameters(startDirection, startRotation, startVelocity, targetBulletPoint, damageMultiplier);
-            element.Fire();            
+            element.BulletMoving();            
         }            
         else
         {
-            this.CreateObject(startDirection, startRotation, startVelocity, targetBulletPoint, damageMultiplier, true).Fire();
+            this.CreateObject(startDirection, startRotation, startVelocity, targetBulletPoint, damageMultiplier, true).BulletMoving();
         }     
     }
 }
