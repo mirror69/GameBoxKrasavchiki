@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -9,7 +7,9 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     [SerializeField] private float bulletStartForce;
-    [SerializeField] private float damageValue;
+    [SerializeField] private float defaultDamageValue;
+    [SerializeField] private Transform bulletMesh;
+
     private Rigidbody bulletRigidbody;
     /// <summary>
     /// Расстояние на которое отлетает пуля
@@ -24,10 +24,18 @@ public class Bullet : MonoBehaviour
     /// </summary>
     private Vector3 startScale;
 
+    private float currentDamageValue;
+
+
     private void Awake()
     {
         bulletRigidbody = GetComponent<Rigidbody>();
-        startScale = transform.localScale;
+        
+        startScale = bulletMesh.transform.localScale;
+
+        currentDamageValue = defaultDamageValue;
+
+
     }
 
     /// <summary>
@@ -42,9 +50,10 @@ public class Bullet : MonoBehaviour
         this.startPosition = transform.position;
         transform.rotation = rotation;
         bulletRigidbody.velocity = velocity;
-        this.bulletLiveMaxDistance = (startPosition - new Vector3(0, startPosition.y, 0)- targetBulletPoint).magnitude;
-        transform.localScale = startScale * damageMultiplier;
-        damageValue *= damageMultiplier;
+        this.bulletLiveMaxDistance = (startPosition - targetBulletPoint).magnitude;
+        bulletMesh.transform.localScale = startScale * damageMultiplier;
+        currentDamageValue = defaultDamageValue * damageMultiplier;
+        
     }
 
     /// <summary>
@@ -65,7 +74,7 @@ public class Bullet : MonoBehaviour
         IDamageable damageableObject;
         if (other.TryGetComponent<IDamageable>(out damageableObject))
         {
-            damageableObject.ReceiveDamage(damageValue);
+            damageableObject.ReceiveDamage(currentDamageValue);
             DisableBullet();
         }
 
