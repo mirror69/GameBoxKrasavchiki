@@ -155,8 +155,10 @@ public class FieldOfView : MonoBehaviour
         pointOfSightPosition.y = targetPosition.y;
 
         Vector3 vectorToTarget = targetPosition - pointOfSightPosition;
+        float distanceToTargetSqr = Vector3.SqrMagnitude(vectorToTarget);
+
         // Проверим, не находится ли цель за пределами дальности видимости
-        if (Vector3.SqrMagnitude(vectorToTarget) > distanceSqr)
+        if (distanceToTargetSqr > distanceSqr)
         {
             return false;
         }
@@ -167,8 +169,15 @@ public class FieldOfView : MonoBehaviour
             return false;
         }
 
-        // Если не столкнулись с каким-либо препятствием, то цель в пределах видимости
-        return !Physics.Raycast(pointOfSightPosition, vectorToTarget, out RaycastHit hitInfo, distance,
-            FieldOfViewManager.Instance.ObstacleLayers);
+        // Если столкнулись с каким-либо препятствием, то проверим: если оно дальше, чем цель,
+        // то цель в зоне видимости
+        if (Physics.Raycast(pointOfSightPosition, vectorToTarget, out RaycastHit hitInfo, distance,
+            ~FieldOfViewManager.Instance.NotObstacleLayers))
+        {
+            return hitInfo.distance * hitInfo.distance > distanceToTargetSqr;
+        }
+        
+        // Если не столкнулись c препятствием, то цель в пределах видимости
+        return true;
     }
 }

@@ -8,13 +8,13 @@ using UnityEngine;
 public class FieldOfViewManager : MonoBehaviour
 {
     [SerializeField]
-    private LayerMask obstacleLayers;
+    private LayerMask notObstacleLayers;
 
     private readonly List<FieldOfView> fieldsOfView = new List<FieldOfView>();
 
     public static FieldOfViewManager Instance { get; private set; }
     public List<FieldOfView> FieldsOfView => fieldsOfView;
-    public LayerMask ObstacleLayers => obstacleLayers;
+    public LayerMask NotObstacleLayers => notObstacleLayers;
 
     public void AddFieldOfView(FieldOfView fov)
     {

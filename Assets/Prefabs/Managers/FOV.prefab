@@ -44,9 +44,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2f00d67cf2b0df41ae36387a065c817, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  obstacleLayers:
+  notObstacleLayers:
     serializedVersion: 2
-    m_Bits: 439
+    m_Bits: 638
 --- !u!1 &3802152456832064373
 GameObject:
   m_ObjectHideFlags: 0
@@ -90,5 +90,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eef5538fcd6b8f643abdefce1a628550, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  linesStepInDegrees: 10
   fovMaterial: {fileID: 2100000, guid: 73addfbe0769e0c4ba60da44e35b3644, type: 2}
   fovDetectedMaterial: {fileID: 2100000, guid: 81669cce51b392a49b122665160b2997, type: 2}

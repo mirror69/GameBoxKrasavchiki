@@ -68,7 +68,7 @@ public class FieldOfViewVisualizer : MonoBehaviour
         for (int i = 0; i < fovVectors.Count; i++)
         {
             if (Physics.Raycast(fovCenter, fovVectors[i], out RaycastHit hitInfo, fovDistance,
-                FieldOfViewManager.Instance.ObstacleLayers))
+                ~FieldOfViewManager.Instance.NotObstacleLayers))
             {
                 fovVectors[i] = fovVectors[i] * hitInfo.distance;
             }
