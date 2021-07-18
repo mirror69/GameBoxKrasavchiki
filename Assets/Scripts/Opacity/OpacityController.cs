@@ -52,9 +52,9 @@ public class OpacityController : MonoBehaviour
     [Range(MinOpacityValue, MaxOpacityValue)]
     private float fullOpaqueValue = 99;
 
-    [Tooltip("Стратегия изменения видимости")]
-    [SerializeField]
-    private OpacityChangingStrategy opacityChangingStrategy = null;
+    //[Tooltip("Стратегия изменения видимости")]
+    //[SerializeField]
+    //private OpacityChangingStrategy opacityChangingStrategy = null;
 
     /// <summary>
     /// Объекты игры, способные менять уровень своей видимости

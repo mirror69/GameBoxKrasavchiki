@@ -1,0 +1,105 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6147652028898044441
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8452462126004691019}
+  - component: {fileID: 1348607976163310114}
+  - component: {fileID: 4343117856031544534}
+  - component: {fileID: 5280697179223528698}
+  m_Layer: 0
+  m_Name: MovingPatrol
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8452462126004691019
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6147652028898044441}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1348607976163310114
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6147652028898044441}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52c5f0cc8e2be4d46b9d15148d463ffe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  path:
+    points:
+    - {x: -2.2724864, y: 0, z: 0.25636715}
+    - {x: 2.5212417, y: 0, z: 0.20123053}
+    - {x: 2.5324733, y: 0, z: 4.049857}
+    isClosed: 0
+    center: {fileID: 8452462126004691019}
+  defaultPointDistance: 5
+--- !u!114 &4343117856031544534
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6147652028898044441}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a83e6891ebdae342b0cee807b825530, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  globalPointsData:
+    stopTime:
+      useGlobalValue: 0
+      value: 0
+    rotationAngle:
+      useGlobalValue: 0
+      value: 180
+  localPointsData:
+  - stopTime:
+      useGlobalValue: 1
+      value: 1
+    rotationAngle:
+      useGlobalValue: 1
+      value: 0
+  - stopTime:
+      useGlobalValue: 1
+      value: 0
+    rotationAngle:
+      useGlobalValue: 1
+      value: 0
+  - stopTime:
+      useGlobalValue: 1
+      value: 0
+    rotationAngle:
+      useGlobalValue: 1
+      value: 0
+--- !u!114 &5280697179223528698
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6147652028898044441}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ec43ebd37be2fc47be9129aba474d0f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

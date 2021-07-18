@@ -90,6 +90,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eef5538fcd6b8f643abdefce1a628550, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  linesStepInDegrees: 10
+  linesStepInDegrees: 5
   fovMaterial: {fileID: 2100000, guid: 73addfbe0769e0c4ba60da44e35b3644, type: 2}
   fovDetectedMaterial: {fileID: 2100000, guid: 81669cce51b392a49b122665160b2997, type: 2}
