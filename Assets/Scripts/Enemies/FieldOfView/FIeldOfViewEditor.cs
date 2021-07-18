@@ -36,7 +36,7 @@ public class FieldOfViewEditor : Editor
     /// <param name="fowDistance"></param>
     private void VisualizeInsideFOV(Vector3 fovCenter, float fovRotation, float fowAngle, float fowDistance)
     {
-        List<Vector3> fovLines = FieldOfViewVisualizer.GetFovVectors(fovCenter, fovRotation, fowAngle);
+        List<Vector3> fovLines = FieldOfViewVisualizer.GetFovVectors(fovRotation, fowAngle);
         Handles.color = Color.green;
         foreach (var item in fovLines)
         {
@@ -53,8 +53,8 @@ public class FieldOfViewEditor : Editor
     /// <param name="fowDistance"></param>
     private void VisualizeOutsideFOV(Vector3 fovCenter, float fovRotation, float fowAngle, float fowDistance)
     {
-        Vector3 fovEdgeVector1 = FieldOfViewVisualizer.GetFovVector(fovRotation, -fowAngle / 2);
-        Vector3 fovEdgeVector2 = FieldOfViewVisualizer.GetFovVector(fovRotation, fowAngle / 2);
+        Vector3 fovEdgeVector1 = FieldOfViewVisualizer.GetFovVector(fovRotation - fowAngle / 2);
+        Vector3 fovEdgeVector2 = FieldOfViewVisualizer.GetFovVector(fovRotation + fowAngle / 2);
 
         Handles.color = Color.yellow;
 
