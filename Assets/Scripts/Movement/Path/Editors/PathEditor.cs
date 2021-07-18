@@ -25,10 +25,6 @@ public class PathEditor : Editor
 
         NPCPath path = creator.Path;
 
-        // Отключаем возможность переходить на другие объекты по нажатию левой кнопки мыши
-        int id = GUIUtility.GetControlID(FocusType.Passive);
-        HandleUtility.AddDefaultControl(id);
-
         Event guiEvent = Event.current;
 
         // Добавляем точки левой кнопкой мыши с зажатым шифтом.
@@ -180,6 +176,9 @@ public class PathEditor : Editor
 
     private void OnSceneGUI()
     {
+        // Отключаем возможность переходить на другие объекты по нажатию левой кнопки мыши
+        int id = GUIUtility.GetControlID(FocusType.Passive);
+        HandleUtility.AddDefaultControl(id);
         CallOnSceneGUI(creator);
     }
 

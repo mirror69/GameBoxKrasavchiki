@@ -21,13 +21,7 @@ public class AIMovingObject : MonoBehaviour
     public float Speed => speed;
     public float RotationSpeed => rotationSpeed;
     public float FovRotationSpeed => fovRotationSpeed;
-    public Vector3 Position => ObjectTransform == null ? Vector3.zero : ObjectTransform.position;
-    public Transform ObjectTransform => navMeshAgent == null ? null : navMeshAgent.transform;
-
-    public void SetPosition(Vector3 point)
-    {
-        navMeshAgent.transform.position = point;
-    }
+    public Vector3 Position => transform.position;
 
     public void Move(Vector3 point)
     {
