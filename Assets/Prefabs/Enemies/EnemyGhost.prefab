@@ -80,8 +80,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pointOfSight: {fileID: 1912282934}
-  angle: 140
-  distance: 21
+  angle: 120
+  distance: 20
   detectionDelay: 1.5
   target: {fileID: 0}
 --- !u!136 &1612804488326056179
