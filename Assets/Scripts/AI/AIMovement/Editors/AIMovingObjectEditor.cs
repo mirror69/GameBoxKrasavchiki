@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using UnityEditor.AI;
 
 [CustomEditor(typeof(AIMovingObject))]
 public class AIMovingObjectEditor : Editor
@@ -27,6 +28,14 @@ public class AIMovingObjectEditor : Editor
         PathEditor.CallOnSceneGUI(patrolStrategy.PathData.PathCreator);
     }
 
+    public override void OnInspectorGUI()
+    {
+        DrawAgentTypeProperty("agentType");
+        DrawAgentTypeProperty("agentTypeWalkingThroughWalls");
+        serializedObject.ApplyModifiedProperties();
+        base.OnInspectorGUI();
+    }
+
     public void OnSceneGUI()
     {
         DrawMovingStrategy(movingObject);
@@ -35,5 +44,11 @@ public class AIMovingObjectEditor : Editor
     private void OnEnable()
     {
         movingObject = (AIMovingObject)target;
+    }
+
+    private void DrawAgentTypeProperty(string propName)
+    {
+        SerializedProperty agentTypeID = serializedObject.FindProperty(propName);
+        NavMeshComponentsGUIUtility.AgentTypePopup(propName, agentTypeID);
     }
 }
