@@ -63,6 +63,8 @@ public class AIPatrolStrategy : AIMovementStrategy
 
     protected override IEnumerator PerformMoving()
     {
+        movingObject.SetEnabledAutomaticRotation(true);
+        
         Coroutine rotatingCoroutine;
         bool infiniteRotation = pathData.Path.PointsCount <= 1;
         CurrentPathParam currentPathParam = new CurrentPathParam(pathData.Path, movingObject.Position);
@@ -94,7 +96,7 @@ public class AIPatrolStrategy : AIMovementStrategy
                 {
                     yield return null;
                 }
-                StopCoroutine(rotatingCoroutine);
+                this.StopAndNullCoroutine(ref rotatingCoroutine);
             }
 
             float timeToNextMove = Time.time + pointData.StopTime;
@@ -105,7 +107,7 @@ public class AIPatrolStrategy : AIMovementStrategy
             {
                 yield return null;
             }
-            StopCoroutine(rotatingCoroutine);
+            this.StopAndNullCoroutine(ref rotatingCoroutine);
 
             currentPathParam.NextPoint();
         }

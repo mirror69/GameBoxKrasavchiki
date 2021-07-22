@@ -117,8 +117,8 @@ public class FieldOfViewVisualizer : MonoBehaviour
     {
         Vector3 fovEdgeVector = GetFovVector(globalAngle);
 
-        if (Physics.Raycast(fovCenter, fovEdgeVector, out RaycastHit hitInfo, fovDistance,
-            ~FieldOfViewManager.Instance.NotObstacleLayers))
+        RaycastHit hitInfo = FieldOfViewManager.GetFovRaycastHit(fovCenter, fovEdgeVector, fovDistance);
+        if (hitInfo.collider != null)
         {
             return new ViewCastInfo(true, hitInfo.point, hitInfo.distance, globalAngle);
         }
@@ -212,9 +212,6 @@ public class FieldOfViewVisualizer : MonoBehaviour
     {
         Vector3 fovCenter = fov.PointOfSight.transform.position;
         float fovRotation = fov.PointOfSight.transform.eulerAngles.y;
-
-        //List<Vector3> fovLines = GetFovVectors(fovRotation, fov.Angle);
-        //SetFovLinesLengthWithObstacleInfluence(fovLines, sightCenter, fov.Distance);
 
         List<Vector3> fovPoints = GetFovEdgePointsWithObstacleInfluence(fovCenter, fovRotation, fov.Angle, fov.Distance);
 

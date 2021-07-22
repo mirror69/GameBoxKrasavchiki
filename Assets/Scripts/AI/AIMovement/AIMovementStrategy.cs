@@ -3,6 +3,8 @@ using UnityEngine;
 
 public abstract class AIMovementStrategy : MonoBehaviour
 {
+    const float AngleDifferenceEpsilon = 1f;
+
     protected AIMovingObject movingObject;
     protected Vector3 initialDirection;
 
@@ -77,6 +79,47 @@ public abstract class AIMovementStrategy : MonoBehaviour
             movingObject.Rotate(rotationDelta * direction);
             currentAngle += rotationDelta;
         }
+    }
+
+    protected IEnumerator PerformInfiniteLookAt(Transform target, float rotationSpeed)
+    {      
+        while (target != null)
+        {
+            yield return null;
+
+            PerformOneTickRotation(target.position, rotationSpeed);
+        }
+    }
+
+    protected IEnumerator PerformLookAt(Vector3 targetPosition, float rotationSpeed)
+    {
+        float angle = GetLookAtAngle(targetPosition);
+        while (Mathf.Abs(angle) > AngleDifferenceEpsilon)
+        {
+            yield return null;
+
+            PerformOneTickRotation(targetPosition, rotationSpeed);
+        }
+    }
+
+    private float GetLookAtAngle(Vector3 targetPosition)
+    {
+        return Vector3.SignedAngle(movingObject.transform.forward,
+            targetPosition - movingObject.Position, Vector3.up);
+    }
+
+    private void PerformOneTickRotation(Vector3 targetPosition, float rotationSpeed)
+    {
+        float angle = GetLookAtAngle(targetPosition);
+
+        if (Mathf.Abs(angle) < AngleDifferenceEpsilon)
+        {
+            return;
+        }
+        int direction = angle > 0 ? 1 : -1;
+
+        float rotationDelta = rotationSpeed * Time.deltaTime;
+        movingObject.Rotate(rotationDelta * direction);
     }
 
 }

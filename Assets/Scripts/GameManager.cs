@@ -6,9 +6,12 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField]
     private PlayerController player;
+    [SerializeField]
+    private LayerMask obstacleLayers;
 
     public static GameManager Instance { get; private set; }
     public PlayerController Player => player;
+    public LayerMask ObstacleLayers => obstacleLayers;
 
     private void Awake()
     {

@@ -13,30 +13,41 @@ public class AISearchingStrategy : AIMovementStrategy
 
     protected override IEnumerator PerformMoving()
     {
+        const float RotationAngle = 360;
+
         if (target == null)
         {
             movingCoroutine = null;
             yield break;
         }
-        movingObject.Move(target.position);
+
+        Vector3 lastTargetPoint = target.position;
+        float angleToLastTargetPoint = Vector3.SignedAngle(movingObject.transform.forward,
+            lastTargetPoint - movingObject.Position, Vector3.up);
+
+        movingObject.SetEnabledAutomaticRotation(false);
+        Coroutine rotatingCoroutine = StartCoroutine(PerformLookAt(lastTargetPoint, movingObject.RotationSpeed));
+
+        movingObject.Move(lastTargetPoint);
         while (!movingObject.IsDestinationReached())
         {
             yield return null;
         }
+        this.StopAndNullCoroutine(ref rotatingCoroutine);      
 
-        yield return new WaitForSeconds(0.5f);
-       
-        float rotationAngle = 360;
+        float rotationAngle = angleToLastTargetPoint >= 0 ? RotationAngle : -RotationAngle;
+
         float rotationSpeed = movingObject.RotationSpeed;
-        float fullRotationTime = rotationAngle / rotationSpeed;
+        float fullRotationTime = Mathf.Abs(rotationAngle) / rotationSpeed;
 
-        Coroutine rotationCoroutine = StartCoroutine(PerformRotating(rotationAngle, rotationSpeed));
+        rotatingCoroutine = StartCoroutine(PerformRotating(rotationAngle, rotationSpeed));
         float endTime = Time.time + fullRotationTime;
         while (Time.time < endTime)
         {
             yield return null;
         }
-        StopCoroutine(rotationCoroutine);
+
+        this.StopAndNullCoroutine(ref rotatingCoroutine);
 
         yield return new WaitForSeconds(0.5f);
 

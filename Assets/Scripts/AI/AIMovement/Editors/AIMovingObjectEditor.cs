@@ -12,15 +12,12 @@ public class AIMovingObjectEditor : Editor
 
     public static void DrawPatrolStrategy(AIPatrolStrategy patrolStrategy)
     {
-        if (patrolStrategy == null)
+        if (patrolStrategy == null || patrolStrategy.PathData == null 
+            || patrolStrategy.PathData.PathCreator == null)
         {
             return;
         }
 
-        if (patrolStrategy.PathData == null || patrolStrategy.PathData.PathCreator == null)
-        {
-            return;
-        }
         PathEditor.CallOnSceneGUI(patrolStrategy.PathData.PathCreator);
     }
 

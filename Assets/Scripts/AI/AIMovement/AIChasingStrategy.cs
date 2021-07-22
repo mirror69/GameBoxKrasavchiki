@@ -15,12 +15,15 @@ public class AIChasingStrategy : AIMovementStrategy
 
     protected override IEnumerator PerformMoving()
     {
+        movingObject.SetEnabledAutomaticRotation(false);
+        Coroutine rotatingCoroutine = StartCoroutine(PerformInfiniteLookAt(target, movingObject.RotationSpeed));
         while (target != null)
         {
             movingObject.Move(target.position);
-            
             yield return new WaitForSeconds(CheckPeriod);
         }
+
+        this.StopAndNullCoroutine(ref rotatingCoroutine);
 
         movingCoroutine = null;
     }

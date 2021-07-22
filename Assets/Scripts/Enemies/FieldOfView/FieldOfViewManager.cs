@@ -7,14 +7,27 @@ using UnityEngine;
 /// </summary>
 public class FieldOfViewManager : MonoBehaviour
 {
-    [SerializeField]
-    private LayerMask notObstacleLayers;
-
     private readonly List<FieldOfView> fieldsOfView = new List<FieldOfView>();
 
     public static FieldOfViewManager Instance { get; private set; }
     public List<FieldOfView> FieldsOfView => fieldsOfView;
-    public LayerMask NotObstacleLayers => notObstacleLayers;
+
+    public static RaycastHit GetFovRaycastHit(Vector3 startPoint, Vector3 direction, float maxDistance)
+    {
+        RaycastHit hitInfo;
+
+        Physics.Raycast(startPoint, direction, out hitInfo, maxDistance,
+            GameManager.Instance.ObstacleLayers);
+
+        if (hitInfo.collider != null && hitInfo.collider.isTrigger)
+        {
+            return new RaycastHit();
+        }
+        else
+        {
+            return hitInfo;
+        }
+    }
 
     public void AddFieldOfView(FieldOfView fov)
     {

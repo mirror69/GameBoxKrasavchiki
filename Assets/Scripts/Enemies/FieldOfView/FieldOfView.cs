@@ -183,12 +183,12 @@ public class FieldOfView : MonoBehaviour
 
         // Если столкнулись с каким-либо препятствием, то проверим: если оно дальше, чем цель,
         // то цель в зоне видимости
-        if (Physics.Raycast(pointOfSightPosition, vectorToTarget, out RaycastHit hitInfo, distance,
-            ~FieldOfViewManager.Instance.NotObstacleLayers))
+        RaycastHit hitInfo = FieldOfViewManager.GetFovRaycastHit(pointOfSightPosition, vectorToTarget, distance);
+        if (hitInfo.collider != null)
         {
             return hitInfo.distance * hitInfo.distance > distanceToTargetSqr;
         }
-        
+
         // Если не столкнулись c препятствием, то цель в пределах видимости
         return true;
     }
