@@ -4,8 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-[ExecuteInEditMode]
-[RequireComponent(typeof(PathData))]
 public class AIPatrolStrategy : AIMovementStrategy
 {
     private class CurrentPathParam
@@ -58,15 +56,10 @@ public class AIPatrolStrategy : AIMovementStrategy
         }
     }
 
+    [SerializeField]
     private PathData pathData;
 
     public PathData PathData => pathData;
-
-    [ExecuteInEditMode]
-    private void Awake()
-    {
-        pathData = GetComponent<PathData>();
-    }
 
     protected override IEnumerator PerformMoving()
     {

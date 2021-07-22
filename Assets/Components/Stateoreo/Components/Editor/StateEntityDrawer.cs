@@ -17,9 +17,21 @@ public class StateEntityDrawer : PropertyDrawer {
 
 		//position.y += 18f;
 		//position.height = 16f;
+		
+		SerializedProperty stateProp = property.FindPropertyRelative("State");
+		if (Application.isPlaying)
+		{
+			MonoBehaviour propertyObject = (MonoBehaviour)stateProp.objectReferenceValue;
+			if (propertyObject != null && propertyObject.enabled)
+			{
+				GUI.backgroundColor = Color.red;
+			}
+		}
 
-		EditorGUILayout.PropertyField(property.FindPropertyRelative("State"));
-		EditorGUI.PropertyField (position, property.FindPropertyRelative ("State"));
+		EditorGUILayout.PropertyField(stateProp);
+		GUI.backgroundColor = Color.clear;
+
+		EditorGUI.PropertyField (position, stateProp);
 
             EditorGUI.indentLevel += 1;
             TransitionRuleDrawer.showTransitionRuleList (property.FindPropertyRelative ("Transitions"));
@@ -27,6 +39,8 @@ public class StateEntityDrawer : PropertyDrawer {
 
 		EditorGUI.EndProperty ();
 		EditorGUI.indentLevel = oldIndentLevel;
+
+		EditorUtility.SetDirty(property.serializedObject.targetObject);
 	}
 
 	//public override float GetPropertyHeight (SerializedProperty property, GUIContent label) {

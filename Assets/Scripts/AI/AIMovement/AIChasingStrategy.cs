@@ -17,7 +17,6 @@ public class AIChasingStrategy : AIMovementStrategy
     {
         while (target != null)
         {
-            Debug.Log(target);
             movingObject.Move(target.position);
             
             yield return new WaitForSeconds(CheckPeriod);

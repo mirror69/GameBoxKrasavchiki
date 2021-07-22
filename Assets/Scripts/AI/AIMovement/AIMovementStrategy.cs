@@ -18,6 +18,7 @@ public abstract class AIMovementStrategy : MonoBehaviour
         this.movingObject = movingObject;
         initialDirection = movingObject.transform.forward;
     }
+
     public virtual void StartMoving()
     {
         if (movingCoroutine == null)

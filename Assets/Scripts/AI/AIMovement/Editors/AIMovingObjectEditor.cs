@@ -8,19 +8,15 @@ using UnityEditor.AI;
 public class AIMovingObjectEditor : Editor
 {
     private AIMovingObject movingObject;
+    private AIPatrolStrategy patrolStrategy;
 
-    public static void DrawMovingStrategy(AIMovingObject movingObject)
+    public static void DrawPatrolStrategy(AIPatrolStrategy patrolStrategy)
     {
-        if (movingObject.PatrolMovementStrategy == null)
+        if (patrolStrategy == null)
         {
             return;
         }
 
-        if (movingObject.PatrolMovementStrategy.GetType() != typeof(AIPatrolStrategy))
-        {
-            return;
-        }
-        AIPatrolStrategy patrolStrategy = (AIPatrolStrategy)movingObject.PatrolMovementStrategy;
         if (patrolStrategy.PathData == null || patrolStrategy.PathData.PathCreator == null)
         {
             return;
@@ -38,12 +34,13 @@ public class AIMovingObjectEditor : Editor
 
     public void OnSceneGUI()
     {
-        DrawMovingStrategy(movingObject);
+        DrawPatrolStrategy(patrolStrategy);
     }
 
     private void OnEnable()
     {
         movingObject = (AIMovingObject)target;
+        patrolStrategy = movingObject.transform.GetComponentInChildren<AIPatrolStrategy>();
     }
 
     private void DrawAgentTypeProperty(string propName)

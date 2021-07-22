@@ -21,4 +21,9 @@ public abstract class FsmState : MonoBehaviour {
 	/// </summary>
 	public virtual void OnStateLeave () {
 	}
+
+	public virtual bool IsPerforming()
+	{
+		return true;
+	}
 }
