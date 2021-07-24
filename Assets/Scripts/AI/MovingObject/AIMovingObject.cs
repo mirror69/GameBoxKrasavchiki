@@ -13,11 +13,6 @@ public class AIMovingObject : MonoBehaviour
     [SerializeField]
     private float fovRotationSpeed = 20;
 
-    [SerializeField, HideInInspector]
-    private int agentType = 0;
-    [SerializeField, HideInInspector]
-    private int agentTypeWalkingThroughWalls = 0;
-
     private NavMeshAgent navMeshAgent;
     private Coroutine movingCoroutine;
 
@@ -102,7 +97,7 @@ public class AIMovingObject : MonoBehaviour
                 obstacle = hitInfo.collider.GetComponentInParent<IObstacle>();
             }
 
-            if (hitInfo.collider == null || (hitInfo.collider.isTrigger && obstacle == null))
+            if (hitInfo.collider == null || obstacle == null)
             {
                 // Путь свободен от препятствий, идем без проверок до конца
                 navMeshAgent.destination = finishTargetPoint;

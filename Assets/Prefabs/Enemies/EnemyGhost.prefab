@@ -144,7 +144,7 @@ MonoBehaviour:
   angle: 120
   distance: 20
   idleDetectionDelay: 1.5
-  alertDetectionDelay: 0
+  alertDetectionDelay: 0.3
   target: {fileID: 0}
 --- !u!136 &1612804488326056179
 CapsuleCollider:

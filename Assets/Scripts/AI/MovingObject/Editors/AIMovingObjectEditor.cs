@@ -23,8 +23,6 @@ public class AIMovingObjectEditor : Editor
 
     public override void OnInspectorGUI()
     {
-        DrawAgentTypeProperty("agentType");
-        DrawAgentTypeProperty("agentTypeWalkingThroughWalls");
         serializedObject.ApplyModifiedProperties();
         base.OnInspectorGUI();
     }
@@ -38,11 +36,5 @@ public class AIMovingObjectEditor : Editor
     {
         movingObject = (AIMovingObject)target;
         patrolStrategy = movingObject.transform.GetComponentInChildren<AIPatrolStrategy>();
-    }
-
-    private void DrawAgentTypeProperty(string propName)
-    {
-        SerializedProperty agentTypeID = serializedObject.FindProperty(propName);
-        NavMeshComponentsGUIUtility.AgentTypePopup(propName, agentTypeID);
     }
 }

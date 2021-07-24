@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class AnimatedObstacle : MonoBehaviour, IObstacle
 {
@@ -119,6 +120,24 @@ public class AnimatedObstacle : MonoBehaviour, IObstacle
 
             transparentColliders[i] = collider;
         }
+    }
+
+    private void CreateNavMeshObstacle()
+    {
+        BoxCollider collider = GetComponent<BoxCollider>();
+        if (collider == null)
+        {
+            return;
+        }
+
+        NavMeshObstacle obstacle = gameObject.AddComponent<NavMeshObstacle>();
+        obstacle.size = collider.size;
+        obstacle.center = collider.center;
+        obstacle.carving = true;
+        obstacle.carveOnlyStationary = true;
+        obstacle.carvingMoveThreshold = 1;
+        obstacle.carvingTimeToStationary = 1;
+        obstacle.shape = NavMeshObstacleShape.Box;       
     }
 
     /// <summary>
