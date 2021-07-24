@@ -29,10 +29,13 @@ public class FieldOfView : MonoBehaviour
     [SerializeField]
     private float distance = 0;
     [SerializeField]
-    private float detectionDelay = 0;
+    private float idleDetectionDelay = 1.5f;
+    [SerializeField]
+    private float alertDetectionDelay = 0;
     [SerializeField]
     private PlayerController target = null;
 
+    private float currentDetectionDelay = 0;
     private float distanceSqr = 0;
     private float halfAngle = 0;
     private TargetDetectingState targetDetectingState = TargetDetectingState.NotDetected;
@@ -61,6 +64,15 @@ public class FieldOfView : MonoBehaviour
     public void UnregisterTargetLostListener(Action listener)
     {
         TargetLost -= listener;
+    }
+
+    public void SetIdleDetectionDelay()
+    {
+        currentDetectionDelay = idleDetectionDelay;
+    }
+    public void SetAlertDetectionDelay()
+    {
+        currentDetectionDelay = alertDetectionDelay;
     }
 
     private void Start()
@@ -94,7 +106,7 @@ public class FieldOfView : MonoBehaviour
             {
                 if (targetDetectingState == TargetDetectingState.NotDetected)
                 {
-                    yield return new WaitForSeconds(detectionDelay);
+                    yield return new WaitForSeconds(currentDetectionDelay);
                     targetInFOV = CheckTargetInFov();
                     if (targetInFOV)
                     {
@@ -171,12 +183,12 @@ public class FieldOfView : MonoBehaviour
 
         // Если столкнулись с каким-либо препятствием, то проверим: если оно дальше, чем цель,
         // то цель в зоне видимости
-        if (Physics.Raycast(pointOfSightPosition, vectorToTarget, out RaycastHit hitInfo, distance,
-            ~FieldOfViewManager.Instance.NotObstacleLayers))
+        RaycastHit hitInfo = FieldOfViewManager.GetFovRaycastHit(pointOfSightPosition, vectorToTarget, distance);
+        if (hitInfo.collider != null)
         {
             return hitInfo.distance * hitInfo.distance > distanceToTargetSqr;
         }
-        
+
         // Если не столкнулись c препятствием, то цель в пределах видимости
         return true;
     }

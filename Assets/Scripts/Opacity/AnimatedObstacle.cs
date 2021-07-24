@@ -1,12 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
-public class AnimatedObstacle : MonoBehaviour
+public class AnimatedObstacle : MonoBehaviour, IObstacle
 {
     const float collidersPutDownShiftForTransparency = 0.8f;
     
-
     private Animation obstacleAnimation;
     /// <summary>
     /// Коллайдеры для включения/отключения в зависимости от уровня видимости
@@ -17,9 +17,17 @@ public class AnimatedObstacle : MonoBehaviour
 
     private float collidersShiftForTransparency;
 
+    private float currentOpacityValue;
+    public float OpacityValue => currentOpacityValue;
+
     public void Initialize(OpacityChangingParameters opacityChangingParameters)
     {
         this.opacityChangingParameters = opacityChangingParameters;
+    }
+
+    public bool IsPassable()
+    {
+        return currentOpacityValue <= 0;
     }
 
     /// <summary>
@@ -32,6 +40,8 @@ public class AnimatedObstacle : MonoBehaviour
             (1 - opacityValueInPercents * 0.01f) * obstacleAnimation.clip.length;
 
         SetCollidersState(opacityValueInPercents);
+
+        currentOpacityValue = opacityValueInPercents;
     }
 
     private void Awake()
@@ -47,6 +57,8 @@ public class AnimatedObstacle : MonoBehaviour
         obstacleAnimation[obstacleAnimation.clip.name].time = 0;
         obstacleAnimation[obstacleAnimation.clip.name].speed = 0;
         obstacleAnimation.Play();
+
+        currentOpacityValue = OpacityController.MaxOpacityValue;
     }
 
     private void CreateTransparentColliders()
@@ -110,6 +122,24 @@ public class AnimatedObstacle : MonoBehaviour
         }
     }
 
+    private void CreateNavMeshObstacle()
+    {
+        BoxCollider collider = GetComponent<BoxCollider>();
+        if (collider == null)
+        {
+            return;
+        }
+
+        NavMeshObstacle obstacle = gameObject.AddComponent<NavMeshObstacle>();
+        obstacle.size = collider.size;
+        obstacle.center = collider.center;
+        obstacle.carving = true;
+        obstacle.carveOnlyStationary = true;
+        obstacle.carvingMoveThreshold = 1;
+        obstacle.carvingTimeToStationary = 1;
+        obstacle.shape = NavMeshObstacleShape.Box;       
+    }
+
     /// <summary>
     /// Включить/выключить коллайдеры
     /// </summary>
@@ -119,7 +149,8 @@ public class AnimatedObstacle : MonoBehaviour
     {
         foreach (var collider in colliders)
         {
-            collider.enabled = enabled;
+            //collider.enabled = enabled;
+            collider.isTrigger = !enabled;
         }        
     }
 
