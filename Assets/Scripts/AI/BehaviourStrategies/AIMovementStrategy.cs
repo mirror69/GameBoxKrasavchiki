@@ -6,23 +6,22 @@ public abstract class AIMovementStrategy : MonoBehaviour
     const float AngleDifferenceEpsilon = 1f;
 
     protected AIMovingObject movingObject;
-    protected Vector3 initialDirection;
 
     protected Coroutine movingCoroutine = null;
+
+    public void BaseInitialize(AIMovingObject movingObject)
+    {
+        this.movingObject = movingObject;
+    }
 
     public bool IsStopped()
     {
         return movingCoroutine == null;
     }
 
-    public virtual void Initialize(AIMovingObject movingObject)
-    {
-        this.movingObject = movingObject;
-        initialDirection = movingObject.transform.forward;
-    }
-
     public virtual void StartMoving()
     {
+        movingObject.Stop();
         if (movingCoroutine == null)
         {
             movingCoroutine = StartCoroutine(PerformMoving());
@@ -36,6 +35,7 @@ public abstract class AIMovementStrategy : MonoBehaviour
             StopAllCoroutines();
             movingCoroutine = null;
         }
+        movingObject.Stop();
     }
 
     protected abstract IEnumerator PerformMoving();
@@ -88,6 +88,16 @@ public abstract class AIMovementStrategy : MonoBehaviour
             yield return null;
 
             PerformOneTickRotation(target.position, rotationSpeed);
+        }
+    }
+
+    protected IEnumerator PerformInfiniteLookAt(Vector3 position, float rotationSpeed)
+    {
+        while (true)
+        {
+            yield return null;
+
+            PerformOneTickRotation(position, rotationSpeed);
         }
     }
 

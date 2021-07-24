@@ -5,12 +5,12 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     [SerializeField]
-    private PlayerController player;
+    private DamageableObject player;
     [SerializeField]
     private LayerMask obstacleLayers;
 
     public static GameManager Instance { get; private set; }
-    public PlayerController Player => player;
+    public DamageableObject Player => player;
     public LayerMask ObstacleLayers => obstacleLayers;
 
     private void Awake()

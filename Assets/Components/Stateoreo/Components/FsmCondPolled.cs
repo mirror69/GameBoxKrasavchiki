@@ -19,22 +19,29 @@ public abstract class FsmCondPolled : FsmCondition {
 	[Tooltip("The period in seconds on which to reevaluate the condition.")]
 	public float Period = 0.1f;
 
-	private bool cachedCond;
+	private bool cachedCond = false;
 
+	private Coroutine evalCoroutine = null;
 	/// <summary>
 	/// Start periodically reevaluating the condition.
 	/// Make sure to call this or the condition will always be false!
 	/// </summary>
 	public void StartEvals() {
 		cachedCond = false;
-		StartCoroutine (PollCondition());
+		StopEvals();
+		evalCoroutine = StartCoroutine(PollCondition());
 	}
 
 	/// <summary>
 	/// Stop evaluating the condition for now.
 	/// </summary>
 	public void StopEvals() {
-		StopCoroutine (PollCondition());
+        if (evalCoroutine != null)
+        {			
+			StopCoroutine(evalCoroutine);
+			evalCoroutine = null;
+		}
+		cachedCond = false;
 	}
 
 	/// <summary>
@@ -46,8 +53,8 @@ public abstract class FsmCondPolled : FsmCondition {
 
 	private IEnumerator PollCondition() {
 		while (true) {
-			yield return new WaitForSeconds (Period);
-			cachedCond = EvaluateCondition ();
+			cachedCond = EvaluateCondition();
+			yield return new WaitForSeconds (Period);			
 		}
 	}
 

@@ -91,7 +91,7 @@ CapsuleCollider:
   m_GameObject: {fileID: 1525043806}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   m_Radius: 0.5000001
   m_Height: 2
   m_Direction: 1
@@ -138,6 +138,7 @@ GameObject:
   - component: {fileID: 8780580470206802208}
   - component: {fileID: 8780580470206802223}
   - component: {fileID: 5186452680844502073}
+  - component: {fileID: 918320969510008984}
   - component: {fileID: 8780580470206802222}
   - component: {fileID: 8780580470206802209}
   - component: {fileID: 8780580470206802220}
@@ -195,6 +196,19 @@ CapsuleCollider:
   m_Height: 1.8
   m_Direction: 1
   m_Center: {x: 0, y: 0.9, z: 0}
+--- !u!114 &918320969510008984
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8780580470206802211}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b30369219c995747adc931abbe15850, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startHealth: 100
 --- !u!114 &8780580470206802222
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -222,6 +236,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81d7cf0ece6650842a1d6b2d95459400, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fireButtonPressedTimer: 0
   movingStoppedTime: 0.5
   shootingCullDownTime: 0.5
 --- !u!114 &8780580470206802220
@@ -253,7 +268,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   poolCount: 3
   bulletPrefab: {fileID: 5457439658268779296, guid: 09db29ac515c01a4e963d8e76501dc18, type: 3}
-  bulletContainer: {fileID: 0}
+  bulletsContainer: {fileID: 0}
   isInheritingSourceVelocity: 0
 --- !u!1 &8780580472126713887
 GameObject:

@@ -9,9 +9,5 @@ public class FsmCoreCustomEditor : Editor {
 
 	public override void OnInspectorGUI () {
         base.OnInspectorGUI();
-        //serializedObject.Update();
-        //TransitionRuleDrawer.showTransitionRuleList(serializedObject.FindProperty("GlobalState"));
-        //StateEntityDrawer.showStateEntityList(serializedObject.FindProperty("States"));
-        //serializedObject.ApplyModifiedProperties();
     }
 }

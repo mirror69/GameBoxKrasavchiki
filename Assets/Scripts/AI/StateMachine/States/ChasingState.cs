@@ -2,19 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Состояние погони за игроком
+/// </summary>
 [RequireComponent(typeof(AIChasingStrategy))]
 public class ChasingState : FsmState
 {
     private AIMovingObject movingObject;
     private AIChasingStrategy chasingStrategy;
-    private Transform target;
     private FieldOfView fov;
 
     public override void OnStateEnter()
     {
-        Debug.Log($"{name} starting chasing");
+        Debug.Log($"{movingObject.name} starting chasing");
         fov.SetAlertDetectionDelay();
-        chasingStrategy.SetTarget(target);
+
+        chasingStrategy.Initialize(movingObject, GameManager.Instance.Player.transform);
         chasingStrategy.StartMoving();
     }
 
@@ -29,10 +32,5 @@ public class ChasingState : FsmState
         fov = GetComponentInParent<FieldOfView>();
 
         chasingStrategy = GetComponent<AIChasingStrategy>();
-        chasingStrategy.Initialize(movingObject);
-    }
-    private void Start()
-    {
-        target = GameManager.Instance.Player.transform;
     }
 }

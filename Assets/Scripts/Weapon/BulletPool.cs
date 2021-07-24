@@ -34,12 +34,14 @@ public class BulletPool
     /// Первоначально создаем объекты с параметрами по умолчанию. Если незадействованные объекты в пулле закончаться, 
     /// то будем создавать сразу активные объекты с заданными парметрами
     /// </summary>
-    /// <param name="startPosition"></param>
+    /// <param name="owner"></param>
+    /// <param name="startDirection"></param>
     /// <param name="startRotation"></param>
     /// <param name="startVelocity"></param>
     /// <param name="isActiveByDefault"></param>
     /// <returns></returns>
-    private Bullet CreateObject(Vector3 startDirection = new Vector3(),
+    private Bullet CreateObject(GameObject owner = null,
+                                Vector3 startDirection = new Vector3(),
                                 Quaternion startRotation = new Quaternion(),
                                 Vector3 startVelocity = new Vector3(),
                                 Vector3 targetBulletPoint = new Vector3(),
@@ -49,7 +51,7 @@ public class BulletPool
         var createdObject = UnityEngine.Object.Instantiate(this.bulletPrefab, startDirection,
             startRotation, this.bulletContainer);
 
-        createdObject.SetBulletParameters(startDirection, startRotation, startVelocity, targetBulletPoint, damageMultiplier);
+        createdObject.SetBulletParameters(owner, startDirection, startRotation, startVelocity, targetBulletPoint, damageMultiplier);
 
         createdObject.gameObject.SetActive(isActiveByDefault);
         this.pool.Add(createdObject);
@@ -85,16 +87,16 @@ public class BulletPool
     /// <param name="startDirection"></param>
     /// <param name="startRotation"></param>
     /// <param name="startVelocity"></param>
-    public void EmitBullet(Vector3 startDirection, Quaternion startRotation, Vector3 startVelocity, Vector3 targetBulletPoint, int damageMultiplier)
+    public void EmitBullet(GameObject owner, Vector3 startDirection, Quaternion startRotation, Vector3 startVelocity, Vector3 targetBulletPoint, int damageMultiplier)
     {
         if (this.HasFreeElement(out Bullet element))
         {
-            element.SetBulletParameters(startDirection, startRotation, startVelocity, targetBulletPoint, damageMultiplier);
+            element.SetBulletParameters(owner, startDirection, startRotation, startVelocity, targetBulletPoint, damageMultiplier);
             element.BulletMoving();            
         }            
         else
         {
-            this.CreateObject(startDirection, startRotation, startVelocity, targetBulletPoint, damageMultiplier, true).BulletMoving();
+            this.CreateObject(owner, startDirection, startRotation, startVelocity, targetBulletPoint, damageMultiplier, true).BulletMoving();
         }     
     }
 }

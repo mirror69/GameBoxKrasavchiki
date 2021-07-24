@@ -3928,27 +3928,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 4.74, y: 2.68, z: 0.35}
   m_Center: {x: 0, y: 2.06, z: -0.09}
---- !u!1 &387108568 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5643523632449877941, guid: 36c0adbb66b0e3246925678e39e8f607, type: 3}
-  m_PrefabInstance: {fileID: 5643523632345688102}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &387108569
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 387108568}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a39a69f09df039941a12ceeee344786d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 2141636226}
-  obstacleLayers:
-    serializedVersion: 2
-    m_Bits: 1281
 --- !u!1001 &392517265
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16362,6 +16341,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: cb4f9e09de5234c788a68327a234ef9a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1075306870285647189, guid: cb4f9e09de5234c788a68327a234ef9a, type: 3}
       propertyPath: m_Layer
       value: 10
@@ -18028,6 +18011,17 @@ Light:
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!114 &1356142760 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 918320969510008984, guid: 1431481b468b174489739f3f1e19c603, type: 3}
+  m_PrefabInstance: {fileID: 392517265}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b30369219c995747adc931abbe15850, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1369825383
 GameObject:
   m_ObjectHideFlags: 0
@@ -26598,6 +26592,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 342788166}
     m_Modifications:
+    - target: {fileID: 5047601070540087643, guid: 36c0adbb66b0e3246925678e39e8f607, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 1356142760}
     - target: {fileID: 5643523632449877938, guid: 36c0adbb66b0e3246925678e39e8f607, type: 3}
       propertyPath: m_RootOrder
       value: 0

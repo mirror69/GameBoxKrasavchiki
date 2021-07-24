@@ -28,8 +28,14 @@ public class AIMovingObject : MonoBehaviour
 
     public void Move(Vector3 point)
     {
-        this.StopAndNullCoroutine(ref movingCoroutine);
+        Stop();
+        navMeshAgent.destination = point;
         movingCoroutine = StartCoroutine(PerformMovingToPoint(point));
+    }
+    public void Stop()
+    {
+        navMeshAgent.destination = Position;
+        this.StopAndNullCoroutine(ref movingCoroutine);
     }
 
     public void Rotate(float rotation)
@@ -44,6 +50,11 @@ public class AIMovingObject : MonoBehaviour
 
     public bool IsDestinationReached()
     {
+        return movingCoroutine == null;
+    }
+
+    private bool IsNavMeshDestinationReached()
+    {
         if (!navMeshAgent.pathPending)
         {
             if (navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance)
@@ -57,7 +68,7 @@ public class AIMovingObject : MonoBehaviour
 
         return false;
     }
-    public float GetRemainingDistance()
+    public float GetNavMeshRemainingDistance()
     {
         return navMeshAgent.remainingDistance;
     }
@@ -80,25 +91,36 @@ public class AIMovingObject : MonoBehaviour
     }
 
     private IEnumerator PerformMovingToPoint(Vector3 finishTargetPoint)
-    {        
+    {      
         bool isDestinationReached = false;
         while (!isDestinationReached)
         {
             RaycastHit hitInfo = RaycastByShortestWay(finishTargetPoint);
-            bool tryMoveThoughWall = false;
+            IObstacle obstacle = null;
             if (hitInfo.collider != null)
             {
-                IObstacle obstacle = hitInfo.collider.GetComponentInParent<IObstacle>();
-                tryMoveThoughWall = obstacle != null && obstacle.IsPassable();
+                obstacle = hitInfo.collider.GetComponentInParent<IObstacle>();
             }
 
-            if (!tryMoveThoughWall)
+            if (hitInfo.collider == null || (hitInfo.collider.isTrigger && obstacle == null))
             {
-                // ѕуть свободен или стена непрозрачна€ - идем как обычно
+                // ѕуть свободен от преп€тствий, идем без проверок до конца
+                navMeshAgent.destination = finishTargetPoint;
+                while (!IsNavMeshDestinationReached())
+                {
+                    yield return new WaitForSeconds(0.1f);
+                }
+                break;
+            }
+
+            if (!obstacle.IsPassable())
+            {
+                // —тена непрозрачна€ - идем без проверок, но только маленький отрезок,
+                // чтобы провер€ть, не стала ли она непрозрачной
                 navMeshAgent.destination = finishTargetPoint;
                 yield return new WaitForSeconds(0.1f);
 
-                isDestinationReached = IsDestinationReached();
+                isDestinationReached = IsNavMeshDestinationReached();
                 continue;
             }
 
@@ -108,10 +130,11 @@ public class AIMovingObject : MonoBehaviour
             moveDirection = moveDirection.normalized;
 
             navMeshAgent.destination = hitInfo.point - navMeshAgent.radius * moveDirection;
-
-            if (!IsDestinationReached() && GetRemainingDistance() > 0.5f)
+            
+            yield return new WaitForSeconds(0.1f);
+            
+            if (!IsNavMeshDestinationReached())
             {
-                yield return new WaitForSeconds(0.1f);
                 continue;
             }
 
@@ -130,9 +153,9 @@ public class AIMovingObject : MonoBehaviour
             }
 
             // ѕрыгаем за стену
-            navMeshAgent.Warp(pointToJump);
+            navMeshAgent.Warp(pointToJump + moveDirection);
         }
-
+        movingCoroutine = null;
     }
 
 }

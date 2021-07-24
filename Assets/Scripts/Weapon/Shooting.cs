@@ -14,9 +14,24 @@ public class Shooting : MonoBehaviour
     [SerializeField] private bool isInheritingSourceVelocity = false;
     private BulletPool bulletPool;
 
+    public Bounds BulletBounds { get; private set; }
 
-    private void Start()
+    private void Awake()
     {
+        // Если контейнер для пуль не задан, создадим его в корне дерева объектов
+        if (bulletsContainer == null)
+        {
+            bulletsContainer = new GameObject($"{name}_bulletsContainer").transform;
+        }
+        
+        // Получить размер пули из префаба нельзя. Поэтому создаем временный объект, берем размер, и уничтожаем
+        Bullet bullet = Instantiate(bulletPrefab, Vector3.zero, Quaternion.identity);
+        Collider bulletCollider = bullet.GetComponent<Collider>();
+        BulletBounds = bulletCollider.bounds;
+        Destroy(bullet.gameObject);
+    }
+    private void Start()
+    {        
         this.bulletPool = new BulletPool(bulletPrefab, poolCount, bulletsContainer);
     }
 
@@ -24,7 +39,7 @@ public class Shooting : MonoBehaviour
     {
         if (!isInheritingSourceVelocity) startVelocity = Vector3.zero;
 
-        bulletPool.EmitBullet(startDirection, startRotation, 
+        bulletPool.EmitBullet(gameObject, startDirection, startRotation, 
             startVelocity, targetBulletPoint, damageMultiplier);
     }
 

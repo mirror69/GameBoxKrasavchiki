@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Условие попадания цели в зону видимости
+/// </summary>
 public class IsTargetInFov : FsmCondition
 {    
    

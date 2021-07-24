@@ -26,6 +26,7 @@ public class Bullet : MonoBehaviour
 
     private float currentDamageValue;
 
+    private GameObject owner;
 
     private void Awake()
     {
@@ -35,17 +36,18 @@ public class Bullet : MonoBehaviour
 
         currentDamageValue = defaultDamageValue;
 
-
     }
 
     /// <summary>
     /// Передаем начальные параметры пули
     /// </summary>
+    /// <param name="owner">Владелец пули</param> 
     /// <param name="startPosition">Откуда вылетат пуля</param>
     /// <param name="rotation">Поворот источника пули</param>
     /// <param name="velocity">Скорость источника пули</param>
-    public void SetBulletParameters(Vector3 startPosition, Quaternion rotation, Vector3 velocity, Vector3 targetBulletPoint, int damageMultiplier)
+    public void SetBulletParameters(GameObject owner, Vector3 startPosition, Quaternion rotation, Vector3 velocity, Vector3 targetBulletPoint, int damageMultiplier)
     {
+        this.owner = owner;
         transform.position = startPosition;
         this.startPosition = transform.position;
         transform.rotation = rotation;
@@ -71,14 +73,19 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        IDamageable damageableObject;
-        if (other.TryGetComponent<IDamageable>(out damageableObject))
+        // Исключаем попадание в себя и в союзников
+        if (owner != null && (other.gameObject == owner || other.gameObject.layer == owner.layer 
+            || other.isTrigger))
         {
-            damageableObject.ReceiveDamage(currentDamageValue);
-            DisableBullet();
+            return;
         }
 
-        if (other.gameObject.layer == 10) DisableBullet(); //Layer 10 = Walls            
+        if (other.TryGetComponent(out IDamageable damageableObject))
+        {
+            damageableObject.ReceiveDamage(currentDamageValue);
+        }
+        
+        DisableBullet();          
     }
 
     private void BulletDistanceCounter()

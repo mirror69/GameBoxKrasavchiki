@@ -8,44 +8,33 @@ public class StateEntityDrawer : PropertyDrawer {
 
 	public override void OnGUI (Rect position, SerializedProperty property, GUIContent label) {
 		int oldIndentLevel = EditorGUI.indentLevel;
-		label = EditorGUI.BeginProperty (position, label, property);
+		EditorGUI.BeginProperty (position, label, property);
 
-		//property.isExpanded = EditorGUI.Foldout (position, property.isExpanded, label);
-
-		//if (property.isExpanded) {
-		//EditorGUI.PrefixLabel (position, label);
-
-		//position.y += 18f;
-		//position.height = 16f;
-		
+		Color oldColor = GUI.backgroundColor;
 		SerializedProperty stateProp = property.FindPropertyRelative("State");
 		if (Application.isPlaying)
 		{
+			// В PlayMode выделяем цветом активное состояние State machine
 			MonoBehaviour propertyObject = (MonoBehaviour)stateProp.objectReferenceValue;
 			if (propertyObject != null && propertyObject.enabled)
 			{
 				GUI.backgroundColor = Color.red;
 			}
+			// Хак для обновления отображения в инспекторе
+			EditorUtility.SetDirty(property.serializedObject.targetObject);
 		}
 
 		EditorGUILayout.PropertyField(stateProp);
-		GUI.backgroundColor = Color.clear;
+		GUI.backgroundColor = oldColor;
 
 		EditorGUI.PropertyField (position, stateProp);
 
-            EditorGUI.indentLevel += 1;
-            TransitionRuleDrawer.showTransitionRuleList (property.FindPropertyRelative ("Transitions"));
-		//}
+        EditorGUI.indentLevel += 1;
+        TransitionRuleDrawer.showTransitionRuleList (property.FindPropertyRelative ("Transitions"));
 
 		EditorGUI.EndProperty ();
 		EditorGUI.indentLevel = oldIndentLevel;
-
-		EditorUtility.SetDirty(property.serializedObject.targetObject);
 	}
-
-	//public override float GetPropertyHeight (SerializedProperty property, GUIContent label) {
-	//	return property.isExpanded ? 16f + 18f : 16f;
-	//}
 
 	public static void showStateEntityList (SerializedProperty list) {
         EditorGUILayout.PropertyField(list);

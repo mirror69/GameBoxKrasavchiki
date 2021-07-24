@@ -58,13 +58,20 @@ public class AIPatrolStrategy : AIMovementStrategy
 
     [SerializeField]
     private PathData pathData;
+    private Vector3 initialDirection;
 
     public PathData PathData => pathData;
+
+    public void Initialize(AIMovingObject movingObject)
+    {
+        BaseInitialize(movingObject);
+        initialDirection = movingObject.transform.forward;
+    }
 
     protected override IEnumerator PerformMoving()
     {
         movingObject.SetEnabledAutomaticRotation(true);
-        
+
         Coroutine rotatingCoroutine;
         bool infiniteRotation = pathData.Path.PointsCount <= 1;
         CurrentPathParam currentPathParam = new CurrentPathParam(pathData.Path, movingObject.Position);
@@ -72,14 +79,12 @@ public class AIPatrolStrategy : AIMovementStrategy
         {
             movingObject.Move(pathData.Path[currentPathParam.PointIndex]);
 
-            yield return null;
-
             PathPointData pointData = pathData.GetPointData(currentPathParam.PointIndex);
             while (!movingObject.IsDestinationReached())
             {
-                yield return null;
-                
-                if (pointData.StopTime == 0 && movingObject.GetRemainingDistance() < 0.5f)
+                yield return new WaitForFixedUpdate();
+
+                if (pointData.StopTime == 0)
                 {
                     break;
                 }
@@ -94,7 +99,7 @@ public class AIPatrolStrategy : AIMovementStrategy
                 float endTime = Time.time + rotationTime;
                 while (Time.time < endTime)
                 {
-                    yield return null;
+                    yield return new WaitForFixedUpdate();
                 }
                 this.StopAndNullCoroutine(ref rotatingCoroutine);
             }
@@ -105,7 +110,7 @@ public class AIPatrolStrategy : AIMovementStrategy
                 PerformRotatingLeftRight(pointData.RotationAngle, movingObject.FovRotationSpeed));
             while (infiniteRotation || Time.time < timeToNextMove)
             {
-                yield return null;
+                yield return new WaitForFixedUpdate();
             }
             this.StopAndNullCoroutine(ref rotatingCoroutine);
 

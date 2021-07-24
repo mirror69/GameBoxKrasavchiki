@@ -66,6 +66,8 @@ public class FsmCore : MonoBehaviour {
 
 	private StateEntity current;
 
+	private List<FsmCondPolled> localPolledConditions = new List<FsmCondPolled>();
+
 	/// <summary>
 	/// Get the current state along with its transition rules.
 	/// </summary>
@@ -100,27 +102,11 @@ public class FsmCore : MonoBehaviour {
 		enterCurrentState ();
 	}
 
-    //private void Awake()
-    //{
-    //    //FsmState[] fsmStates = GetComponents<FsmState>();
-    //    ////GlobalState = new TransitionRule[]();
-    //    //States = new StateEntity[fsmStates.Length];
-    //    //for (int i = 0; i < fsmStates.Length; i++)
-    //    //{
-    //    //    States[i] = new StateEntity();
-    //    //    States[i].State = fsmStates[i];
-    //    //    States[i].Transitions = null;
-    //    //}
-    //    //if (true)
-    //    //{
-
-    //    //}
-    //    //GlobalState = States[0];
-
-    //}
-
     // Use this for initialization
     void Start () {
+
+		localPolledConditions = GetLocalPolledConditions();
+
 		if (States.Length > 0) {
 			current = States [0];
 
@@ -185,13 +171,96 @@ public class FsmCore : MonoBehaviour {
 		if (current != null && current.State != null) {
 			current.State.OnStateLeave ();
 			current.State.enabled = false;
+			SetEnabledCurrentPolledConditions(false);
 		}
 	}
 
 	private void enterCurrentState() {
 		if (current != null && current.State != null) {
+			SetEnabledCurrentPolledConditions(true);
 			current.State.enabled = true;
 			current.State.OnStateEnter ();
 		}
+	}
+
+	private bool TryGetPolledCondition(FsmCondition condition, out FsmCondPolled polledCondition) 
+    {
+		polledCondition = null;
+		System.Type conditionType = condition.GetType();
+
+        if (conditionType == typeof(FsmCondPolled) ||
+			conditionType.IsSubclassOf(typeof(FsmCondPolled)))
+        {
+			polledCondition = (FsmCondPolled)condition;
+
+		}
+		return polledCondition != null;
+	}
+
+	private void AddPeriodicConditions(List<FsmCondPolled> list, TransitionRule[] transitions)
+    {
+		foreach (var transition in transitions)
+		{
+            if (TryGetPolledCondition(transition.Cond, out FsmCondPolled polledCondition))
+            {
+                if (!list.Contains(polledCondition))
+                {
+					list.Add(polledCondition);
+				}				
+			}
+		}
+	}
+
+	private List<FsmCondPolled> GetLocalPolledConditions()
+    {
+		List<FsmCondPolled> globalPolledConditions = new List<FsmCondPolled>();
+		AddPeriodicConditions(globalPolledConditions, GlobalState);
+
+		List<FsmCondPolled> localPolledConditions = new List<FsmCondPolled>();
+		foreach (var stateEntity in States)
+		{
+			AddPeriodicConditions(localPolledConditions, stateEntity.Transitions);
+		}
+		foreach (var item in localPolledConditions)
+		{
+			if (globalPolledConditions.Contains(item))
+			{
+				localPolledConditions.Remove(item);
+			}
+		}
+
+		return localPolledConditions;
+	}
+
+	private void SetEnabledCurrentPolledConditions(bool enabled)
+    {
+		if (current == null || current.State == null)
+        {
+			return;
+        }
+
+		foreach (var transition in current.Transitions)
+		{
+			FsmCondPolled polledCondition;
+			if (!TryGetPolledCondition(transition.Cond, out polledCondition))
+            {
+				continue;
+            }
+
+			if (!localPolledConditions.Contains(polledCondition))
+            {
+				continue;
+            }
+
+            if (enabled)
+            {
+				polledCondition.StartEvals();
+			}
+            else
+            {
+				polledCondition.StopEvals();
+			}
+		}
+
 	}
 }

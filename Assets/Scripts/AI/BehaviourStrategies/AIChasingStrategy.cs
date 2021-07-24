@@ -8,6 +8,12 @@ public class AIChasingStrategy : AIMovementStrategy
 
     private Transform target;
 
+    public void Initialize(AIMovingObject movingObject, Transform target)
+    {
+        BaseInitialize(movingObject);
+        SetTarget(target);
+    }
+
     public void SetTarget(Transform target)
     {
         this.target = target;

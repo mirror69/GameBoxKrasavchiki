@@ -4,5 +4,7 @@ using UnityEngine;
 
 public interface IDamageable 
 {
-    public void ReceiveDamage(float damageValue);
+    Transform Transform { get; }
+    void ReceiveDamage(float damageValue);
+    bool IsAlive();
 }

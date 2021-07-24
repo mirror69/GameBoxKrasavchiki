@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Состояние патрулирования
+/// </summary>
 [RequireComponent(typeof(AIPatrolStrategy))]
 public class PatrolState : FsmState
 {
@@ -14,7 +17,7 @@ public class PatrolState : FsmState
 
     public override void OnStateEnter()
     {
-        Debug.Log($"{name} starting patrol");
+        Debug.Log($"{movingObject.name} starting patrol");
         fov.SetIdleDetectionDelay();
         patrolStrategy.StartMoving();
     }
