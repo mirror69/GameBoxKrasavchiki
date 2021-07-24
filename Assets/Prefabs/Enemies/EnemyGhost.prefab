@@ -142,7 +142,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pointOfSight: {fileID: 1912282934}
   angle: 120
-  distance: 20
+  distance: 22
   idleDetectionDelay: 1.5
   alertDetectionDelay: 0.5
   target: {fileID: 0}
@@ -239,9 +239,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackPoint: {fileID: 3234409845222691026}
-  attackDistance: 15
-  chargeDuration: 0
-  coolDownDuration: 3
+  attackDistance: 20
+  chargeDuration: 0.2
+  coolDownDuration: 2.5
 --- !u!1 &4598153785874837733
 GameObject:
   m_ObjectHideFlags: 0
