@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+///  онтроллер оружи€
+/// </summary>
 public class WeaponController : MonoBehaviour
 {
     /// <summary>
@@ -53,11 +56,24 @@ public class WeaponController : MonoBehaviour
 
     public bool ThereAreObstaclesOnAttackWay(IDamageable target)
     {
-        Vector3 attackDirection = (target.Transform.position - attackPoint.position);
-        attackDirection.y = 0;
+        Vector3 attackVector = (target.Transform.position - attackPoint.position);
+        attackVector.y = 0;
+        
+        float bulletSize = shooting.BulletBounds.extents.x;
+        
+        // »спользуем SphereCast, т.к. нужно учитывать размер пули, определ€€ преп€тстви€ на пути.
+        // «а целью может оказатьс€ стена. ≈сли будем провер€ть преп€тстви€ просто на
+        // рассто€нии от точки атаки до цели, то при большом размере пули метод SphereCast может найти
+        // стену за целью. ѕоэтому вычитаем радиус пули из рассто€ни€ до цели.
+        float distanceToTarget = attackVector.magnitude - bulletSize;
 
-        RaycastHit[] hitInfo = Physics.SphereCastAll(attackPoint.position, shooting.BulletBounds.extents.x, 
-            attackDirection, attackDistance, GameManager.Instance.ObstacleLayers);
+        if (distanceToTarget < 0)
+        {
+            return false;
+        }
+
+        RaycastHit[] hitInfo = Physics.SphereCastAll(attackPoint.position, bulletSize, 
+            attackVector, distanceToTarget, GameManager.Instance.ObstacleLayers);
 
         foreach (var item in hitInfo)
         {
