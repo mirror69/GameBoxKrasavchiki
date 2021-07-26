@@ -37,6 +37,7 @@ public class PathEditor : Editor
             {
                 Undo.RecordObject(creator, "Add path point");
                 creator.AddPoint(point);
+                EditorUtility.SetDirty(creator);
             }
         }
         else if (guiEvent.type == EventType.MouseUp && guiEvent.button == 1 &&
@@ -50,6 +51,7 @@ public class PathEditor : Editor
                 {
                     Undo.RecordObject(creator, "Delete point");
                     creator.DeletePoint(index);
+                    EditorUtility.SetDirty(creator);
                 }
             }
         }
@@ -119,6 +121,7 @@ public class PathEditor : Editor
             {
                 Undo.RecordObject(creator, "Move point");
                 creator.MovePoint(i, newPosition);
+                EditorUtility.SetDirty(creator);
             }
             Handles.color = Color.black;
 
@@ -136,12 +139,14 @@ public class PathEditor : Editor
         {
             Undo.RecordObject(creator, "Change Is closed");
             path.SetClosed(isClosed);
+            EditorUtility.SetDirty(creator);
         }
         if (GUILayout.Button("Clear path"))
         {
             Undo.RecordObject(creator, "Clear path");
-            creator.RefreshPath();
+            creator.ClearPath();
             path = creator.Path;
+            EditorUtility.SetDirty(creator);
             SceneView.RepaintAll();
         }
 
@@ -151,6 +156,7 @@ public class PathEditor : Editor
         {
             Undo.RecordObject(creator, "Add path point");
             creator.AddNextPoint();
+            EditorUtility.SetDirty(creator);
             SceneView.RepaintAll();
         }
         if (GUILayout.Button("Delete point"))
@@ -159,6 +165,7 @@ public class PathEditor : Editor
             {
                 Undo.RecordObject(creator, "Delete path point");
                 creator.DeletePoint(path.PointsCount - 1);
+                EditorUtility.SetDirty(creator);
                 SceneView.RepaintAll();
             }
         }
@@ -170,7 +177,6 @@ public class PathEditor : Editor
     private void OnEnable()
     {
         creator = (PathCreator)target;
-        creator.RefreshPath();
         path = creator.Path;
     }
 

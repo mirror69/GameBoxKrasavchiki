@@ -5,6 +5,7 @@ using UnityEditor;
 using UnityEditor.AI;
 
 [CustomEditor(typeof(AIMovingObject))]
+[CanEditMultipleObjects]
 public class AIMovingObjectEditor : Editor
 {
     private AIMovingObject movingObject;

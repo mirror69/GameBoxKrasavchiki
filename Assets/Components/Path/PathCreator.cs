@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
@@ -11,11 +12,14 @@ public class PathCreator : MonoBehaviour
     [SerializeField]
     private float defaultPointDistance = 3;
 
-    private Plane pathPlane;
-
     public NPCPath Path => path;
+
+    public event Action PointAdded;
+    public event Action<int> PointDeleted;
+    public event Action PathCleared;
+
     public void RefreshPath()
-    {
+    {        
         if (path == null)
         {
             path = new NPCPath(transform);
@@ -29,9 +33,11 @@ public class PathCreator : MonoBehaviour
     public void AddPoint(Vector3 position)
     {
         path.AddPoint(new Vector3(position.x, transform.position.y, position.z));
+        PointAdded?.Invoke();
     }
     public bool TryGetPointByRay(Ray worldRay, out Vector3 point)
     {
+        Plane pathPlane = new Plane(Vector3.up, transform.position);
         if (pathPlane.Raycast(worldRay, out float hitDistance))
         {
             point = worldRay.GetPoint(hitDistance);
@@ -46,6 +52,7 @@ public class PathCreator : MonoBehaviour
         if (CanDeletePoints())
         {
             path.DeletePoint(index);
+            PointDeleted?.Invoke(index);
         }
     }
     public bool CanDeletePoints()
@@ -65,10 +72,15 @@ public class PathCreator : MonoBehaviour
         AddPoint(path[lastIndex] + direction * defaultPointDistance);
     }
 
-    [ExecuteInEditMode]
-    private void Awake()
+    public void ClearPath()
     {
-        pathPlane = new Plane(Vector3.up, transform.position);
+        path = new NPCPath(transform);
+        RefreshPath();
+        PathCleared?.Invoke();
+    }
+
+    private void OnEnable()
+    {
         RefreshPath();
     }
 

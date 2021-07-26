@@ -30,6 +30,9 @@ public class AISearchingStrategy : AIMovementStrategy
             movingObject.RotationSpeed));
 
         movingObject.Move(lastTargetPoint);
+
+        yield return new WaitForFixedUpdate();
+
         while (!movingObject.IsDestinationReached())
         {
             yield return new WaitForFixedUpdate();

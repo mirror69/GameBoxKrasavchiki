@@ -78,18 +78,26 @@ public class AIPatrolStrategy : AIMovementStrategy
         while (true)
         {
             movingObject.Move(pathData.Path[currentPathParam.PointIndex]);
+            
+            yield return new WaitForFixedUpdate();
 
             PathPointData pointData = pathData.GetPointData(currentPathParam.PointIndex);
             while (!movingObject.IsDestinationReached())
             {
                 yield return new WaitForFixedUpdate();
 
-                if (pointData.StopTime == 0)
+                // Если до очередной точки маршрута осталось совсем немного, и на ней не нужно стоять,
+                // то мы сразу переходим к следующей. Таким образом мы сглаживаем перемещение по маршруту,
+                // чтобы не было замедления и ускорения на таких точках.
+                if (pointData.StopTime == 0 && movingObject.IsDestinationInStoppingDistance())
                 {
                     break;
                 }
             }
 
+            // Если в маршруте есть только одна точка, на которой мы бесконечно поворачиваемся,
+            // то при возврате на эту точку (например, после неудавшейся погони) нужно осуществить поворот,
+            // чтобы вектор forward смотрел туда, куда смотрел изначально при патрулировании в этой точке
             if (infiniteRotation)
             {
                 float angleToInitialDirection = Vector3.SignedAngle(movingObject.transform.forward,

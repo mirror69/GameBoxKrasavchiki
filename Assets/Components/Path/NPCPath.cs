@@ -19,9 +19,6 @@ public class NPCPath
     public int PointsCount => points.Count;
     public bool IsClosed => isClosed;
 
-    public event Action PointAdded;
-    public event Action<int> PointDeleted;
-      
     public NPCPath(Transform center)
     {
         points = new List<Vector3>() { Vector3.zero };
@@ -43,7 +40,6 @@ public class NPCPath
     public void AddPoint(Vector3 point)
     {
         points.Add(point - center.position);
-        PointAdded?.Invoke();
     }
 
     public void MovePoint(int i, Vector3 newPosition)
@@ -55,7 +51,6 @@ public class NPCPath
         if (index >= 0 && index < PointsCount)
         {
             points.RemoveAt(index);
-            PointDeleted?.Invoke(index);
         }
     }
 

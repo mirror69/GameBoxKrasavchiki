@@ -31,6 +31,7 @@ public class PathDataEditor : Editor
                 {
                     Undo.RecordObject(target, $"Edited {item}");
                     param.FloatValue = newValue;
+                    EditorUtility.SetDirty(target);
                 }
             }
             else if (param.IsIntValue())
@@ -40,6 +41,7 @@ public class PathDataEditor : Editor
                 {
                     Undo.RecordObject(target, $"Edited {item}");
                     param.IntValue = newValue;
+                    EditorUtility.SetDirty(target);
                 }
             }
 
@@ -52,6 +54,7 @@ public class PathDataEditor : Editor
                 {
                     Undo.RecordObject(target, $"Edited {nameof(param.useGlobalValue)} of {item}");
                     param.useGlobalValue = newValue;
+                    EditorUtility.SetDirty(target);
                 }
 
                 GUILayout.Label("Use global");

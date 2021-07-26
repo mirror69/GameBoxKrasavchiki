@@ -16,6 +16,8 @@ public class AIMovingObject : MonoBehaviour
     private NavMeshAgent navMeshAgent;
     private Coroutine movingCoroutine;
 
+    private Vector3 currentEndDestinationPoint;
+
     public float Speed => speed;
     public float RotationSpeed => rotationSpeed;
     public float FovRotationSpeed => fovRotationSpeed;
@@ -25,6 +27,7 @@ public class AIMovingObject : MonoBehaviour
     {
         Stop();
         navMeshAgent.destination = point;
+        currentEndDestinationPoint = navMeshAgent.destination;
         movingCoroutine = StartCoroutine(PerformMovingToPoint(point));
     }
     public void Stop()
@@ -46,6 +49,12 @@ public class AIMovingObject : MonoBehaviour
     public bool IsDestinationReached()
     {
         return movingCoroutine == null;
+    }
+
+    public bool IsDestinationInStoppingDistance()
+    {
+        return navMeshAgent.destination == currentEndDestinationPoint &&
+            navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance;
     }
 
     private bool IsNavMeshDestinationReached()
@@ -73,6 +82,7 @@ public class AIMovingObject : MonoBehaviour
         navMeshAgent = GetComponent<NavMeshAgent>();
         navMeshAgent.speed = speed;
         navMeshAgent.angularSpeed = rotationSpeed;
+        currentEndDestinationPoint = navMeshAgent.destination;
     }
 
     private RaycastHit RaycastByShortestWay(Vector3 targetPoint)
