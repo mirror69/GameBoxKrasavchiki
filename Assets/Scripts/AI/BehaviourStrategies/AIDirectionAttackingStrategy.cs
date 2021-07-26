@@ -17,7 +17,7 @@ public class AIDirectionAttackingStrategy : AIAttackingStrategy
         weaponController.SetTarget(target);
         while (target.IsAlive())
         {
-            if (weaponController.Status == WeaponStatus.Ready 
+            if (weaponController.IsWeaponReady() 
                 && weaponController.IsTargetOnAttackLine(target) 
                 && weaponController.CheckTargetAttackDistance(target) == AttackCheckResult.Ok)
             {

@@ -14,19 +14,21 @@ public class WeaponController : MonoBehaviour
     const float AngleDifferenceEpsilon = 10;
 
     [SerializeField]
-    private Transform attackPoint;
+    private Transform attackPoint = null;
     [SerializeField]
-    private float attackDistance;
+    private float attackDistance = 10;
     [SerializeField]
-    private float chargeDuration;
+    private float chargeDuration = 1;
     [SerializeField]
-    private float coolDownDuration;
+    private float coolDownDuration = 1;
 
-    private Shooting shooting;
+    private Shooting shooting = null;
 
-    private IDamageable target;
+    private IDamageable target = null;
 
-    public WeaponStatus Status { get; private set; }
+    private bool isInterruptionRequested = false;
+
+    Coroutine attackCoroutine = null;
 
     public Transform AttackPoint => attackPoint;
 
@@ -37,13 +39,20 @@ public class WeaponController : MonoBehaviour
 
     public void Attack()
     {
-        StartCoroutine(PerformAttack());
+        if (attackCoroutine == null)
+        {
+            attackCoroutine = StartCoroutine(PerformAttack());
+        }        
     }
 
     public void InterruptAttack()
     {
-        StopAllCoroutines();
-        Status = WeaponStatus.Ready;
+        isInterruptionRequested = true;
+    }
+
+    public bool IsWeaponReady()
+    {
+        return attackCoroutine == null;
     }
 
     public bool IsTargetOnAttackLine(IDamageable target)
@@ -102,7 +111,6 @@ public class WeaponController : MonoBehaviour
     private void Awake()
     {
         shooting = GetComponent<Shooting>();
-        Status = WeaponStatus.Ready;
     }
 
     private void Hit()
@@ -130,11 +138,18 @@ public class WeaponController : MonoBehaviour
 
     private IEnumerator PerformAttack()
     {
-        Status = WeaponStatus.Busy;
+        isInterruptionRequested = false;
 
-        if (chargeDuration > 0)
+        float hitTime = Time.time + chargeDuration;
+        while (Time.time < hitTime)
         {
-            yield return new WaitForSeconds(chargeDuration);
+            yield return null;
+
+            if (isInterruptionRequested)
+            {
+                attackCoroutine = null;                
+                yield break;
+            }
         }
 
         Hit();
@@ -144,6 +159,6 @@ public class WeaponController : MonoBehaviour
             yield return new WaitForSeconds(coolDownDuration);
         }
 
-        Status = WeaponStatus.Ready;
+        attackCoroutine = null;
     }
 }
