@@ -108,7 +108,7 @@ Transform:
   m_GameObject: {fileID: 7887655460516956296}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0.3}
-  m_LocalScale: {x: 0.11, y: 0.1, z: 0.2}
+  m_LocalScale: {x: 0.26, y: 0.28, z: 1.4}
   m_Children: []
   m_Father: {fileID: 4546886715512716153}
   m_RootOrder: 0
@@ -209,7 +209,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b3b9ae825cfd19429991c751644868d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletStartForce: 15
+  bulletStartForce: 50
   defaultDamageValue: 10
   bulletMesh: {fileID: 5501782680938455299}
 --- !u!54 &1573688328645441732

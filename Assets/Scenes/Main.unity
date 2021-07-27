@@ -4071,7 +4071,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8780580470206802209, guid: 1431481b468b174489739f3f1e19c603, type: 3}
       propertyPath: shootingCullDownTime
-      value: 0.5
+      value: 0.285
       objectReference: {fileID: 0}
     - target: {fileID: 8780580470206802211, guid: 1431481b468b174489739f3f1e19c603, type: 3}
       propertyPath: m_Name
