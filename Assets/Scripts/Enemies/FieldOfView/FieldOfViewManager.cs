@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 /// <summary>
@@ -15,9 +16,9 @@ public class FieldOfViewManager : MonoBehaviour
     public static RaycastHit GetFovRaycastHit(Vector3 startPoint, Vector3 direction, float maxDistance)
     {
         // Необходимо проверить все препятствия на пути, т.к. Raycast находит также триггерные коллайдеры,
-        // которые необходимо исключать
+        // которые необходимо исключать. Сортируем в порядке удаления от центра FOV
         RaycastHit[] hitInfo = Physics.RaycastAll(startPoint, direction, maxDistance,
-            GameManager.Instance.ObstacleLayers);
+            GameManager.Instance.ObstacleLayers).OrderBy(hit => hit.distance).ToArray();
 
         foreach (var item in hitInfo)
         {
