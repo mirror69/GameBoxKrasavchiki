@@ -3800,6 +3800,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 939290564}
     m_Modifications:
+    - target: {fileID: 918320969510008984, guid: 1431481b468b174489739f3f1e19c603, type: 3}
+      propertyPath: oneHitRegenerationTime
+      value: 0.2
+      objectReference: {fileID: 0}
     - target: {fileID: 1387175799613183144, guid: 1431481b468b174489739f3f1e19c603, type: 3}
       propertyPath: m_LocalPosition.z
       value: -25.6
@@ -11278,7 +11282,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   activeCursorState: 0
   cursors:
-  - {fileID: 2800000, guid: ca58fe40a19bbb24da30a8ed04f16b7c, type: 3}
+  - {fileID: 2800000, guid: 5bc9987dc8b574fe6981ed5fe124694b, type: 3}
   - {fileID: 2800000, guid: 0d354a9c28104d640b12df9fa987f40f, type: 3}
 --- !u!4 &859889257 stripped
 Transform:
@@ -12411,7 +12415,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 94
+  field of view: 90
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -18434,7 +18438,7 @@ MonoBehaviour:
   m_LookAt: {fileID: 392517266}
   m_Follow: {fileID: 392517266}
   m_Lens:
-    FieldOfView: 94
+    FieldOfView: 90
     OrthographicSize: 5
     NearClipPlane: 0.3
     FarClipPlane: 1000
