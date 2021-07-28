@@ -19,7 +19,7 @@ public class PlayerInput : MonoBehaviour
 
     //timers
     private float buttonPressedStartTime;
-
+    private float chargeStrength;
     
 
     private void Awake()
@@ -33,13 +33,26 @@ public class PlayerInput : MonoBehaviour
         verticalInput = Input.GetAxis("Vertical");
         rotateDirection = Input.mousePosition;
 
-        if (isPushingButton) fireButtonPressedTimer = Time.time - buttonPressedStartTime;
-        else fireButtonPressedTimer = 0;
+        if (isPushingButton)
+        {
+            fireButtonPressedTimer = Time.time - buttonPressedStartTime;
+            playerController.RefreshHealthByShootTime(fireButtonPressedTimer);
+            if (!playerController.IsHealthAllowShoot())
+            {
+                Fire();
+                isPushingButton = false;
+            }
+        }
+        else
+        {
+            fireButtonPressedTimer = 0;
+        }
 
 
-        if (Input.GetButtonDown("Fire1"))
+        if (playerController.IsHealthAllowShoot() && Input.GetButtonDown("Fire1"))
         {
             isPushingButton = true;
+            playerController.StartShoot();
             buttonPressedStartTime = Time.time;
         }
 
@@ -48,12 +61,6 @@ public class PlayerInput : MonoBehaviour
             Fire();
             isPushingButton = false;
         }
-
-        if ((fireButtonPressedTimer > 5) && isPushingButton)
-        {
-            isPushingButton = false;
-            Fire();
-        } 
     }
 
     private void Fire()

@@ -19,7 +19,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float playerSpeed;
     [SerializeField] float rotationSpeed;
     [SerializeField] Transform pistolPosition;
-    
+    private DamageableObject playerHealth;
+    private float beforeChargeHealth;
 
     public float PlayerSpeed => playerSpeed;
     public Vector3 CurrentVelocity => playerRigidbody.velocity;
@@ -34,9 +35,33 @@ public class PlayerController : MonoBehaviour
         cameraTransform = Camera.main.transform;
         shooting = GetComponent<Shooting>();
         playerCollider = GetComponent<Collider>();
+        playerHealth = GetComponent<DamageableObject>();
 
         // Конвертируем скорость в силу
         playerForce = (playerSpeed + speedToForceConvertShift) * playerRigidbody.mass * playerRigidbody.drag;
+    }
+
+    public bool IsHealthAllowShoot()
+    {
+        return playerHealth.Health > 1;
+    }
+
+    public void StartShoot()
+    {
+        playerHealth.SetEnabledRegeneration(false);
+        beforeChargeHealth = playerHealth.Health;
+    }
+
+    public bool RefreshHealthByShootTime(float buttonPressedTime)
+    {
+        int currentDamage = (int)(buttonPressedTime * shooting.DefaultDamageValue);
+        if (beforeChargeHealth - currentDamage >= 1)
+        {
+            playerHealth.SetHealth(beforeChargeHealth - currentDamage);
+            return true;
+        }
+        return false;
+             
     }
 
     /// <summary>
@@ -102,16 +127,18 @@ public class PlayerController : MonoBehaviour
 
     public void PlayerShoot(float buttonPressedTime)
     {
-        shooting.Shoot(pistolPosition.transform.position, 
-                        transform.rotation, 
-                        playerRigidbody.velocity, 
+        playerHealth.SetEnabledRegeneration(true);
+        shooting.Shoot(pistolPosition.transform.position,
+                        transform.rotation,
+                        playerRigidbody.velocity,
                         targetBulletPoint,
                         DamageMultiplier(buttonPressedTime));
     }
 
-    private int DamageMultiplier(float buttonPressedTime)
+    private float DamageMultiplier(float buttonPressedTime)
     {
-        if (buttonPressedTime < 1) return 1;
-        else return (int)Math.Floor(buttonPressedTime);
+        return buttonPressedTime;
+        //if (buttonPressedTime < 1) return 1;
+        //else return (int)Math.Floor(buttonPressedTime);
     }
 }

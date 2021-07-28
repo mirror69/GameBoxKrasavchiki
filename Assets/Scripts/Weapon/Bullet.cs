@@ -28,6 +28,8 @@ public class Bullet : MonoBehaviour
 
     private GameObject owner;
 
+    public float DefaultDamageValue => defaultDamageValue;
+
     private void Awake()
     {
         bulletRigidbody = GetComponent<Rigidbody>();
@@ -45,7 +47,7 @@ public class Bullet : MonoBehaviour
     /// <param name="startPosition">Откуда вылетат пуля</param>
     /// <param name="rotation">Поворот источника пули</param>
     /// <param name="velocity">Скорость источника пули</param>
-    public void SetBulletParameters(GameObject owner, Vector3 startPosition, Quaternion rotation, Vector3 velocity, Vector3 targetBulletPoint, int damageMultiplier)
+    public void SetBulletParameters(GameObject owner, Vector3 startPosition, Quaternion rotation, Vector3 velocity, Vector3 targetBulletPoint, float damageMultiplier)
     {
         this.owner = owner;
         transform.position = startPosition;
@@ -54,7 +56,7 @@ public class Bullet : MonoBehaviour
         bulletRigidbody.velocity = velocity;
         this.bulletLiveMaxDistance = (startPosition - targetBulletPoint).magnitude;
         bulletMesh.transform.localScale = startScale * damageMultiplier;
-        currentDamageValue = defaultDamageValue * damageMultiplier;
+        currentDamageValue = (int)(defaultDamageValue * damageMultiplier);
         
     }
 

@@ -15,6 +15,7 @@ public class Shooting : MonoBehaviour
     private BulletPool bulletPool;
 
     public Bounds BulletBounds { get; private set; }
+    public float DefaultDamageValue => bulletPrefab.DefaultDamageValue;
 
     private void Awake()
     {
@@ -35,7 +36,7 @@ public class Shooting : MonoBehaviour
         this.bulletPool = new BulletPool(bulletPrefab, poolCount, bulletsContainer);
     }
 
-    public void Shoot(Vector3 startDirection, Quaternion startRotation, Vector3 startVelocity, Vector3 targetBulletPoint, int damageMultiplier)
+    public void Shoot(Vector3 startDirection, Quaternion startRotation, Vector3 startVelocity, Vector3 targetBulletPoint, float damageMultiplier)
     {
         if (!isInheritingSourceVelocity) startVelocity = Vector3.zero;
 
