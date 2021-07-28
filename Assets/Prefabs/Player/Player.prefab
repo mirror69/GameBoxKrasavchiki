@@ -209,6 +209,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startHealth: 100
+  regenerationEnabled: 1
+  oneHitRegenerationTime: 0.5
 --- !u!114 &8780580470206802222
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -253,7 +255,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 7605253801909245575}
   player: {fileID: 8780580470206802222}
-  MaxVelocityForMovementBlendTree: 20
+  MaxVelocityForMovementBlendTree: 30
 --- !u!114 &7379927324590040370
 MonoBehaviour:
   m_ObjectHideFlags: 0
