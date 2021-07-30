@@ -21,7 +21,13 @@ public class PlayerInput : MonoBehaviour
     private Vector3 mouseGroundPosition;
     Plane playerMovingPlane;
 
-    private BeamWeaponController weaponController = null;  
+    private BeamWeaponController weaponController = null;
+    private IDamageable currentTarget = null;
+
+    public IDamageable GetTarget()
+    {
+        return currentTarget;
+    }
 
     private void Awake()
     {
@@ -37,11 +43,11 @@ public class PlayerInput : MonoBehaviour
         horizontalInput = Input.GetAxis("Horizontal");
         verticalInput = Input.GetAxis("Vertical");
         mouseGroundPosition = GetMouseGroundPosition(Input.mousePosition);
-
+        currentTarget = FindNearestTargetInVicinity(mouseGroundPosition, autoTargetingRadius);
+        
         if (Input.GetButtonDown("Fire1"))
         {
-            weaponController.SetTarget(
-                FindNearestTargetInVicinity(mouseGroundPosition, autoTargetingRadius));
+            weaponController.SetTarget(currentTarget);
             isPushingButton = true;
         }
 
@@ -93,7 +99,7 @@ public class PlayerInput : MonoBehaviour
     /// <param name="point">Центр окрестности, в которой осуществляется поиск</param>
     /// <param name="radius">Радиус окрестности</param>
     /// <returns></returns>
-    protected virtual IDamageable FindNearestTargetInVicinity(Vector3 point, float radius)
+    private IDamageable FindNearestTargetInVicinity(Vector3 point, float radius)
     {
         Vector3 topPoint = point;
         topPoint.y = TargetingRayTopY;
