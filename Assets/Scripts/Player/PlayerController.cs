@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
-[RequireComponent(typeof(Shooting))]
 public class PlayerController : MonoBehaviour
 {
     private const float speedToForceConvertShift = 0.5f;
@@ -12,15 +11,12 @@ public class PlayerController : MonoBehaviour
     private Collider playerCollider;
     private Rigidbody playerRigidbody;
     private Quaternion targetRotation;
-    private Transform cameraTransform;
+    private Camera mainCamera;
     private float playerForce;
-    private Shooting shooting;
     private Vector3 targetBulletPoint;
     [SerializeField] float playerSpeed;
     [SerializeField] float rotationSpeed;
     [SerializeField] Transform pistolPosition;
-    private DamageableObject playerHealth;
-    private float beforeChargeHealth;
 
     public float PlayerSpeed => playerSpeed;
     public Vector3 CurrentVelocity => playerRigidbody.velocity;
@@ -32,36 +28,11 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         playerRigidbody = GetComponent<Rigidbody>();
-        cameraTransform = Camera.main.transform;
-        shooting = GetComponent<Shooting>();
+        mainCamera = Camera.main;
         playerCollider = GetComponent<Collider>();
-        playerHealth = GetComponent<DamageableObject>();
 
         // Конвертируем скорость в силу
         playerForce = (playerSpeed + speedToForceConvertShift) * playerRigidbody.mass * playerRigidbody.drag;
-    }
-
-    public bool IsHealthAllowShoot()
-    {
-        return playerHealth.Health > 1;
-    }
-
-    public void StartShoot()
-    {
-        playerHealth.SetEnabledRegeneration(false);
-        beforeChargeHealth = playerHealth.Health;
-    }
-
-    public bool RefreshHealthByShootTime(float buttonPressedTime)
-    {
-        int currentDamage = (int)(buttonPressedTime * shooting.DefaultDamageValue);
-        if (beforeChargeHealth - currentDamage >= 1)
-        {
-            playerHealth.SetHealth(beforeChargeHealth - currentDamage);
-            return true;
-        }
-        return false;
-             
     }
 
     /// <summary>
@@ -74,24 +45,14 @@ public class PlayerController : MonoBehaviour
     }
 
     /// <summary>
-    /// Вращение плеера вслед за передаваемой позицией
+    /// Повернуть игрока лицом к заданной точке
     /// </summary>
-    /// <param name="mousePosition">Вектор, в сторону которого поворачивает плеер</param>
-    public void RotatePlayer(Vector3 mousePosition)
+    /// <param name="lookAtPoint">Точка, на которую должен повернуться игрок</param>
+    public void RotatePlayer(Vector3 lookAtPoint)
     {
-        Plane playerMovingPlane = new Plane(Vector3.up, transform.position + new Vector3(0, pistolPosition.position.y , 0));
-        
-        Ray ray = Camera.main.ScreenPointToRay(mousePosition);
-
-        float hitDistance;
-
-        if (playerMovingPlane.Raycast(ray, out hitDistance))
-        {
-            targetBulletPoint = ray.GetPoint(hitDistance);
-
-            targetRotation = Quaternion.LookRotation(targetBulletPoint - transform.position - new Vector3(0, pistolPosition.position.y, 0));
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.fixedDeltaTime);
-        }
+        lookAtPoint.y = transform.position.y;
+        targetRotation = Quaternion.LookRotation(lookAtPoint - transform.position);
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.fixedDeltaTime);
     }
 
     /// <summary>
@@ -125,20 +86,4 @@ public class PlayerController : MonoBehaviour
         return difference > 0 ? 1 : -1;
     }
 
-    public void PlayerShoot(float buttonPressedTime)
-    {
-        playerHealth.SetEnabledRegeneration(true);
-        shooting.Shoot(pistolPosition.transform.position,
-                        transform.rotation,
-                        playerRigidbody.velocity,
-                        targetBulletPoint,
-                        DamageMultiplier(buttonPressedTime));
-    }
-
-    private float DamageMultiplier(float buttonPressedTime)
-    {
-        return buttonPressedTime;
-        //if (buttonPressedTime < 1) return 1;
-        //else return (int)Math.Floor(buttonPressedTime);
-    }
 }

@@ -8,7 +8,7 @@ using UnityEngine;
 public class CanHitTarget : FsmCondPolled
 {
     private IDamageable target;
-    private WeaponController weaponController;
+    private ShootingWeaponController weaponController;
 
     protected override bool EvaluateCondition()
     {
@@ -24,7 +24,7 @@ public class CanHitTarget : FsmCondPolled
 
     private void Awake()
     {
-        weaponController = GetComponentInParent<WeaponController>();
+        weaponController = GetComponentInParent<ShootingWeaponController>();
     }
 
     private void Start()

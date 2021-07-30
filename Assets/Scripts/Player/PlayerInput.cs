@@ -3,99 +3,124 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(PlayerController))]
+[RequireComponent(typeof(BeamWeaponController))]
 public class PlayerInput : MonoBehaviour
 {
-    public float fireButtonPressedTimer;
-    [SerializeField, Range(0, 1)] private float movingStoppedTime;
-    [SerializeField, Range(0, 1)] private float shootingCullDownTime;
+    private const float TargetingRayTopY = 50;
+    private const float TargetingRayDistanceFromTop = 100;
+
+    [SerializeField]
+    private float autoTargetingRadius = 2;
+    
     private Vector3 moveDirection;
-    private Vector3 rotateDirection;
     private float horizontalInput;
     private float verticalInput;
     private PlayerController playerController;
-    private bool canMoving = true;
-    private bool canShooting = true;
     private bool isPushingButton = false;
+    private Camera mainCamera = null;
+    private Vector3 mouseGroundPosition;
+    Plane playerMovingPlane;
 
-    //timers
-    private float buttonPressedStartTime;
-    private float chargeStrength;
-    
+    private BeamWeaponController weaponController = null;  
 
     private void Awake()
     {
         playerController = GetComponent<PlayerController>();
+        weaponController = GetComponent<BeamWeaponController>();
+        mainCamera = Camera.main;
+        playerMovingPlane = new Plane(Vector3.up, transform.position + 
+            new Vector3(0, weaponController.AttackPoint.position.y, 0));
     }
 
     private void Update()
     {
         horizontalInput = Input.GetAxis("Horizontal");
         verticalInput = Input.GetAxis("Vertical");
-        rotateDirection = Input.mousePosition;
+        mouseGroundPosition = GetMouseGroundPosition(Input.mousePosition);
+
+        if (Input.GetButtonDown("Fire1"))
+        {
+            weaponController.SetTarget(
+                FindNearestTargetInVicinity(mouseGroundPosition, autoTargetingRadius));
+            isPushingButton = true;
+        }
+
+        if (Input.GetButtonUp("Fire1"))
+        {
+            weaponController.InterruptAttack();
+            isPushingButton = false;
+        }
 
         if (isPushingButton)
         {
-            fireButtonPressedTimer = Time.time - buttonPressedStartTime;
-            playerController.RefreshHealthByShootTime(fireButtonPressedTimer);
-            if (!playerController.IsHealthAllowShoot())
-            {
-                Fire();
-                isPushingButton = false;
-            }
+            // ≈сли кнопка атаки зажата, делаем попытки атаковать каждый кадр на тот случай,
+            // если кулдаун от предыдущей атаки не завершилс€, чтобы сразу после него начать атаку
+            weaponController.Attack();
         }
-        else
-        {
-            fireButtonPressedTimer = 0;
-        }
-
-
-        if (playerController.IsHealthAllowShoot() && Input.GetButtonDown("Fire1"))
-        {
-            isPushingButton = true;
-            playerController.StartShoot();
-            buttonPressedStartTime = Time.time;
-        }
-
-        if (Input.GetButtonUp("Fire1") && isPushingButton)
-        {
-            Fire();
-            isPushingButton = false;
-        }
-    }
-
-    private void Fire()
-    {
-        canMoving = false;
-        if (canShooting)
-        {
-            playerController.PlayerShoot(fireButtonPressedTimer);
-            
-            StartCoroutine(CullDownWaiting());
-            StartCoroutine(MovingStopper());
-        }
-        buttonPressedStartTime = Time.time;
     }
 
     private void FixedUpdate()
     {
-        moveDirection = new Vector3(-horizontalInput, 0, -verticalInput);        
-        if (canMoving) playerController.MovePlayer(moveDirection);
-        playerController.RotatePlayer(rotateDirection);
+        moveDirection = new Vector3(-horizontalInput, 0, -verticalInput);
 
+        playerController.MovePlayer(moveDirection);
+
+        // ѕри атаке поворачиваемс€ туда, где находитс€ цель.
+        // ≈сли цели нет, смотрим на курсор.
+        IDamageable target = weaponController.GetTarget();
+        Vector3 lookAtPoint = target != null ? target.Transform.position : mouseGroundPosition;
+        playerController.RotatePlayer(lookAtPoint);
     }
 
-    IEnumerator MovingStopper()
+    /// <summary>
+    /// ѕолучить проекцию позиции курсора мыши на плоскость XZ, в которой находитс€ игрок
+    /// </summary>
+    /// <param name="mousePosition">Ёкранные координаты курсора</param>
+    /// <returns></returns>
+    private Vector3 GetMouseGroundPosition(Vector3 mousePosition)
     {
-        canMoving = false;
-        yield return new WaitForSeconds(movingStoppedTime);
-        canMoving = true;
+        Ray cameraToCursorRay = mainCamera.ScreenPointToRay(mousePosition);
+        if (playerMovingPlane.Raycast(cameraToCursorRay, out float hitDistance))
+        {
+            return cameraToCursorRay.GetPoint(hitDistance);
+        }
+        return Vector3.zero;
     }
 
-    IEnumerator CullDownWaiting()
+    /// <summary>
+    /// Ќайти врага, ближайшего к указанной позиции
+    /// </summary>
+    /// <param name="point">÷ентр окрестности, в которой осуществл€етс€ поиск</param>
+    /// <param name="radius">–адиус окрестности</param>
+    /// <returns></returns>
+    protected virtual IDamageable FindNearestTargetInVicinity(Vector3 point, float radius)
     {
-        canShooting = false;
-        yield return new WaitForSeconds(shootingCullDownTime);
-        canShooting = true;
+        Vector3 topPoint = point;
+        topPoint.y = TargetingRayTopY;
 
+        RaycastHit[] hitInfo = Physics.SphereCastAll(topPoint, radius, Vector3.down,
+            TargetingRayDistanceFromTop, GameManager.Instance.EnemyLayers, QueryTriggerInteraction.Ignore);
+
+        if (hitInfo.Length == 0)
+        {
+            return null;
+        }
+        
+        Transform minDistTransform = hitInfo[0].transform;
+        float minSqrDistToTarget = Vector3.SqrMagnitude(minDistTransform.position - point);
+
+        // ≈сли целей в окрестности точки несколько, найдЄм ту, котора€ ближе всего к центру окрестности
+        for (int i = 1; i < hitInfo.Length; i++)
+        {
+            float currentSqrDist = Vector3.SqrMagnitude(hitInfo[i].transform.position - point);
+            if (currentSqrDist < minSqrDistToTarget)
+            {
+                minSqrDistToTarget = currentSqrDist;
+                minDistTransform = hitInfo[i].transform;
+            }
+        }
+
+        return minDistTransform.GetComponent<IDamageable>();
     }
+
 }

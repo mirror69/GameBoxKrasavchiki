@@ -9,10 +9,13 @@ public class GameManager : MonoBehaviour
     private DamageableObject player;
     [SerializeField]
     private LayerMask obstacleLayers;
+    [SerializeField]
+    private LayerMask enemyLayers;
 
     public static GameManager Instance { get; private set; }
     public DamageableObject Player => player;
     public LayerMask ObstacleLayers => obstacleLayers;
+    public LayerMask EnemyLayers => enemyLayers;
 
     private void Awake()
     {

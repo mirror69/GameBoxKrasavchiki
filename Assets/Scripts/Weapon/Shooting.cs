@@ -36,7 +36,8 @@ public class Shooting : MonoBehaviour
         this.bulletPool = new BulletPool(bulletPrefab, poolCount, bulletsContainer);
     }
 
-    public void Shoot(Vector3 startDirection, Quaternion startRotation, Vector3 startVelocity, Vector3 targetBulletPoint, float damageMultiplier)
+    public void Shoot(Vector3 startDirection, Quaternion startRotation, Vector3 startVelocity, 
+        Vector3 targetBulletPoint, float damageMultiplier)
     {
         if (!isInheritingSourceVelocity) startVelocity = Vector3.zero;
 

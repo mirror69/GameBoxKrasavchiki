@@ -7,9 +7,9 @@ using UnityEngine;
 public abstract class AnimationBehaviour : MonoBehaviour
 {
     /// <summary>
-    /// Скорость изменения значения параметра при плавном изменении
+    /// Время сглаживания значения параметра при плавном изменении
     /// </summary>
-    protected const float ParameterChangeValueVelocity = 0.1f;
+    protected const float ParameterChangeValueDampTime = 0.5f;
     /// <summary>
     /// Разница между текущим и целевым значением параметра, меньше которой считаем, что значения равны
     /// </summary>    
@@ -53,7 +53,7 @@ public abstract class AnimationBehaviour : MonoBehaviour
         }
         else
         {
-            animator.SetFloat(paramName, paramValue, ParameterChangeValueVelocity, Time.deltaTime);
+            animator.SetFloat(paramName, paramValue, ParameterChangeValueDampTime, Time.deltaTime);
         }
     }
 

@@ -10,4 +10,5 @@ public interface IDamageable
     void SetHealth(float healthValue);
     void ReceiveDamage(float damageValue);
     bool IsAlive();
+    void SetEnabledRegeneration(bool enabled);
 }

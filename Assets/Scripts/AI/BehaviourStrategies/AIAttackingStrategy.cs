@@ -7,7 +7,7 @@ using UnityEngine;
 /// </summary>
 public abstract class AIAttackingStrategy : MonoBehaviour
 {
-    protected WeaponController weaponController;
+    protected ShootingWeaponController weaponController;
     protected IDamageable target;
     protected Coroutine attackingCoroutine = null;
 
@@ -16,7 +16,7 @@ public abstract class AIAttackingStrategy : MonoBehaviour
         this.target = target;
     }
 
-    public virtual void Initialize(WeaponController weaponController, IDamageable target)
+    public virtual void Initialize(ShootingWeaponController weaponController, IDamageable target)
     {
         this.weaponController = weaponController;
         SetTarget(target);
