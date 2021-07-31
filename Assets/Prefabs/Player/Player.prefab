@@ -127,7 +127,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerSpeed: 4
   rotationSpeed: 7
-  pistolPosition: {fileID: 0}
 --- !u!114 &8780580470206802220
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -142,6 +141,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 7605253801909245575}
   player: {fileID: 8780580470206802222}
+  weapon: {fileID: 667107372240634522}
   MaxVelocityForMovementBlendTree: 30
 --- !u!114 &667107372240634522
 MonoBehaviour:
@@ -172,6 +172,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81d7cf0ece6650842a1d6b2d95459400, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  autoTargetingRadius: 2
+--- !u!1 &8810723904974714331
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3569613104333598408}
+  m_Layer: 3
+  m_Name: VisualAttackPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3569613104333598408
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8810723904974714331}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.002, y: 1.389, z: 0.496}
+  m_LocalScale: {x: 0.58823526, y: 0.58823526, z: 0.58823526}
+  m_Children: []
+  m_Father: {fileID: 7926884501314189859}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &8780580472006680021
 PrefabInstance:
   m_ObjectHideFlags: 0

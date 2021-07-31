@@ -50,6 +50,9 @@ MonoBehaviour:
   obstacleLayers:
     serializedVersion: 2
     m_Bits: 1281
+  enemyLayers:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!1 &6631130720148722727
 GameObject:
   m_ObjectHideFlags: 0

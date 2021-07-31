@@ -14,10 +14,6 @@ public abstract class AttackBeam : MonoBehaviour
     [SerializeField]
     protected float noTargetHittingTime = 0.4f;
     [SerializeField]
-    protected float minWidth = 1;
-    [SerializeField]
-    protected float maxWidth = 5;
-    [SerializeField]
     protected AttackBeamRenderer beamRenderer = null;
     [SerializeField]
     protected Transform visualAttackPoint = null;
