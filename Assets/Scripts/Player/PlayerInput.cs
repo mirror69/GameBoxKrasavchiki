@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(PlayerController))]
-[RequireComponent(typeof(BeamWeaponController))]
+[RequireComponent(typeof(WeaponController))]
 public class PlayerInput : MonoBehaviour
 {
     private const float TargetingRayTopY = 50;

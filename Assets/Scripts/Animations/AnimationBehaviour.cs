@@ -6,6 +6,7 @@ using UnityEngine;
 /// </summary>
 public abstract class AnimationBehaviour : MonoBehaviour
 {
+    protected const float TransitionTimeBetweenLayers = 0.2f;
     /// <summary>
     /// Время сглаживания значения параметра при плавном изменении
     /// </summary>
@@ -20,6 +21,8 @@ public abstract class AnimationBehaviour : MonoBehaviour
     [SerializeField]
     protected PlayerController player;
     [SerializeField]
+    protected WeaponController weapon;
+    [SerializeField]
     protected float MaxVelocityForMovementBlendTree = 20f;
 
     protected virtual void Start()
@@ -30,6 +33,18 @@ public abstract class AnimationBehaviour : MonoBehaviour
             animator.SetFloat(AnimatorConstants.Parameters.VelocityMultiplier, 
                 player.PlayerSpeed / MaxVelocityForMovementBlendTree);
         }
+        weapon.RegisterAttackStartedListener(AnimateAttack);
+        weapon.RegisterAttackEndedListener(AnimateStopAttack);
+    }
+
+    protected virtual void OnDestroy()
+    {
+        if (weapon == null)
+        {
+            return;
+        }
+        weapon.UnregisterAttackStartedListener(AnimateAttack);
+        weapon.UnregisterAttackEndedListener(AnimateStopAttack);
     }
 
     /// <summary>
@@ -87,6 +102,37 @@ public abstract class AnimationBehaviour : MonoBehaviour
         animator.SetBool(paramName, paramValue);
     }
 
+    protected void SetEnabledLayer(string layerName, bool enabled)
+    {
+        StartCoroutine(PerformSetEnabledLayer(layerName, enabled));
+    }
+
+    protected IEnumerator PerformSetEnabledLayer(string layerName, bool enabled)
+    {
+        if (animator == null || !IsLayerExists(layerName))
+        {
+            yield break;
+        }
+
+        float targetValue = enabled ? 1 : 0;
+
+        int layerIndex = animator.GetLayerIndex(layerName);
+
+        float currentTransitionTime = 0;
+        while (currentTransitionTime < TransitionTimeBetweenLayers)
+        {
+            float currentValue = currentTransitionTime / TransitionTimeBetweenLayers;
+            if (!enabled)
+            {
+                currentValue = 1 - currentValue;
+            }
+            animator.SetLayerWeight(layerIndex, currentValue);
+            yield return null;
+            currentTransitionTime += Time.deltaTime;
+        }
+        animator.SetLayerWeight(layerIndex, targetValue);
+    }
+
     /// <summary>
     /// Проверить, существует ли параметр в аниматоре
     /// </summary>
@@ -104,10 +150,34 @@ public abstract class AnimationBehaviour : MonoBehaviour
         return false;
     }
 
+    protected bool IsLayerExists(string paramName)
+    {
+        for (int i = 0; i < animator.layerCount; i++)
+        {
+            if (animator.GetLayerName(i) == paramName)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
     /// <summary>
     /// Анимировать движение (определяется в наследниках, которые используют это действие)
     /// </summary>
     protected virtual void AnimateMove()
+    {
+    }
+    /// <summary>
+    /// Анимировать атаку (определяется в наследниках, которые используют это действие)
+    /// </summary>
+    protected virtual void AnimateAttack()
+    {
+    }
+    /// <summary>
+    /// Анимировать остановку атаки (определяется в наследниках, которые используют это действие)
+    /// </summary>
+    protected virtual void AnimateStopAttack()
     {
     }
 

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 
 public abstract class WeaponController : MonoBehaviour
@@ -18,6 +19,26 @@ public abstract class WeaponController : MonoBehaviour
 
     public Transform AttackPoint => attackPoint;
 
+    private Action AttackStarted;
+    private Action AttackEnded;
+
+    public void RegisterAttackStartedListener(Action listener)
+    {
+        AttackStarted += listener;
+    }
+    public void UnregisterAttackStartedListener(Action listener)
+    {
+        AttackStarted -= listener;
+    }
+    public void RegisterAttackEndedListener(Action listener)
+    {
+        AttackEnded += listener;
+    }
+    public void UnregisterAttackEndedListener(Action listener)
+    {
+        AttackEnded -= listener;
+    }
+
     public virtual void SetTarget(IDamageable target)
     {
     }
@@ -31,6 +52,7 @@ public abstract class WeaponController : MonoBehaviour
     {
         if (attackCoroutine == null)
         {
+            AttackStarted?.Invoke();
             attackCoroutine = StartCoroutine(PerformAttack());
         }
     }
@@ -45,8 +67,14 @@ public abstract class WeaponController : MonoBehaviour
         return attackCoroutine == null;
     }
 
+    protected virtual void Hit()
+    {
+        isHitPerforming = false;
+    }
+
     private IEnumerator PerformAttack()
     {
+        AttackStarted?.Invoke();
         isInterruptionRequested = false;
 
         float hitTime = Time.time + chargeDuration;
@@ -56,6 +84,7 @@ public abstract class WeaponController : MonoBehaviour
 
             if (isInterruptionRequested)
             {
+                AttackEnded?.Invoke();
                 attackCoroutine = null;
                 yield break;
             }
@@ -68,16 +97,13 @@ public abstract class WeaponController : MonoBehaviour
             yield return null;
         }
 
+        AttackEnded?.Invoke();
+
         if (coolDownDuration > 0)
         {
             yield return new WaitForSeconds(coolDownDuration);
         }
 
         attackCoroutine = null;
-    }
-
-    protected virtual void Hit()
-    {
-        isHitPerforming = false;
     }
 }

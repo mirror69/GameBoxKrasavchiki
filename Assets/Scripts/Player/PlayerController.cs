@@ -11,12 +11,9 @@ public class PlayerController : MonoBehaviour
     private Collider playerCollider;
     private Rigidbody playerRigidbody;
     private Quaternion targetRotation;
-    private Camera mainCamera;
     private float playerForce;
-    private Vector3 targetBulletPoint;
     [SerializeField] float playerSpeed;
     [SerializeField] float rotationSpeed;
-    [SerializeField] Transform pistolPosition;
 
     public float PlayerSpeed => playerSpeed;
     public Vector3 CurrentVelocity => playerRigidbody.velocity;
@@ -28,7 +25,6 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         playerRigidbody = GetComponent<Rigidbody>();
-        mainCamera = Camera.main;
         playerCollider = GetComponent<Collider>();
 
         // Конвертируем скорость в силу

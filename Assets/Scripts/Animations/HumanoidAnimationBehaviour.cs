@@ -47,5 +47,25 @@ public class HumanoidAnimationBehaviour : AnimationBehaviour
         }
     }
 
+    /// <summary>
+    /// Анимировать атаку
+    /// </summary>
+    protected override void AnimateAttack()
+    {
+        SetAttackModeEnabled(true);
+    }
+    /// <summary>
+    /// Анимировать остановку атаки
+    /// </summary>
+    protected override void AnimateStopAttack()
+    {
+        SetAttackModeEnabled(false);
+    }
+
+    private void SetAttackModeEnabled(bool enabled)
+    {
+        SetParameterValue(AnimatorConstants.Parameters.Attacking, enabled);
+        SetEnabledLayer(AnimatorConstants.Layers.UpperBody, enabled);
+    }
 }
 

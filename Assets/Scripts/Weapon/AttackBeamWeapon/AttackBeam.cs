@@ -5,7 +5,6 @@ using UnityEngine;
 /// <summary>
 /// Атакующий луч
 /// </summary>
-[RequireComponent(typeof(LineRenderer))]
 public abstract class AttackBeam : MonoBehaviour
 {
     [SerializeField]
@@ -18,8 +17,10 @@ public abstract class AttackBeam : MonoBehaviour
     protected float minWidth = 1;
     [SerializeField]
     protected float maxWidth = 5;
-
-    protected LineRenderer lineRenderer = null;
+    [SerializeField]
+    protected AttackBeamRenderer beamRenderer = null;
+    [SerializeField]
+    protected Transform visualAttackPoint = null;
 
     protected IDamageable target = null;
     protected float maxDistance = 0;
@@ -62,7 +63,7 @@ public abstract class AttackBeam : MonoBehaviour
 
     public virtual void StartAttack()
     {
-        gameObject.SetActive(true);
+        beamRenderer.SetActive(true);
         isAttacking = true;
         if (target != null)
         {
@@ -78,15 +79,13 @@ public abstract class AttackBeam : MonoBehaviour
     {
         StopAllCoroutines();
         isAttacking = false;
-        gameObject.SetActive(false);
+        beamRenderer.SetActive(false);
         target = null;
     }
 
     protected virtual void Awake()
     {
-        gameObject.SetActive(false);
-        lineRenderer = GetComponent<LineRenderer>();
-        lineRenderer.useWorldSpace = true;
+        beamRenderer.SetActive(false);
     }
     protected virtual bool AreHitConditionsSatisfied()
     {
@@ -101,8 +100,7 @@ public abstract class AttackBeam : MonoBehaviour
 
         while (AreHitConditionsSatisfied())
         {
-            lineRenderer.SetPosition(0, attackPoint.position);
-            lineRenderer.SetPosition(1, GetBeamEndPoint());
+            beamRenderer.SetPosition(visualAttackPoint.position, GetBeamEndPoint());
 
             int accumulatedDamageValueInt = (int)accumulatedDamageValue;
             if (accumulatedDamageValueInt > 0)
@@ -132,8 +130,7 @@ public abstract class AttackBeam : MonoBehaviour
             {
                 break;
             }
-            lineRenderer.SetPosition(0, attackPoint.position);
-            lineRenderer.SetPosition(1, GetBeamEndPoint());
+            beamRenderer.SetPosition(visualAttackPoint.position, GetBeamEndPoint());
             yield return new WaitForFixedUpdate();
         }
         StopCoroutine(raycastCoroutine);
@@ -171,7 +168,7 @@ public abstract class AttackBeam : MonoBehaviour
     {
         if (currentRaycastHit.collider == null)
         {
-            return attackPoint.position + attackPoint.forward * maxDistance;
+            return visualAttackPoint.position + attackPoint.forward * maxDistance;
         }
         else
         {
