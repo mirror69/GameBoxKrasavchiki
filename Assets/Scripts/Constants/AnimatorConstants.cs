@@ -12,9 +12,11 @@ public static class AnimatorConstants
         public const string Moving = "Moving";
         public const string TurnValue = "TurnValue";
         public const string Reloading = "Reloading";
+        public const string Attacking = "Attacking";
     }
     public static class Layers
     {
         public const string UpperBody = "UpperBody Layer";
+        public const string Attack = "Attack Additive Layer";
     }
 }

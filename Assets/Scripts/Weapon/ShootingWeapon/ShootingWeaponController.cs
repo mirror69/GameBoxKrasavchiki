@@ -1,11 +1,10 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
 ///  онтроллер оружи€
 /// </summary>
-public class WeaponController : MonoBehaviour
+public class ShootingWeaponController : WeaponController
 {
     /// <summary>
     /// «начение отклонени€ угла, при котором можем стрел€ть по цели,
@@ -13,46 +12,12 @@ public class WeaponController : MonoBehaviour
     /// </summary>
     const float AngleDifferenceEpsilon = 10;
 
-    [SerializeField]
-    private Transform attackPoint = null;
-    [SerializeField]
-    private float attackDistance = 10;
-    [SerializeField]
-    private float chargeDuration = 1;
-    [SerializeField]
-    private float coolDownDuration = 1;
-
     private Shooting shooting = null;
+    protected IDamageable target = null;
 
-    private IDamageable target = null;
-
-    private bool isInterruptionRequested = false;
-
-    Coroutine attackCoroutine = null;
-
-    public Transform AttackPoint => attackPoint;
-
-    public void SetTarget(IDamageable target)
+    public override void SetTarget(IDamageable target)
     {
         this.target = target;
-    }
-
-    public void Attack()
-    {
-        if (attackCoroutine == null)
-        {
-            attackCoroutine = StartCoroutine(PerformAttack());
-        }        
-    }
-
-    public void InterruptAttack()
-    {
-        isInterruptionRequested = true;
-    }
-
-    public bool IsWeaponReady()
-    {
-        return attackCoroutine == null;
     }
 
     public bool IsTargetOnAttackLine(IDamageable target)
@@ -81,17 +46,8 @@ public class WeaponController : MonoBehaviour
             return false;
         }
 
-        RaycastHit[] hitInfo = Physics.SphereCastAll(attackPoint.position, bulletSize, 
-            attackVector, distanceToTarget, GameManager.Instance.ObstacleLayers);
-
-        foreach (var item in hitInfo)
-        {
-            if (!item.collider.isTrigger)
-            {
-                return true;
-            }
-        }
-        return false;
+        return Physics.SphereCast(attackPoint.position, bulletSize, attackVector, out RaycastHit hitInfo, 
+            distanceToTarget, GameManager.Instance.ObstacleLayers, QueryTriggerInteraction.Ignore);
     }
 
     public AttackCheckResult CheckTargetAttackDistance(IDamageable target)
@@ -113,7 +69,7 @@ public class WeaponController : MonoBehaviour
         shooting = GetComponent<Shooting>();
     }
 
-    private void Hit()
+    protected override void Hit()
     {
         Vector3 attackDirection;
         if (target != null)
@@ -134,31 +90,8 @@ public class WeaponController : MonoBehaviour
                         Vector3.zero,
                         endAttackPoint,
                         1);
+
+        isHitPerforming = false;
     }
 
-    private IEnumerator PerformAttack()
-    {
-        isInterruptionRequested = false;
-
-        float hitTime = Time.time + chargeDuration;
-        while (Time.time < hitTime)
-        {
-            yield return null;
-
-            if (isInterruptionRequested)
-            {
-                attackCoroutine = null;                
-                yield break;
-            }
-        }
-
-        Hit();
-
-        if (coolDownDuration > 0)
-        {
-            yield return new WaitForSeconds(coolDownDuration);
-        }
-
-        attackCoroutine = null;
-    }
 }

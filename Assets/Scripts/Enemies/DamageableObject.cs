@@ -34,7 +34,6 @@ public class DamageableObject : MonoBehaviour, IDamageable
     public void ReceiveDamage(float damageValue)
     {
         SetHealth(Health - damageValue);
-        Debug.Log($"Hit on {name}. Current health: {Health}");
     }
 
     public void SetEnabledRegeneration(bool enabled)

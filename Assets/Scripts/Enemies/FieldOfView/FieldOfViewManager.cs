@@ -15,19 +15,15 @@ public class FieldOfViewManager : MonoBehaviour
 
     public static RaycastHit GetFovRaycastHit(Vector3 startPoint, Vector3 direction, float maxDistance)
     {
-        // Необходимо проверить все препятствия на пути, т.к. Raycast находит также триггерные коллайдеры,
-        // которые необходимо исключать. Сортируем в порядке удаления от центра FOV
-        RaycastHit[] hitInfo = Physics.RaycastAll(startPoint, direction, maxDistance,
-            GameManager.Instance.ObstacleLayers).OrderBy(hit => hit.distance).ToArray();
-
-        foreach (var item in hitInfo)
+        if (Physics.Raycast(startPoint, direction, out RaycastHit hitInfo, maxDistance, 
+            GameManager.Instance.ObstacleLayers, QueryTriggerInteraction.Ignore))
         {
-            if (item.collider != null && !item.collider.isTrigger)
-            {
-                return item;
-            }
+            return hitInfo;
         }
-        return new RaycastHit();
+        else
+        {
+            return new RaycastHit();
+        }
     }
 
     public void AddFieldOfView(FieldOfView fov)

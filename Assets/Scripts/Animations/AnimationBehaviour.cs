@@ -6,10 +6,11 @@ using UnityEngine;
 /// </summary>
 public abstract class AnimationBehaviour : MonoBehaviour
 {
+    protected const float TransitionTimeBetweenLayers = 0.2f;
     /// <summary>
-    /// Скорость изменения значения параметра при плавном изменении
+    /// Время сглаживания значения параметра при плавном изменении
     /// </summary>
-    protected const float ParameterChangeValueVelocity = 0.1f;
+    protected const float ParameterChangeValueDampTime = 0.5f;
     /// <summary>
     /// Разница между текущим и целевым значением параметра, меньше которой считаем, что значения равны
     /// </summary>    
@@ -19,6 +20,8 @@ public abstract class AnimationBehaviour : MonoBehaviour
     protected Animator animator;
     [SerializeField]
     protected PlayerController player;
+    [SerializeField]
+    protected WeaponController weapon;
     [SerializeField]
     protected float MaxVelocityForMovementBlendTree = 20f;
 
@@ -30,6 +33,18 @@ public abstract class AnimationBehaviour : MonoBehaviour
             animator.SetFloat(AnimatorConstants.Parameters.VelocityMultiplier, 
                 player.PlayerSpeed / MaxVelocityForMovementBlendTree);
         }
+        weapon.RegisterAttackStartedListener(AnimateAttack);
+        weapon.RegisterAttackEndedListener(AnimateStopAttack);
+    }
+
+    protected virtual void OnDestroy()
+    {
+        if (weapon == null)
+        {
+            return;
+        }
+        weapon.UnregisterAttackStartedListener(AnimateAttack);
+        weapon.UnregisterAttackEndedListener(AnimateStopAttack);
     }
 
     /// <summary>
@@ -53,7 +68,7 @@ public abstract class AnimationBehaviour : MonoBehaviour
         }
         else
         {
-            animator.SetFloat(paramName, paramValue, ParameterChangeValueVelocity, Time.deltaTime);
+            animator.SetFloat(paramName, paramValue, ParameterChangeValueDampTime, Time.deltaTime);
         }
     }
 
@@ -87,6 +102,37 @@ public abstract class AnimationBehaviour : MonoBehaviour
         animator.SetBool(paramName, paramValue);
     }
 
+    protected void SetEnabledLayer(string layerName, bool enabled)
+    {
+        StartCoroutine(PerformSetEnabledLayer(layerName, enabled));
+    }
+
+    protected IEnumerator PerformSetEnabledLayer(string layerName, bool enabled)
+    {
+        if (animator == null || !IsLayerExists(layerName))
+        {
+            yield break;
+        }
+
+        float targetValue = enabled ? 1 : 0;
+
+        int layerIndex = animator.GetLayerIndex(layerName);
+
+        float currentTransitionTime = 0;
+        while (currentTransitionTime < TransitionTimeBetweenLayers)
+        {
+            float currentValue = currentTransitionTime / TransitionTimeBetweenLayers;
+            if (!enabled)
+            {
+                currentValue = 1 - currentValue;
+            }
+            animator.SetLayerWeight(layerIndex, currentValue);
+            yield return null;
+            currentTransitionTime += Time.deltaTime;
+        }
+        animator.SetLayerWeight(layerIndex, targetValue);
+    }
+
     /// <summary>
     /// Проверить, существует ли параметр в аниматоре
     /// </summary>
@@ -104,10 +150,34 @@ public abstract class AnimationBehaviour : MonoBehaviour
         return false;
     }
 
+    protected bool IsLayerExists(string paramName)
+    {
+        for (int i = 0; i < animator.layerCount; i++)
+        {
+            if (animator.GetLayerName(i) == paramName)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
     /// <summary>
     /// Анимировать движение (определяется в наследниках, которые используют это действие)
     /// </summary>
     protected virtual void AnimateMove()
+    {
+    }
+    /// <summary>
+    /// Анимировать атаку (определяется в наследниках, которые используют это действие)
+    /// </summary>
+    protected virtual void AnimateAttack()
+    {
+    }
+    /// <summary>
+    /// Анимировать остановку атаки (определяется в наследниках, которые используют это действие)
+    /// </summary>
+    protected virtual void AnimateStopAttack()
     {
     }
 

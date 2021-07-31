@@ -10,7 +10,7 @@ using UnityEngine;
 public class AttackingState : FsmState
 {
     private AIMovingObject movingObject;
-    private WeaponController weaponController;
+    private ShootingWeaponController weaponController;
     private AIAimingStrategy aimingStrategy;
     private AIAttackingStrategy attackingStrategy;
 
@@ -40,7 +40,7 @@ public class AttackingState : FsmState
     private void Awake()
     {
         movingObject = GetComponentInParent<AIMovingObject>();
-        weaponController = GetComponentInParent<WeaponController>();
+        weaponController = GetComponentInParent<ShootingWeaponController>();
         attackingStrategy = GetComponent<AIAttackingStrategy>();
         aimingStrategy = GetComponent<AIAimingStrategy>();
     }
