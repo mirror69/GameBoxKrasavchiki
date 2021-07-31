@@ -992,7 +992,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2582133071628089178, guid: 185749c0d8717064294267e2f29ed975, type: 3}
       propertyPath: speed
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2582133071628089178, guid: 185749c0d8717064294267e2f29ed975, type: 3}
       propertyPath: rotationSpeed
@@ -3804,6 +3804,10 @@ PrefabInstance:
       propertyPath: attackBeam
       value: 
       objectReference: {fileID: 1995056464}
+    - target: {fileID: 667107372240634522, guid: 1431481b468b174489739f3f1e19c603, type: 3}
+      propertyPath: chargeDuration
+      value: 0.6
+      objectReference: {fileID: 0}
     - target: {fileID: 918320969510008984, guid: 1431481b468b174489739f3f1e19c603, type: 3}
       propertyPath: oneHitRegenerationTime
       value: 0.2
@@ -3811,6 +3815,10 @@ PrefabInstance:
     - target: {fileID: 1387175799613183144, guid: 1431481b468b174489739f3f1e19c603, type: 3}
       propertyPath: m_LocalPosition.z
       value: -25.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6409282262727343964, guid: 1431481b468b174489739f3f1e19c603, type: 3}
+      propertyPath: autoTargetingRadius
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7379927324590040370, guid: 1431481b468b174489739f3f1e19c603, type: 3}
       propertyPath: bulletContainer
@@ -19064,15 +19072,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2582133071628089178, guid: 185749c0d8717064294267e2f29ed975, type: 3}
       propertyPath: speed
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2582133071628089178, guid: 185749c0d8717064294267e2f29ed975, type: 3}
       propertyPath: rotationSpeed
-      value: 80
+      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 2582133071628089178, guid: 185749c0d8717064294267e2f29ed975, type: 3}
       propertyPath: fovRotationSpeed
-      value: 22.74
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 2582133071628089178, guid: 185749c0d8717064294267e2f29ed975, type: 3}
       propertyPath: patrolMovementStrategy
@@ -21648,11 +21656,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2582133071628089178, guid: 185749c0d8717064294267e2f29ed975, type: 3}
       propertyPath: speed
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2582133071628089178, guid: 185749c0d8717064294267e2f29ed975, type: 3}
       propertyPath: rotationSpeed
-      value: 50
+      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 2582133071628089178, guid: 185749c0d8717064294267e2f29ed975, type: 3}
       propertyPath: fovRotationSpeed
@@ -23681,6 +23689,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 340011093}
     m_Modifications:
     - target: {fileID: 1348607976163310114, guid: 7aa14e377891a4b40864a230cac8e1f3, type: 3}
+      propertyPath: path.isClosed
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1348607976163310114, guid: 7aa14e377891a4b40864a230cac8e1f3, type: 3}
       propertyPath: defaultPointDistance
       value: 8
       objectReference: {fileID: 0}
@@ -23722,7 +23734,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4343117856031544534, guid: 7aa14e377891a4b40864a230cac8e1f3, type: 3}
       propertyPath: localPointsData.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4343117856031544534, guid: 7aa14e377891a4b40864a230cac8e1f3, type: 3}
       propertyPath: localPointsData.Array.data[0].stopTime.value
@@ -23734,7 +23746,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4343117856031544534, guid: 7aa14e377891a4b40864a230cac8e1f3, type: 3}
       propertyPath: localPointsData.Array.data[2].stopTime.value
-      value: 3
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4343117856031544534, guid: 7aa14e377891a4b40864a230cac8e1f3, type: 3}
       propertyPath: localPointsData.Array.data[0].rotationAngle.value
@@ -23746,7 +23758,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4343117856031544534, guid: 7aa14e377891a4b40864a230cac8e1f3, type: 3}
       propertyPath: localPointsData.Array.data[2].rotationAngle.value
-      value: 30
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4343117856031544534, guid: 7aa14e377891a4b40864a230cac8e1f3, type: 3}
       propertyPath: localPointsData.Array.data[0].stopTime.useGlobalValue
@@ -23758,7 +23770,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4343117856031544534, guid: 7aa14e377891a4b40864a230cac8e1f3, type: 3}
       propertyPath: localPointsData.Array.data[2].stopTime.useGlobalValue
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4343117856031544534, guid: 7aa14e377891a4b40864a230cac8e1f3, type: 3}
       propertyPath: localPointsData.Array.data[0].rotationAngle.useGlobalValue
@@ -23770,7 +23782,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4343117856031544534, guid: 7aa14e377891a4b40864a230cac8e1f3, type: 3}
       propertyPath: localPointsData.Array.data[2].rotationAngle.useGlobalValue
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6147652028898044441, guid: 7aa14e377891a4b40864a230cac8e1f3, type: 3}
       propertyPath: m_Name
@@ -25755,12 +25767,20 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1356142760}
     - target: {fileID: 5891977364754665107, guid: 72e200fce505684489c6a3f7468b4137, type: 3}
+      propertyPath: damagePerSecond
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 5891977364754665107, guid: 72e200fce505684489c6a3f7468b4137, type: 3}
       propertyPath: visualAttackPoint
       value: 
       objectReference: {fileID: 392517268}
     - target: {fileID: 5891977364754665107, guid: 72e200fce505684489c6a3f7468b4137, type: 3}
       propertyPath: noTargetHittingTime
-      value: 0.5
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5891977364754665107, guid: 72e200fce505684489c6a3f7468b4137, type: 3}
+      propertyPath: damageIncreaseMultiplierPerSecond
+      value: 1.2
       objectReference: {fileID: 0}
     - target: {fileID: 5891977364754665108, guid: 72e200fce505684489c6a3f7468b4137, type: 3}
       propertyPath: m_RootOrder
@@ -26925,7 +26945,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2582133071628089178, guid: 185749c0d8717064294267e2f29ed975, type: 3}
       propertyPath: speed
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2582133071628089178, guid: 185749c0d8717064294267e2f29ed975, type: 3}
       propertyPath: rotationSpeed
@@ -27034,7 +27054,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2582133071628089178, guid: 185749c0d8717064294267e2f29ed975, type: 3}
       propertyPath: speed
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2582133071628089178, guid: 185749c0d8717064294267e2f29ed975, type: 3}
       propertyPath: rotationSpeed
@@ -28127,7 +28147,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2744935617788880038, guid: 6d2a53e756cad8c41994cc985b313d6a, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0.010131836
+      value: 0.010009766
       objectReference: {fileID: 0}
     - target: {fileID: 2744935617788880038, guid: 6d2a53e756cad8c41994cc985b313d6a, type: 3}
       propertyPath: m_AnchoredPosition.y

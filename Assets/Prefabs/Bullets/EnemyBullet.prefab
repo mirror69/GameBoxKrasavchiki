@@ -126,5 +126,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bulletStartForce: 10
-  defaultDamageValue: 7
+  defaultDamageValue: 20
   bulletMesh: {fileID: 7610873817109236473}
