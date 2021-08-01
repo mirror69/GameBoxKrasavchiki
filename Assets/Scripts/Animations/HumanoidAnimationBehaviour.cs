@@ -17,18 +17,18 @@ public class HumanoidAnimationBehaviour : AnimationBehaviour
             return;
         }
 
-        Vector3 velocityVector = player.CurrentVelocity;
+        Vector3 velocityVector = movingObject.CurrentVelocity;
         Vector3 movementDirection = velocityVector.normalized;
 
-        int turnDirection = player.GetTurnDirection();
+        int turnDirection = movingObject.GetTurnDirection();
         SetParameterValueSmooth(AnimatorConstants.Parameters.TurnValue, turnDirection);
         
         float velocityZ = 0;
         float velocityX = 0;
         if (movementDirection != Vector3.zero)
         {
-            velocityZ = Vector3.Dot(velocityVector / player.PlayerSpeed, transform.forward);
-            velocityX = Vector3.Dot(velocityVector / player.PlayerSpeed, transform.right);
+            velocityZ = Vector3.Dot(velocityVector / movingObject.Speed, transform.forward);
+            velocityX = Vector3.Dot(velocityVector / movingObject.Speed, transform.right);
         }
 
         SetParameterValue(AnimatorConstants.Parameters.ForwardVelocity, velocityZ);

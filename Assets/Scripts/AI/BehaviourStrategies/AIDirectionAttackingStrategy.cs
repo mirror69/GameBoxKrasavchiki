@@ -15,9 +15,9 @@ public class AIDirectionAttackingStrategy : AIAttackingStrategy
     protected override IEnumerator PerformAttacking()
     {
         weaponController.SetTarget(target);
-        while (target.IsAlive())
+        while (target != null && target.IsAlive())
         {
-            if (weaponController.IsWeaponReady() 
+            if (!weaponController.IsAttacking() 
                 && weaponController.IsTargetOnAttackLine(target) 
                 && weaponController.CheckTargetAttackDistance(target) == AttackCheckResult.Ok)
             {

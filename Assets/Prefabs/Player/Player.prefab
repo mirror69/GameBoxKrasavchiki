@@ -125,7 +125,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a04d42f4f07ccc84f96f5a76087db2b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerSpeed: 4
+  speed: 3
   rotationSpeed: 7
 --- !u!114 &8780580470206802220
 MonoBehaviour:
@@ -140,7 +140,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 7605253801909245575}
-  player: {fileID: 8780580470206802222}
+  movingObject: {fileID: 8780580470206802222}
+  damageableObject: {fileID: 918320969510008984}
   weapon: {fileID: 667107372240634522}
   MaxVelocityForMovementBlendTree: 30
 --- !u!114 &667107372240634522
@@ -173,6 +174,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   autoTargetingRadius: 2
+  playerHealthObject: {fileID: 918320969510008984}
 --- !u!1 &8810723904974714331
 GameObject:
   m_ObjectHideFlags: 0

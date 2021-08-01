@@ -25,7 +25,7 @@ public class AIChasingStrategy : AIMovementStrategy
         Coroutine rotatingCoroutine = StartCoroutine(PerformInfiniteLookAt(target, movingObject.RotationSpeed));
         while (target != null)
         {
-            movingObject.Move(target.position);
+            movingObject.MoveToPoint(target.position);
             yield return new WaitForSeconds(CheckPeriod);
         }
 
