@@ -102,7 +102,8 @@ public abstract class AttackBeam : MonoBehaviour
             if (accumulatedDamageValueInt > 0)
             {
                 float currentDamageMultiplier = (int)hitDuration * damageIncreaseMultiplierPerSecond;
-                target.ReceiveDamage(accumulatedDamageValueInt + accumulatedDamageValueInt * currentDamageMultiplier);
+                target.ReceiveDamage(accumulatedDamageValueInt +
+                    (int)(accumulatedDamageValueInt * currentDamageMultiplier));
                 DamageCaused?.Invoke(accumulatedDamageValueInt, currentDamageMultiplier);
                 accumulatedDamageValue = 0;
             }

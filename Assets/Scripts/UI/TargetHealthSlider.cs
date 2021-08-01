@@ -24,7 +24,7 @@ public class TargetHealthSlider : MonoBehaviour
             return;
         }
 
-        sliderValue.value = target.Health / target.MaxHealth;
+        sliderValue.value = target.Health / (float)target.MaxHealth;
         healthValueText.text = $"{target.Health} / {target.MaxHealth}";
         
         if (!IsSliderActive())

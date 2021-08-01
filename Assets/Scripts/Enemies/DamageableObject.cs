@@ -5,7 +5,7 @@ using UnityEngine;
 public class DamageableObject : MonoBehaviour, IDamageable
 {
     [SerializeField] 
-    private float startHealth = 100;
+    private int startHealth = 100;
     [SerializeField]
     private bool regenerationEnabled = false;
     [SerializeField] 
@@ -13,11 +13,11 @@ public class DamageableObject : MonoBehaviour, IDamageable
 
     private Coroutine regenerationCoroutine = null;
 
-    public float Health { get; private set; }
-    public float MaxHealth => startHealth;
+    public int Health { get; private set; }
+    public int MaxHealth => startHealth;
     public Transform Transform => transform;
 
-    public void SetHealth(float healthValue)
+    public void SetHealth(int healthValue)
     {
         Health = healthValue;
         if (healthValue < 0)
@@ -31,7 +31,7 @@ public class DamageableObject : MonoBehaviour, IDamageable
         return Health > 0;
     }
 
-    public void ReceiveDamage(float damageValue)
+    public void ReceiveDamage(int damageValue)
     {
         SetHealth(Health - damageValue);
     }

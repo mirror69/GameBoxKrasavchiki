@@ -5,10 +5,10 @@ using UnityEngine;
 public interface IDamageable 
 {
     Transform Transform { get; }
-    float Health { get; }
-    float MaxHealth { get; }
-    void SetHealth(float healthValue);
-    void ReceiveDamage(float damageValue);
+    int Health { get; }
+    int MaxHealth { get; }
+    void SetHealth(int healthValue);
+    void ReceiveDamage(int damageValue);
     bool IsAlive();
     void SetEnabledRegeneration(bool enabled);
 }

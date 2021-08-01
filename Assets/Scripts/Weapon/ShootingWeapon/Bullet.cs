@@ -7,7 +7,7 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     [SerializeField] private float bulletStartForce;
-    [SerializeField] private float defaultDamageValue;
+    [SerializeField] private int defaultDamageValue = 7;
     [SerializeField] private Transform bulletMesh;
 
     private Rigidbody bulletRigidbody;
@@ -24,11 +24,11 @@ public class Bullet : MonoBehaviour
     /// </summary>
     private Vector3 startScale;
 
-    private float currentDamageValue;
+    private int currentDamageValue;
 
     private GameObject owner;
 
-    public float DefaultDamageValue => defaultDamageValue;
+    public int DefaultDamageValue => defaultDamageValue;
 
     private void Awake()
     {

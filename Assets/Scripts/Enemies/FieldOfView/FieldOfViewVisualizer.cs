@@ -178,6 +178,11 @@ public class FieldOfViewVisualizer : MonoBehaviour
         DrawAllFovs();
     }
 
+    //private void OnRenderObject()
+    //{
+    //    DrawAllFovs();
+    //}
+
     private void OnEndCameraRendering(ScriptableRenderContext context, Camera camera)
     {
         OnPostRender();
@@ -213,19 +218,16 @@ public class FieldOfViewVisualizer : MonoBehaviour
         Vector3 fovCenter = fov.PointOfSight.transform.position;
         float fovRotation = fov.PointOfSight.transform.eulerAngles.y;
 
-        List<Vector3> fovPoints = GetFovEdgePointsWithObstacleInfluence(fovCenter, fovRotation, fov.Angle, fov.Distance);
+        List<Vector3> fovPoints = GetFovEdgePointsWithObstacleInfluence(fovCenter, fovRotation, 
+            fov.Angle, fov.Distance);
+
+        Material currentMaterial = fov.DetectingState == FieldOfView.TargetDetectingState.Detected ?
+            fovDetectedMaterial : fovMaterial;
+
+        currentMaterial.SetPass(0);
 
         GL.PushMatrix();
-
-        if (fov.DetectingState == FieldOfView.TargetDetectingState.Detected)
-        {
-            fovDetectedMaterial.SetPass(0);
-        }
-        else
-        {
-            fovMaterial.SetPass(0);
-        }
-
+        GL.MultMatrix(transform.localToWorldMatrix);
         GL.Begin(GL.TRIANGLES);
         for (int i = 1; i < fovPoints.Count; i++)
         {

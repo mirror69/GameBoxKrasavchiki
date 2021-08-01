@@ -11,7 +11,7 @@ public class HealthSlider : MonoBehaviour
 
     private void Update()
     {
-        sliderValue.value = healthObject.Health / healthObject.MaxHealth;
+        sliderValue.value = healthObject.Health / (float)healthObject.MaxHealth;
         healthValueText.text = $"{healthObject.Health} / {healthObject.MaxHealth}";
     }
 
