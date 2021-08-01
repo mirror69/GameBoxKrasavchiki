@@ -29,7 +29,7 @@ public class AISearchingStrategy : AIMovementStrategy
         Coroutine rotatingCoroutine = StartCoroutine(PerformInfiniteLookAt(lastTargetPoint, 
             movingObject.RotationSpeed));
 
-        movingObject.Move(lastTargetPoint);
+        movingObject.MoveToPoint(lastTargetPoint);
 
         yield return new WaitForFixedUpdate();
 

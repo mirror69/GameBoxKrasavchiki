@@ -48,6 +48,15 @@ public static class MaterialExtensions
         }
     }
 
+    public static void SetDirectionDissolve(this Material material, Vector3 dissolveOffset)
+    {
+        if (material.HasProperty("_DissolveOffset"))
+        {
+            Vector4 vector = dissolveOffset;
+            material.SetVector("_DissolveOffset", vector);
+        }
+    }
+
     public static void ToOpaqueMode(this Material material)
     {
         material.SetOverrideTag("RenderType", "");

@@ -77,7 +77,7 @@ public class AIPatrolStrategy : AIMovementStrategy
         CurrentPathParam currentPathParam = new CurrentPathParam(pathData.Path, movingObject.Position);
         while (true)
         {
-            movingObject.Move(pathData.Path[currentPathParam.PointIndex]);
+            movingObject.MoveToPoint(pathData.Path[currentPathParam.PointIndex]);
             
             yield return new WaitForFixedUpdate();
 

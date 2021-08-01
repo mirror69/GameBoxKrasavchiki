@@ -19,7 +19,9 @@ public abstract class AnimationBehaviour : MonoBehaviour
     [SerializeField]
     protected Animator animator;
     [SerializeField]
-    protected PlayerController player;
+    protected MovingObject movingObject;
+    [SerializeField]
+    protected DamageableObject damageableObject;
     [SerializeField]
     protected WeaponController weapon;
     [SerializeField]
@@ -31,20 +33,25 @@ public abstract class AnimationBehaviour : MonoBehaviour
         if (IsParamaterExists(AnimatorConstants.Parameters.VelocityMultiplier))
         {
             animator.SetFloat(AnimatorConstants.Parameters.VelocityMultiplier, 
-                player.PlayerSpeed / MaxVelocityForMovementBlendTree);
+                movingObject.Speed / MaxVelocityForMovementBlendTree);
         }
         weapon.RegisterAttackStartedListener(AnimateAttack);
         weapon.RegisterAttackEndedListener(AnimateStopAttack);
+        damageableObject.RegisterKilledListener(AnimateDeath);
     }
 
     protected virtual void OnDestroy()
     {
-        if (weapon == null)
+        if (weapon != null)
         {
-            return;
+            weapon.UnregisterAttackStartedListener(AnimateAttack);
+            weapon.UnregisterAttackEndedListener(AnimateStopAttack);
         }
-        weapon.UnregisterAttackStartedListener(AnimateAttack);
-        weapon.UnregisterAttackEndedListener(AnimateStopAttack);
+        if (damageableObject != null)
+        {
+            damageableObject.UnregisterKilledListener(AnimateDeath);
+        }
+
     }
 
     /// <summary>
@@ -100,6 +107,15 @@ public abstract class AnimationBehaviour : MonoBehaviour
         }
 
         animator.SetBool(paramName, paramValue);
+    }
+    protected void SetTrigger(string triggerName)
+    {
+        if (animator == null || !IsParamaterExists(triggerName))
+        {
+            return;
+        }
+
+        animator.SetTrigger(triggerName);
     }
 
     protected void SetEnabledLayer(string layerName, bool enabled)
@@ -179,6 +195,13 @@ public abstract class AnimationBehaviour : MonoBehaviour
     /// </summary>
     protected virtual void AnimateStopAttack()
     {
+    }
+    /// <summary>
+    /// Анимировать смерть
+    /// </summary>
+    protected virtual void AnimateDeath()
+    {
+        SetTrigger(AnimatorConstants.Parameters.DeathTrigger);
     }
 
     private void Update()

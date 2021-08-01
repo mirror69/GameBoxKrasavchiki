@@ -4,12 +4,8 @@ using UnityEngine;
 using UnityEngine.AI;
 
 [RequireComponent(typeof(NavMeshAgent))]
-public class AIMovingObject : MonoBehaviour
+public class AIMovingObject : MovingObject
 {
-    [SerializeField] 
-    private float speed = 4;
-    [SerializeField] 
-    private float rotationSpeed = 120;
     [SerializeField]
     private float fovRotationSpeed = 20;
 
@@ -18,27 +14,24 @@ public class AIMovingObject : MonoBehaviour
 
     private Vector3 currentEndDestinationPoint;
 
-    public float Speed => speed;
-    public float RotationSpeed => rotationSpeed;
     public float FovRotationSpeed => fovRotationSpeed;
-    public Vector3 Position => transform.position;
 
-    public void Move(Vector3 point)
+    public override void MoveToPoint(Vector3 point)
     {
         Stop();
         navMeshAgent.destination = point;
         currentEndDestinationPoint = navMeshAgent.destination;
         movingCoroutine = StartCoroutine(PerformMovingToPoint(point));
     }
+    public override void Rotate(float rotation)
+    {
+        transform.Rotate(new Vector3(0, rotation, 0));
+    }
+
     public void Stop()
     {
         navMeshAgent.destination = Position;
         this.StopAndNullCoroutine(ref movingCoroutine);
-    }
-
-    public void Rotate(float rotation)
-    {
-        transform.Rotate(new Vector3(0, rotation, 0));
     }
 
     public void SetEnabledAutomaticRotation(bool enabled)
@@ -55,6 +48,16 @@ public class AIMovingObject : MonoBehaviour
     {
         return navMeshAgent.destination == currentEndDestinationPoint &&
             navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance;
+    }
+
+    public override Vector3 GetCurrentVelocity()
+    {
+        return navMeshAgent.velocity;
+    }
+
+    public void SetEnabled(bool enabled)
+    {
+        navMeshAgent.enabled = enabled;
     }
 
     private bool IsNavMeshDestinationReached()

@@ -62,9 +62,9 @@ public abstract class WeaponController : MonoBehaviour
         isInterruptionRequested = true;
     }
 
-    public virtual bool IsWeaponReady()
+    public virtual bool IsAttacking()
     {
-        return attackCoroutine == null;
+        return attackCoroutine != null;
     }
 
     protected virtual void Hit()

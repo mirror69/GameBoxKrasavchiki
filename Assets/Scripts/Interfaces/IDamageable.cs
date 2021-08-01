@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,4 +12,6 @@ public interface IDamageable
     void ReceiveDamage(int damageValue);
     bool IsAlive();
     void SetEnabledRegeneration(bool enabled);
+    void RegisterKilledListener(Action listener);
+    void UnregisterKilledListener(Action listener);
 }

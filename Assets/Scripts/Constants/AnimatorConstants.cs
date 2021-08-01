@@ -13,6 +13,7 @@ public static class AnimatorConstants
         public const string TurnValue = "TurnValue";
         public const string Reloading = "Reloading";
         public const string Attacking = "Attacking";
+        public const string DeathTrigger = "DeathTrigger";
     }
     public static class Layers
     {
